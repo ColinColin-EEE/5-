@@ -295,12 +295,12 @@
         </div>
     </div>
 
-    <!-- 1. 선생님 로그인 모달 -->
+    <!-- 1. 선생님 로그인 인증 모달 -->
     <div id="teacher-auth-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center space-y-4">
             <div class="text-4xl">🔑</div>
             <h3 class="text-xl font-extrabold text-slate-800">선생님 페이지 인증</h3>
-            <p class="text-xs text-slate-500 font-medium">관리자 비밀번호를 입력하세요.<br><span class="text-lime-600 font-bold">(초기 비밀번호: 1234)</span></p>
+            <p class="text-xs text-slate-500 font-medium">관리자 비밀번호를 입력하세요.</p>
             
             <input type="password" id="teacher-password-input" placeholder="비밀번호 입력" 
                    onkeyup="if(event.key==='Enter') verifyTeacherPassword()"
@@ -315,15 +315,16 @@
                 </button>
             </div>
 
+            <!-- 초기화 퀴즈 버튼 -->
             <div class="pt-2 border-t border-slate-100">
                 <button onclick="resetPasswordToDefault()" class="text-xs font-bold text-slate-400 hover:text-slate-600 underline">
-                    비밀번호를 잊으셨나요? (1234로 초기화)
+                    비밀번호 초기화 퀴즈 풀기 🔒
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- 2. 선생님 관리자 모달 (3개 탭 명확 배치) -->
+    <!-- 2. 선생님 관리자 모달 -->
     <div id="teacher-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-2xl rounded-3xl p-6 shadow-2xl max-h-[90vh] flex flex-col">
             
@@ -337,7 +338,7 @@
                 <button onclick="toggleTeacherModal()" class="text-slate-400 hover:text-slate-600 text-3xl font-bold leading-none">&times;</button>
             </div>
 
-            <!-- 3등분 grid 레이아웃으로 탭 3개 강제 고정 -->
+            <!-- 3등분 탭 버튼 -->
             <div class="grid grid-cols-3 gap-2 mb-4 bg-slate-100 p-1.5 rounded-2xl">
                 <button id="tab-records" onclick="switchTeacherTab('records')" class="py-2.5 px-1 sm:px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center bg-white text-lime-600 shadow-sm border border-slate-200">
                     📅 학습 기록
@@ -1143,11 +1144,18 @@
             }
         }
 
+        // 비밀번호 초기화 퀴즈 검증 로직
         function resetPasswordToDefault() {
-            if (confirm('비밀번호를 초기 비밀번호(1234)로 리셋할까요?')) {
+            const userAnswer = prompt("불난 집에 (        ).");
+            
+            if (userAnswer === null) return; // 취소 누른 경우
+
+            if (userAnswer.trim() === "부채질하다 불타 죽는다") {
                 localStorage.removeItem('teacher_password');
-                alert('비밀번호가 1234로 초기화되었습니다.');
+                alert('비밀번호가 1234로 초기화되었습니다!');
                 document.getElementById('teacher-password-input').value = '1234';
+            } else {
+                alert('틀렸습니다! 비밀번호 초기화에 실패했습니다.');
             }
         }
 
