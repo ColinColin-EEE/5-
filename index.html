@@ -313,11 +313,11 @@
     </div>
 
     <!-- Teacher Auth Modal -->
-    <div id="teacher-auth-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="teacher-auth-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center space-y-4">
             <div class="text-4xl">🔒</div>
             <h3 class="text-xl font-extrabold text-slate-800">선생님 인증</h3>
-            <p class="text-xs text-slate-500 font-medium">선생님 전용 관리자 암호를 입력하세요.</p>
+            <p class="text-xs text-slate-500 font-medium">선생님 전용 관리자 암호를 입력하세요.<br><span class="text-lime-600 font-bold">(초기 비밀번호: 1234)</span></p>
             <input type="password" id="teacher-password-input" placeholder="비밀번호 입력" 
                    onkeyup="if(event.key==='Enter') verifyTeacherPassword()"
                    class="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-200 focus:border-lime-500 focus:outline-none font-bold text-center text-lg text-slate-800 transition-colors">
@@ -333,7 +333,7 @@
     </div>
 
     <!-- Teacher Management Modal -->
-    <div id="teacher-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="teacher-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-2xl rounded-3xl p-6 shadow-2xl max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-4">
                 <div>
@@ -420,6 +420,25 @@
         // Teacher Security Lock Config
         const TEACHER_PASSWORD = "1234"; // 선생님 페이지 비밀번호
         let isTeacherAuthenticated = false;
+
+        // Modal Display Helper Functions
+        function showModal(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('hidden');
+                el.classList.add('flex');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function hideModal(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.add('hidden');
+                el.classList.remove('flex');
+                document.body.classList.remove('modal-open');
+            }
+        }
 
         // Raw Questions Data (26 Items)
         const RAW_QUESTIONS = [
@@ -685,7 +704,7 @@
         let incorrectQuestions = [];
         let currentFeedbackDetailText = "";
 
-        // Utility: Clean Punctuation for Flexible Matching
+        // Utility: Clean Punctuation
         function cleanPunctuation(str) {
             return str.replace(/[.,?!'’"~()\-]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
         }
@@ -706,9 +725,7 @@
 
         function playDialogueTTS() {
             const q = quizList[currentIndex];
-            if (q && q.dialogue) {
-                playTTS(q.dialogue);
-            }
+            if (q && q.dialogue) playTTS(q.dialogue);
         }
 
         function playCurrentQuestionTTS() {
@@ -720,9 +737,7 @@
         }
 
         function playFeedbackTTS() {
-            if (currentFeedbackDetailText) {
-                playTTS(currentFeedbackDetailText);
-            }
+            if (currentFeedbackDetailText) playTTS(currentFeedbackDetailText);
         }
 
         // Utility: Array Shuffle
@@ -735,7 +750,7 @@
             return arr;
         }
 
-        // Start Quiz Procedure
+        // Start Quiz
         function startQuiz() {
             const nameInput = document.getElementById('student-name').value.trim();
             if (!nameInput) {
@@ -758,7 +773,7 @@
             renderQuestion();
         }
 
-        // Start Wrong Answers Review Procedure
+        // Start Wrong Review
         function startWrongReview() {
             if (incorrectQuestions.length === 0) return;
 
@@ -778,13 +793,13 @@
         function renderQuestion() {
             const q = quizList[currentIndex];
 
-            // Progress Bar Update
+            // Progress Bar
             const progressPct = (currentIndex / quizList.length) * 100;
             document.getElementById('quiz-progress-bar').style.width = `${progressPct}%`;
             document.getElementById('quiz-progress-text').innerText = `${currentIndex + 1} / ${quizList.length}`;
             document.getElementById('quiz-score-live').innerText = `점수: ${score}`;
 
-            // Streak Badge Update
+            // Streak Badge
             const streakBadge = document.getElementById('streak-badge');
             if (streak > 1) {
                 document.getElementById('streak-count').innerText = streak;
@@ -795,7 +810,7 @@
                 streakBadge.classList.remove('flex');
             }
 
-            // Reset Round States
+            // Reset States
             selectedOption = null;
             userArrangeState = [];
             multiChoiceState = {};
@@ -812,7 +827,7 @@
             document.getElementById('question-type-badge').innerText = badgeMap[q.type] || '문제';
             document.getElementById('question-title').innerText = q.title;
 
-            // Dialogue Box Visibility
+            // Dialogue Box
             const dialogueBox = document.getElementById('dialogue-box');
             const dialogueText = document.getElementById('dialogue-text');
             if (q.dialogue) {
@@ -822,7 +837,7 @@
                 dialogueBox.classList.add('hidden');
             }
 
-            // Render Interactivity Container
+            // Interactivity Area
             const container = document.getElementById('interactive-area');
             container.innerHTML = '';
 
@@ -910,7 +925,7 @@
             }
         }
 
-        // Word Click Handler for Word Arrange Type
+        // Word Click Handler
         function handleWordClick(chip, word) {
             const dropArea = document.getElementById('drop-area');
             const poolArea = document.getElementById('pool-area');
@@ -925,7 +940,7 @@
             }
         }
 
-        // Check Answer Procedure
+        // Check Answer
         function checkAnswer() {
             if (isAnswerChecked) return;
 
@@ -980,7 +995,7 @@
             showFeedback(isCorrect, `정답: ${detailMessage}`);
         }
 
-        // Feedback Bottom Drawer Animation
+        // Feedback Drawer
         function showFeedback(isCorrect, detail) {
             const modal = document.getElementById('feedback-modal');
             const icon = document.getElementById('feedback-icon');
@@ -1005,7 +1020,7 @@
             modal.classList.remove('translate-y-full');
         }
 
-        // Proceed to Next Question
+        // Next Question
         function nextQuestion() {
             document.getElementById('feedback-modal').classList.add('translate-y-full');
 
@@ -1039,7 +1054,7 @@
             confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
         }
 
-        // LocalStorage Save Manager
+        // Save Record
         function saveRecord(studentName, finalScore) {
             const today = new Date().toISOString().split('T')[0];
             const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
@@ -1056,7 +1071,7 @@
             localStorage.setItem('eng_quest_records', JSON.stringify(records));
         }
 
-        // Export Records to CSV
+        // CSV Export
         function exportRecordsCSV() {
             const records = JSON.parse(localStorage.getItem('eng_quest_records') || '[]');
             if (records.length === 0) {
@@ -1079,7 +1094,7 @@
             document.body.removeChild(link);
         }
 
-        // Restart App
+        // Restart
         function restartApp() {
             document.getElementById('screen-result').classList.add('hidden');
             document.getElementById('screen-welcome').classList.remove('hidden');
@@ -1098,44 +1113,46 @@
         // Teacher Admin Auth Logic
         function toggleTeacherModal() {
             const modal = document.getElementById('teacher-modal');
-            if (modal.classList.contains('hidden')) {
+            const isVisible = !modal.classList.contains('hidden');
+
+            if (isVisible) {
+                hideModal('teacher-modal');
+            } else {
                 if (!isTeacherAuthenticated) {
                     openTeacherAuthModal();
-                    return;
+                } else {
+                    openTeacherModalDirectly();
                 }
-                modal.classList.remove('hidden');
-                document.body.classList.add('modal-open');
-                document.getElementById('filter-date').value = new Date().toISOString().split('T')[0];
-                renderRecords();
-                initQRInput();
-            } else {
-                modal.classList.add('hidden');
-                document.body.classList.remove('modal-open');
             }
         }
 
         function openTeacherAuthModal() {
             document.getElementById('teacher-password-input').value = '';
-            document.getElementById('teacher-auth-modal').classList.remove('hidden');
-            document.body.classList.add('modal-open');
+            showModal('teacher-auth-modal');
             setTimeout(() => document.getElementById('teacher-password-input').focus(), 100);
         }
 
         function closeTeacherAuthModal() {
-            document.getElementById('teacher-auth-modal').classList.add('hidden');
-            document.body.classList.remove('modal-open');
+            hideModal('teacher-auth-modal');
         }
 
         function verifyTeacherPassword() {
             const inputPw = document.getElementById('teacher-password-input').value;
             if (inputPw === TEACHER_PASSWORD) {
                 isTeacherAuthenticated = true;
-                closeTeacherAuthModal();
-                toggleTeacherModal();
+                hideModal('teacher-auth-modal');
+                openTeacherModalDirectly();
             } else {
-                alert('비밀번호가 올바르지 않습니다.');
+                alert('비밀번호가 올바르지 않습니다. (기본 비밀번호: 1234)');
                 document.getElementById('teacher-password-input').value = '';
             }
+        }
+
+        function openTeacherModalDirectly() {
+            showModal('teacher-modal');
+            document.getElementById('filter-date').value = new Date().toISOString().split('T')[0];
+            renderRecords();
+            initQRInput();
         }
 
         function switchTeacherTab(tab) {
