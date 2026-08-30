@@ -317,7 +317,7 @@
         <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center space-y-4">
             <div class="text-4xl">🔒</div>
             <h3 class="text-xl font-extrabold text-slate-800">선생님 인증</h3>
-            <p class="text-xs text-slate-500 font-medium">선생님 전용 관리자 암호를 입력하세요.<br><span class="text-lime-600 font-bold">(초기 비밀번호: 1234)</span></p>
+            <p class="text-xs text-slate-500 font-medium">선생님 전용 관리자 암호를 입력하세요.</p>
             <input type="password" id="teacher-password-input" placeholder="비밀번호 입력" 
                    onkeyup="if(event.key==='Enter') verifyTeacherPassword()"
                    class="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-200 focus:border-lime-500 focus:outline-none font-bold text-center text-lg text-slate-800 transition-colors">
@@ -346,12 +346,15 @@
             </div>
 
             <!-- Navigation Tabs inside Modal -->
-            <div class="flex space-x-2 mb-4 border-b border-slate-100 pb-2">
-                <button id="tab-records" onclick="switchTeacherTab('records')" class="px-4 py-2 font-bold text-lime-600 border-b-2 border-lime-500 text-sm">
+            <div class="flex space-x-2 mb-4 border-b border-slate-100 pb-2 overflow-x-auto">
+                <button id="tab-records" onclick="switchTeacherTab('records')" class="px-4 py-2 font-bold text-lime-600 border-b-2 border-lime-500 text-sm whitespace-nowrap">
                     📅 날짜별 학습 기록
                 </button>
-                <button id="tab-qr" onclick="switchTeacherTab('qr')" class="px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm">
+                <button id="tab-qr" onclick="switchTeacherTab('qr')" class="px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm whitespace-nowrap">
                     📲 QR 코드 생성
+                </button>
+                <button id="tab-pw" onclick="switchTeacherTab('pw')" class="px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm whitespace-nowrap">
+                    🔒 비밀번호 변경
                 </button>
             </div>
 
@@ -412,14 +415,39 @@
                     🖨️ QR 코드 인쇄하기
                 </button>
             </div>
+
+            <!-- Tab Content 3: Change Password -->
+            <div id="teacher-sec-pw" class="hidden flex-1 flex flex-col justify-center items-center space-y-4 py-6 max-w-sm mx-auto w-full">
+                <div class="w-full text-left space-y-3">
+                    <div>
+                        <label class="text-xs font-bold text-slate-500">현재 비밀번호</label>
+                        <input type="password" id="pw-current" placeholder="현재 비밀번호 입력" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl font-bold text-sm focus:outline-none focus:border-lime-500 mt-1">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500">새 비밀번호</label>
+                        <input type="password" id="pw-new" placeholder="새 비밀번호 입력" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl font-bold text-sm focus:outline-none focus:border-lime-500 mt-1">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500">새 비밀번호 확인</label>
+                        <input type="password" id="pw-confirm" placeholder="새 비밀번호 다시 입력" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl font-bold text-sm focus:outline-none focus:border-lime-500 mt-1">
+                    </div>
+                    <button onclick="changeTeacherPassword()" class="w-full duo-btn-green py-3.5 rounded-xl font-bold text-base shadow-md mt-2">
+                        비밀번호 변경 완료
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <!-- JavaScript Application Logic -->
     <script>
         // Teacher Security Lock Config
-        const TEACHER_PASSWORD = "1234"; // 선생님 페이지 비밀번호
         let isTeacherAuthenticated = false;
+
+        function getTeacherPassword() {
+            return localStorage.getItem('teacher_password') || "1234";
+        }
 
         // Modal Display Helper Functions
         function showModal(id) {
@@ -1138,14 +1166,40 @@
 
         function verifyTeacherPassword() {
             const inputPw = document.getElementById('teacher-password-input').value;
-            if (inputPw === TEACHER_PASSWORD) {
+            if (inputPw === getTeacherPassword()) {
                 isTeacherAuthenticated = true;
                 hideModal('teacher-auth-modal');
                 openTeacherModalDirectly();
             } else {
-                alert('비밀번호가 올바르지 않습니다. (기본 비밀번호: 1234)');
+                alert('비밀번호가 올바르지 않습니다.');
                 document.getElementById('teacher-password-input').value = '';
             }
+        }
+
+        function changeTeacherPassword() {
+            const currentPwInput = document.getElementById('pw-current').value;
+            const newPwInput = document.getElementById('pw-new').value.trim();
+            const confirmPwInput = document.getElementById('pw-confirm').value.trim();
+
+            if (currentPwInput !== getTeacherPassword()) {
+                alert('현재 비밀번호가 일치하지 않습니다.');
+                return;
+            }
+            if (!newPwInput) {
+                alert('새 비밀번호를 입력해 주세요.');
+                return;
+            }
+            if (newPwInput !== confirmPwInput) {
+                alert('새 비밀번호 확인이 일치하지 않습니다.');
+                return;
+            }
+
+            localStorage.setItem('teacher_password', newPwInput);
+            alert('비밀번호가 성공적으로 변경되었습니다!');
+            document.getElementById('pw-current').value = '';
+            document.getElementById('pw-new').value = '';
+            document.getElementById('pw-confirm').value = '';
+            switchTeacherTab('records');
         }
 
         function openTeacherModalDirectly() {
@@ -1158,19 +1212,29 @@
         function switchTeacherTab(tab) {
             const secRecords = document.getElementById('teacher-sec-records');
             const secQR = document.getElementById('teacher-sec-qr');
+            const secPW = document.getElementById('teacher-sec-pw');
+            
             const tabRecords = document.getElementById('tab-records');
             const tabQR = document.getElementById('tab-qr');
+            const tabPW = document.getElementById('tab-pw');
+
+            secRecords.classList.add('hidden');
+            secQR.classList.add('hidden');
+            secPW.classList.add('hidden');
+
+            tabRecords.className = "px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm whitespace-nowrap";
+            tabQR.className = "px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm whitespace-nowrap";
+            tabPW.className = "px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm whitespace-nowrap";
 
             if (tab === 'records') {
                 secRecords.classList.remove('hidden');
-                secQR.classList.add('hidden');
-                tabRecords.className = "px-4 py-2 font-bold text-lime-600 border-b-2 border-lime-500 text-sm";
-                tabQR.className = "px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm";
-            } else {
-                secRecords.classList.add('hidden');
+                tabRecords.className = "px-4 py-2 font-bold text-lime-600 border-b-2 border-lime-500 text-sm whitespace-nowrap";
+            } else if (tab === 'qr') {
                 secQR.classList.remove('hidden');
-                tabRecords.className = "px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm";
-                tabQR.className = "px-4 py-2 font-bold text-lime-600 border-b-2 border-lime-500 text-sm";
+                tabQR.className = "px-4 py-2 font-bold text-lime-600 border-b-2 border-lime-500 text-sm whitespace-nowrap";
+            } else if (tab === 'pw') {
+                secPW.classList.remove('hidden');
+                tabPW.className = "px-4 py-2 font-bold text-lime-600 border-b-2 border-lime-500 text-sm whitespace-nowrap";
             }
         }
 
