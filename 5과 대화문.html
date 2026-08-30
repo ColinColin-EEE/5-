@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5과 대화문 - Colin T의 영어 공부</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Fredoka', sans-serif;
+            background-color: #f8fafc;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .duo-card {
+            border: 2px solid #e2e8f0;
+            border-bottom-width: 4px;
+            border-radius: 16px;
+            transition: all 0.15s ease;
+        }
+
+        .duo-card:hover:not(:disabled) {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .duo-card:active:not(:disabled) {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+            margin-top: 2px;
+        }
+
+        .duo-card.selected {
+            border-color: #84cc16;
+            background-color: #f7fee7;
+            color: #3f6212;
+            font-weight: 700;
+        }
+
+        .duo-btn-green {
+            background-color: #58cc02;
+            border-bottom: 4px solid #46a302;
+            color: white;
+            font-weight: 700;
+            transition: all 0.1s ease;
+        }
+
+        .duo-btn-green:hover:not(:disabled) {
+            background-color: #61e002;
+        }
+
+        .duo-btn-green:active:not(:disabled) {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+            margin-top: 2px;
+        }
+
+        .duo-btn-green:disabled {
+            background-color: #cbd5e1;
+            border-bottom-color: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .word-chip {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-bottom-width: 4px;
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #334155;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.12s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .word-chip:hover {
+            border-color: #cbd5e1;
+            background-color: #f8fafc;
+        }
+
+        .word-chip:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
+
+        .drop-area {
+            min-height: 72px;
+            border-bottom: 2px dashed #cbd5e1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            padding: 12px 8px;
+            background-color: #fafafa;
+            border-radius: 12px;
+        }
+
+        .modal-open {
+            overflow: hidden;
+        }
+
+        @keyframes pulse-flame {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .animate-flame {
+            animation: pulse-flame 0.8s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col justify-between antialiased">
+
+    <!-- Header Navigation -->
+    <header class="w-full bg-white border-b-2 border-slate-200 px-4 py-3 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-2xl mx-auto flex justify-between items-center relative">
+            
+            <!-- Left Logo -->
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="goHome()">
+                <div class="bg-lime-500 text-white p-2 rounded-xl font-black shadow-sm flex items-center justify-center">
+                    <span class="text-xl">🦉</span>
+                </div>
+            </div>
+
+            <!-- Centered Titles Header -->
+            <div class="text-center cursor-pointer flex flex-col items-center justify-center" onclick="goHome()">
+                <div class="text-xs sm:text-sm font-black text-lime-600 tracking-wider bg-lime-50 px-3 py-0.5 rounded-full border border-lime-200 inline-block">
+                    Colin T의 영어 공부
+                </div>
+                <div class="text-lg sm:text-xl font-black text-slate-800 tracking-tight mt-0.5">
+                    5과 대화문
+                </div>
+            </div>
+
+            <!-- Right Controls -->
+            <div class="flex items-center space-x-2">
+                <div id="student-info-bar" class="hidden">
+                    <span class="bg-lime-100 text-lime-800 font-bold px-2.5 py-1 rounded-full text-xs flex items-center gap-1">
+                        👤 <span id="display-student-name"></span>
+                    </span>
+                </div>
+
+                <button onclick="toggleTeacherModal()" class="text-xs font-bold text-slate-600 hover:text-slate-900 border-2 border-slate-200 hover:border-slate-300 px-3 py-1.5 rounded-xl transition-all">
+                    ⚙️ 선생님
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-2xl w-full mx-auto p-4 flex-1 flex flex-col justify-center items-center my-auto">
+
+        <!-- STEP 1: Name Input Screen -->
+        <section id="screen-welcome" class="w-full space-y-6 text-center py-8">
+            <div class="text-7xl mb-1 animate-bounce">🎒</div>
+            
+            <!-- Centered Prominent Subtitle and Title -->
+            <div class="space-y-2">
+                <div class="inline-block bg-lime-500 text-white font-black px-5 py-2 rounded-full text-base sm:text-lg shadow-md tracking-wide">
+                    Colin T의 영어 공부
+                </div>
+                <h1 class="text-4xl sm:text-5xl font-black text-slate-800 tracking-tight pt-1">
+                    5과 대화문
+                </h1>
+            </div>
+
+            <p class="text-slate-500 font-medium text-base max-w-md mx-auto">
+                이름을 입력하고 매일 새로운 20개의 랜덤 퀴즈에 도전하세요!
+            </p>
+
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border-2 border-slate-200 shadow-sm max-w-md mx-auto space-y-5">
+                <div class="text-left">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">학생 이름</label>
+                    <input type="text" id="student-name" placeholder="이름을 입력하세요 (예: 홍길동)" 
+                           onkeyup="if(event.key==='Enter') startQuiz()"
+                           class="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-200 focus:border-lime-500 focus:outline-none font-bold text-lg text-slate-800 transition-colors">
+                </div>
+                <button onclick="startQuiz()" class="w-full duo-btn-green py-4 rounded-2xl text-xl shadow-md tracking-wide">
+                    학습 시작하기 🚀
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 2: Quiz Screen -->
+        <section id="screen-quiz" class="hidden flex-1 flex flex-col justify-between max-w-xl mx-auto w-full py-2">
+            <!-- Progress & Streak Bar -->
+            <div class="w-full mb-3">
+                <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-extrabold text-slate-400">
+                    <span id="quiz-progress-text">1 / 20</span>
+
+                    <!-- Streak Badge -->
+                    <div id="streak-badge" class="hidden items-center gap-1 bg-amber-100 text-amber-800 px-3 py-0.5 rounded-full border border-amber-300 font-black text-xs animate-flame">
+                        <span>🔥</span>
+                        <span id="streak-count">0</span>연속 정답!
+                    </div>
+
+                    <span id="quiz-score-live" class="text-lime-600">점수: 0</span>
+                </div>
+                <div class="w-full bg-slate-200 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-100">
+                    <div id="quiz-progress-bar" class="bg-lime-500 h-full rounded-full transition-all duration-300 w-0"></div>
+                </div>
+            </div>
+
+            <!-- Question Card Box -->
+            <div class="bg-white p-5 sm:p-7 rounded-3xl border-2 border-slate-200 shadow-sm flex-1 flex flex-col justify-between min-h-[370px] my-2">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span id="question-type-badge" class="inline-block bg-lime-100 text-lime-800 text-xs font-bold px-3 py-1 rounded-full">
+                            유형
+                        </span>
+
+                        <!-- TTS Audio Button for Question -->
+                        <button onclick="playCurrentQuestionTTS()" class="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-extrabold px-3 py-1.5 rounded-xl transition-colors border border-slate-200">
+                            🔊 전체 읽기
+                        </button>
+                    </div>
+
+                    <h2 id="question-title" class="text-lg sm:text-xl font-bold text-slate-800 mb-4 whitespace-pre-line leading-relaxed">
+                        문제가 여기에 들어갑니다.
+                    </h2>
+
+                    <!-- Context/Dialogue Box (If exists) -->
+                    <div id="dialogue-box" class="hidden bg-slate-50 p-4 rounded-2xl border-2 border-slate-100 mb-4 text-sm font-medium text-slate-700 leading-relaxed relative">
+                        <div class="flex justify-between items-center mb-2 pb-1.5 border-b border-slate-200">
+                            <span class="text-xs font-bold text-slate-400">📖 대화문 / 지문</span>
+                            <button onclick="playDialogueTTS()" class="flex items-center gap-1 bg-lime-50 hover:bg-lime-100 text-lime-700 text-xs font-bold px-2.5 py-1 rounded-lg transition-colors border border-lime-200">
+                                🔊 대화 읽기
+                            </button>
+                        </div>
+                        <div id="dialogue-text" class="whitespace-pre-line"></div>
+                    </div>
+
+                    <!-- Interactive Area -->
+                    <div id="interactive-area" class="mt-4">
+                        <!-- Options or Touch Chips injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Check Button Bar -->
+            <div class="mt-4 w-full">
+                <button id="btn-submit" onclick="checkAnswer()" class="w-full duo-btn-green py-4 rounded-2xl text-xl shadow-md">
+                    정답 확인하기
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 3: Complete Result Screen -->
+        <section id="screen-result" class="hidden text-center space-y-6 my-auto py-8 w-full max-w-md">
+            <div class="text-7xl mb-2 animate-bounce">🎉</div>
+            <div class="space-y-1">
+                <div class="inline-block bg-lime-100 text-lime-800 font-extrabold px-3.5 py-1 rounded-full text-xs tracking-wide">
+                    Colin T의 영어 공부
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-black text-slate-800">수고하셨습니다!</h1>
+            </div>
+            <p id="result-mode-desc" class="text-slate-500 font-medium">오늘의 20문항 학습을 모두 완료했습니다.</p>
+
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border-2 border-slate-200 shadow-sm space-y-5">
+                <div class="text-slate-500 font-bold text-sm uppercase tracking-wider">최종 점수</div>
+                <div id="final-score" class="text-5xl font-black text-lime-500 tracking-tight">100점</div>
+                <p id="result-feedback" class="text-sm font-bold text-slate-600">완벽해요! 끝까지 멋지게 완료했습니다.</p>
+                
+                <div class="pt-2 space-y-3">
+                    <!-- Wrong Answer Review Button -->
+                    <button id="btn-review-wrong" onclick="startWrongReview()" class="hidden w-full bg-amber-500 hover:bg-amber-600 border-b-4 border-amber-700 text-white font-extrabold py-3.5 rounded-2xl text-lg shadow-md transition-all">
+                        📝 틀린 문제 오답 노트 복습 (<span id="wrong-count-text">0</span>개)
+                    </button>
+
+                    <button onclick="restartApp()" class="w-full duo-btn-green py-3.5 rounded-2xl text-lg shadow-md">
+                        새로운 퀴즈 다시 도전하기 🔄
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-xs font-medium text-slate-400">
+        Colin T의 영어 공부 • 5과 대화문 Interactive Quest
+    </footer>
+
+    <!-- Feedback Toast Drawer (Bottom Modal) -->
+    <div id="feedback-modal" class="fixed inset-x-0 bottom-0 p-5 sm:p-6 bg-white border-t-4 border-slate-300 shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1)] transition-transform transform translate-y-full duration-300 z-50">
+        <div class="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-4 w-full sm:w-auto">
+                <div id="feedback-icon" class="text-4xl flex-shrink-0">✅</div>
+                <div class="text-left">
+                    <div id="feedback-title" class="font-black text-xl">정답입니다!</div>
+                    <div id="feedback-detail" class="text-sm font-medium text-slate-600 mt-0.5"></div>
+                </div>
+            </div>
+            <div class="flex gap-2 w-full sm:w-auto">
+                <button onclick="playFeedbackTTS()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-3.5 rounded-2xl text-sm border border-slate-200 flex items-center justify-center gap-1">
+                    🔊 정답 음성
+                </button>
+                <button id="btn-next-step" onclick="nextQuestion()" class="flex-1 sm:flex-none duo-btn-green px-8 py-3.5 rounded-2xl font-black text-lg shadow-md whitespace-nowrap min-w-[130px]">
+                    다음 ➔
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teacher Management Modal -->
+    <div id="teacher-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-2xl rounded-3xl p-6 shadow-2xl max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-4">
+                <div>
+                    <div class="text-xs font-bold text-lime-600">Colin T의 영어 공부</div>
+                    <h3 class="text-xl font-extrabold text-slate-800 flex items-center gap-2">
+                        ⚙️ 선생님 관리자 페이지
+                    </h3>
+                </div>
+                <button onclick="toggleTeacherModal()" class="text-slate-400 hover:text-slate-600 text-3xl font-bold leading-none">&times;</button>
+            </div>
+
+            <!-- Navigation Tabs inside Modal -->
+            <div class="flex space-x-2 mb-4 border-b border-slate-100 pb-2">
+                <button id="tab-records" onclick="switchTeacherTab('records')" class="px-4 py-2 font-bold text-lime-600 border-b-2 border-lime-500 text-sm">
+                    📅 날짜별 학습 기록
+                </button>
+                <button id="tab-qr" onclick="switchTeacherTab('qr')" class="px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm">
+                    📲 QR 코드 생성
+                </button>
+            </div>
+
+            <!-- Tab Content 1: Records -->
+            <div id="teacher-sec-records" class="flex-1 overflow-y-auto space-y-4 pr-1">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <div class="flex items-center space-x-2">
+                        <label class="font-bold text-xs text-slate-500 uppercase tracking-wider">날짜:</label>
+                        <input type="date" id="filter-date" onchange="renderRecords()" class="border-2 border-slate-200 rounded-xl px-3 py-1.5 font-bold text-slate-700 text-sm focus:outline-none focus:border-lime-500">
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <!-- CSV Download Button -->
+                        <button onclick="exportRecordsCSV()" class="text-xs bg-lime-500 hover:bg-lime-600 text-white font-bold px-3 py-2 rounded-xl transition-colors shadow-sm flex items-center gap-1">
+                            📥 CSV 엑셀 내보내기
+                        </button>
+                        <button onclick="clearRecords()" class="text-xs bg-rose-50 text-rose-600 hover:bg-rose-100 font-bold px-3 py-2 rounded-xl transition-colors">
+                            기록 초기화
+                        </button>
+                    </div>
+                </div>
+
+                <div class="border-2 border-slate-100 rounded-2xl overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 text-slate-500 text-xs uppercase font-extrabold">
+                            <tr>
+                                <th class="p-3.5 border-b">시간</th>
+                                <th class="p-3.5 border-b">이름</th>
+                                <th class="p-3.5 border-b">점수</th>
+                                <th class="p-3.5 border-b">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody id="records-table-body" class="text-sm font-medium divide-y divide-slate-100">
+                            <!-- Records populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab Content 2: QR Code -->
+            <div id="teacher-sec-qr" class="hidden flex-1 flex flex-col items-center justify-center space-y-4 py-4">
+                <div id="local-file-warning" class="hidden w-full bg-amber-50 border border-amber-200 rounded-2xl p-3 text-xs text-amber-800 text-left">
+                    ⚠️ <strong>안내:</strong> 현재 컴퓨터 로컬 파일(`file://`) 또는 `localhost` 상태입니다. 아래에 실제 웹 사이트 주소(예: GitHub Pages 주소)를 입력하시면 휴대폰에서 접속 가능한 QR 코드가 생성됩니다.
+                </div>
+
+                <div class="w-full max-w-sm space-y-1 text-left">
+                    <label class="text-xs font-bold text-slate-500">웹 주소 (URL) 입력:</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="custom-qr-url" placeholder="https://your-website.com" class="flex-1 px-3 py-2 border-2 border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:border-lime-500">
+                        <button onclick="generateQRCode()" class="bg-lime-500 hover:bg-lime-600 text-white text-xs font-bold px-3 py-2 rounded-xl">생성</button>
+                    </div>
+                </div>
+
+                <div id="qrcode" class="p-4 bg-white border-2 border-slate-200 rounded-2xl shadow-sm"></div>
+                <div class="text-xs text-slate-400 break-all text-center max-w-sm px-2" id="qr-url-text"></div>
+                
+                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition-colors flex items-center gap-1.5">
+                    🖨️ QR 코드 인쇄하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Raw Questions Data (26 Items)
+        const RAW_QUESTIONS = [
+            {
+                id: 1,
+                type: 'arrange',
+                title: "'~에 어떻게 가나요?'에 알맞게 말을 배열하시오.",
+                words: ['how', 'can', 'I', 'get', 'to'],
+                answer: ['how', 'can', 'I', 'get', 'to']
+            },
+            {
+                id: 2,
+                type: 'choice',
+                title: "빈칸에 들어갈 응답으로 가장 알맞은 것은?",
+                dialogue: "A: What is the best way to get to the museum?\nB: (                                   )",
+                options: [
+                    "About one hour by subway.",
+                    "It's a little difficult, James.",
+                    "You can walk there."
+                ],
+                answer: 2
+            },
+            {
+                id: 3,
+                type: 'text',
+                title: "빈칸에 들어갈 알맞은 의문사를 쓰시오.",
+                dialogue: "(        ) can I get to the bank?",
+                answer: ["How", "how"]
+            },
+            {
+                id: 4,
+                type: 'choice',
+                title: "대화의 내용과 일치하는 것은?",
+                dialogue: "B: Excuse me, how can I get to the Star Stadium?\nG: You can get there by subway. Take line 4, the green line, and get off at Hangang Station.\nB: Line 4 and Hangang Station. Got it. How long will it take?\nG: A little more than 30 minutes.",
+                options: [
+                    "The boy should leave the subway at City Hall Station.",
+                    "The trip to the Star Stadium takes a little more than 30 minutes.",
+                    "To get to the Star Stadium, the boy should use bus."
+                ],
+                answer: 1
+            },
+            {
+                id: 5,
+                type: 'choice',
+                title: "빈칸에 들어갈 알맞은 응답은?",
+                dialogue: "B: Excuse me. I’m going to the National Art Museum. What’s the best way to get there?\nG: You can walk. Go straight for about 500 meters and turn left. It’ll be on your right.\nB: I see. How long will it take?\nG: (                      )\nB: Really? Thanks.",
+                options: [
+                    "Only about 15 minutes.",
+                    "You can get to the museum.",
+                    "I know it took one hour to get there."
+                ],
+                answer: 0
+            },
+            {
+                id: 6,
+                type: 'choice',
+                title: "빈칸에 들어갈 알맞은 응답은?",
+                dialogue: "B: Excuse me, how can I get to the Star Stadium?\nG: (                       ) Take line 4, the green line, and get off at Hangang Station.\nB: Line 4 and Hangang Station. Got it. How long will it take?\nG: A little more than 30 minutes.",
+                options: [
+                    "You can get there on foot.",
+                    "Why don't you take the subway?",
+                    "About 30 minutes."
+                ],
+                answer: 1
+            },
+            {
+                id: 7,
+                type: 'arrange',
+                title: "'10분 이하로 걸릴 거예요'에 알맞게 말을 배열하시오.",
+                words: ['It\'ll', 'take', 'less', 'than', '10 minutes'],
+                answer: ['It\'ll', 'take', 'less', 'than', '10 minutes']
+            },
+            {
+                id: 8,
+                type: 'multi_choice',
+                title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.",
+                dialogue: "B: Somi, I need help. What’s the best way [getting / to get] to Sebit Park from here?\nG: Sebit Park? Well, you can get there [on / by] bus or by subway, but the [bus / subway] is better.\nB: OK. Which line [I should / should I] take?\nG: Take line 3, and get [on / off] at Sebit Station.",
+                groups: [
+                    { label: "1번째 선택", options: ["getting", "to get"], answer: "to get" },
+                    { label: "2번째 선택", options: ["on", "by"], answer: "by" },
+                    { label: "3번째 선택", options: ["bus", "subway"], answer: "subway" },
+                    { label: "4번째 선택", options: ["I should", "should I"], answer: "should I" },
+                    { label: "5번째 선택", options: ["on", "off"], answer: "off" }
+                ]
+            },
+            {
+                id: 9,
+                type: 'text',
+                title: "주어진 단어를 모두 사용하여 빈칸에 들어갈 질문을 쓰시오.\n(What's / best / way / get)",
+                dialogue: "B: Excuse me. I’m going to the National Art Museum. (                           )\nG: You can walk. Go straight for about 500 meters and turn left. It’ll be on your right.\nB: I see. How long will it take?\nG: Only about 15 minutes.\nB: Really? Thanks.",
+                answer: ["What's the best way to get there?", "What's the best way to get there", "what's the best way to get there?"]
+            },
+            {
+                id: 10,
+                type: 'choice',
+                title: "빈칸에 들어갈 알맞은 응답은?",
+                dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: (                           )\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I'm free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.",
+                options: [
+                    "About 40 minutes.",
+                    "You can take the subway.",
+                    "Why don't you buy the tickets?"
+                ],
+                answer: 0
+            },
+            {
+                id: 11,
+                type: 'arrange',
+                title: "'한 시간 조금 넘게 걸릴 거예요.'에 알맞게 말을 배열하시오.",
+                words: ['It\'ll take', 'a', 'little', 'more', 'than', 'one', 'hour'],
+                answer: ['It\'ll take', 'a', 'little', 'more', 'than', 'one', 'hour']
+            },
+            {
+                id: 12,
+                type: 'arrange',
+                title: "'500미터 정도 곧장 가서 왼쪽으로 도세요.'에 알맞게 말을 배열하시오.",
+                words: ['go', 'straight', 'for', 'about', '500 meters', 'and', 'turn', 'left'],
+                answer: ['go', 'straight', 'for', 'about', '500 meters', 'and', 'turn', 'left']
+            },
+            {
+                id: 13,
+                type: 'choice',
+                title: "대화의 내용과 일치하는 것은?",
+                dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I’m free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.",
+                options: [
+                    "The subway is the best way to get to Sebit Park.",
+                    "On the day of the art fair, the girl will be not busy.",
+                    "By getting off at Sebit Station before taking line 3, the boy can get to Sebit Park."
+                ],
+                answer: 0
+            },
+            {
+                id: 14,
+                type: 'choice',
+                title: "빈칸에 들어갈 알맞은 말은?",
+                dialogue: "G: Do you need help?\nB: Yes. How can I get to the Dream Shopping Mall from here? Can I walk?\nG: You can, but it’s a little far. (                           ) Take No. 12.\nB: OK. How long will it take by bus?\nG: Not very long. It’ll take less than 10 minutes.",
+                options: [
+                    "You are able to go by subway.",
+                    "Why don't you take the bus?",
+                    "It will take 10 minutes."
+                ],
+                answer: 1
+            },
+            {
+                id: 15,
+                type: 'text',
+                title: "'조금 멀어요.'에 알맞게 주어진 단어를 사용하여 영문장을 쓰시오.\n(is / little)",
+                answer: ["It is a little far.", "It's a little far.", "It is a little far", "It's a little far"]
+            },
+            {
+                id: 16,
+                type: 'arrange',
+                title: "'은행에 가는 길을 알려 주실 수 있나요?'에 알맞게 말을 배열하시오.",
+                words: ['Can', 'you', 'tell', 'me', 'how', 'to', 'get', 'to', 'the', 'bank?'],
+                answer: ['Can', 'you', 'tell', 'me', 'how', 'to', 'get', 'to', 'the', 'bank?']
+            },
+            {
+                id: 17,
+                type: 'arrange',
+                title: "대화를 순서대로 알맞게 배열하시오.",
+                words: [
+                    "I'm sorry, but how can I get to the Sky Cinema?",
+                    "It's not far, but it's a little difficult to find. Why don't you take a taxi?",
+                    "OK. How long will it take?",
+                    "About 20 minutes."
+                ],
+                answer: [
+                    "I'm sorry, but how can I get to the Sky Cinema?",
+                    "It's not far, but it's a little difficult to find. Why don't you take a taxi?",
+                    "OK. How long will it take?",
+                    "About 20 minutes."
+                ]
+            },
+            {
+                id: 18,
+                type: 'arrange',
+                title: "대화를 순서대로 알맞게 배열하시오.",
+                words: [
+                    "Do you need help?",
+                    "Yes. How can I get to the Dream Shopping Mall from here? Can I walk?",
+                    "You can, but it's a little far. Why don't you go by bus? Take bus No. 12",
+                    "OK. How long will it take by bus?",
+                    "Not very long. It'll take less than 10 minutes."
+                ],
+                answer: [
+                    "Do you need help?",
+                    "Yes. How can I get to the Dream Shopping Mall from here? Can I walk?",
+                    "You can, but it's a little far. Why don't you go by bus? Take bus No. 12",
+                    "OK. How long will it take by bus?",
+                    "Not very long. It'll take less than 10 minutes."
+                ]
+            },
+            {
+                id: 19,
+                type: 'text',
+                title: "'가까운'에 해당하는 영단어를 쓰시오.",
+                answer: ["close", "Close"]
+            },
+            {
+                id: 20,
+                type: 'text',
+                title: "'나는 이번 주 토요일에 한가해.'에 알맞게 주어진 단어를 사용하여 영문장을 쓰시오.\n(I'm / this)",
+                answer: ["I'm free this Saturday.", "I'm free this Saturday", "i'm free this saturday.", "I am free this Saturday."]
+            },
+            {
+                id: 21,
+                type: 'text',
+                title: "대화의 흐름상 빈칸에 들어갈 질문을 쓰시오.",
+                dialogue: "B: Line 3 and get off at Sebit Station. (                           )\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?",
+                answer: ["How long will it take?", "How long will it take", "how long will it take?"]
+            },
+            {
+                id: 22,
+                type: 'choice',
+                title: "다음 대화의 [if]와 의미/쓰임이 같은 문장은?",
+                dialogue: "B: Line 3 and get off at Sebit Station. How long will it take?\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me [if] you want.",
+                options: [
+                    "If you come here, I will be satisfied.",
+                    "You can believe if you made your cake.",
+                    "I cannot tell you if it is raining outside.",
+                    "We did not know if Sally could invited us."
+                ],
+                answer: 0
+            },
+            {
+                id: 23,
+                type: 'text',
+                title: "'그 경기장에 어떻게 가나요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(get / can)",
+                answer: ["How can I get to the stadium?", "How can I get to the stadium", "How can I get to the Star Stadium?"]
+            },
+            {
+                id: 24,
+                type: 'text',
+                title: "'택시를 타는 게 어때요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(a taxi / take)",
+                answer: ["Why don't you take a taxi?", "Why don't you take a taxi", "why don't you take a taxi?"]
+            },
+            {
+                id: 25,
+                type: 'arrange',
+                title: "'찾는 데 조금 어려울 거야.'에 알맞게 말을 배열하시오.",
+                words: ["It's", "a", "little", "difficult", "to", "find"],
+                answer: ["It's", "a", "little", "difficult", "to", "find"]
+            },
+            {
+                id: 26,
+                type: 'text',
+                title: "'그 공원에 가는 가장 좋은 방법이 무엇인가요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(way / is / park / go)",
+                answer: ["What's the best way to go to the park?", "What is the best way to go to the park?", "What's the best way to go to the park?"]
+            }
+        ];
+
+        // App State
+        let currentStudent = "";
+        let quizList = [];
+        let currentIndex = 0;
+        let score = 0;
+        let streak = 0;
+        let userArrangeState = [];
+        let selectedOption = null;
+        let multiChoiceState = {};
+        let isAnswerChecked = false;
+        
+        // Wrong Answer Tracking
+        let incorrectQuestions = [];
+        let currentFeedbackDetailText = "";
+
+        // Utility: Clean Punctuation for Flexible Matching
+        function cleanPunctuation(str) {
+            return str.replace(/[.,?!'’"~()\-]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+        }
+
+        // Utility: TTS Speech Synthesis
+        function playTTS(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const cleanText = text.replace(/\[.*?\]/g, '').replace(/\(.*?\)/g, '');
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('이 브라우저는 음성 재생(TTS)을 지원하지 않습니다.');
+            }
+        }
+
+        function playDialogueTTS() {
+            const q = quizList[currentIndex];
+            if (q && q.dialogue) {
+                playTTS(q.dialogue);
+            }
+        }
+
+        function playCurrentQuestionTTS() {
+            const q = quizList[currentIndex];
+            if (!q) return;
+            let textToRead = q.title;
+            if (q.dialogue) textToRead += ". " + q.dialogue;
+            playTTS(textToRead);
+        }
+
+        function playFeedbackTTS() {
+            if (currentFeedbackDetailText) {
+                playTTS(currentFeedbackDetailText);
+            }
+        }
+
+        // Utility: Array Shuffle
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // Start Quiz Procedure
+        function startQuiz() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            if (!nameInput) {
+                alert('학생 이름을 입력해 주세요!');
+                return;
+            }
+            currentStudent = nameInput;
+            document.getElementById('display-student-name').innerText = currentStudent;
+            document.getElementById('student-info-bar').classList.remove('hidden');
+
+            quizList = shuffleArray(RAW_QUESTIONS).slice(0, 20);
+            currentIndex = 0;
+            score = 0;
+            streak = 0;
+            incorrectQuestions = [];
+
+            document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            renderQuestion();
+        }
+
+        // Start Wrong Answers Review Procedure
+        function startWrongReview() {
+            if (incorrectQuestions.length === 0) return;
+
+            quizList = [...incorrectQuestions];
+            incorrectQuestions = [];
+            currentIndex = 0;
+            score = 0;
+            streak = 0;
+
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            renderQuestion();
+        }
+
+        // Render Current Question
+        function renderQuestion() {
+            const q = quizList[currentIndex];
+
+            // Progress Bar Update
+            const progressPct = (currentIndex / quizList.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${progressPct}%`;
+            document.getElementById('quiz-progress-text').innerText = `${currentIndex + 1} / ${quizList.length}`;
+            document.getElementById('quiz-score-live').innerText = `점수: ${score}`;
+
+            // Streak Badge Update
+            const streakBadge = document.getElementById('streak-badge');
+            if (streak > 1) {
+                document.getElementById('streak-count').innerText = streak;
+                streakBadge.classList.remove('hidden');
+                streakBadge.classList.add('flex');
+            } else {
+                streakBadge.classList.add('hidden');
+                streakBadge.classList.remove('flex');
+            }
+
+            // Reset Round States
+            selectedOption = null;
+            userArrangeState = [];
+            multiChoiceState = {};
+            isAnswerChecked = false;
+            document.getElementById('btn-submit').disabled = false;
+
+            // Badge Label
+            const badgeMap = {
+                'arrange': '🧩 문장/단어 배열',
+                'choice': '선택형 객관식',
+                'text': '✏️ 단어/문장 쓰기',
+                'multi_choice': '☑️ 빈칸 어휘 선택'
+            };
+            document.getElementById('question-type-badge').innerText = badgeMap[q.type] || '문제';
+            document.getElementById('question-title').innerText = q.title;
+
+            // Dialogue Box Visibility
+            const dialogueBox = document.getElementById('dialogue-box');
+            const dialogueText = document.getElementById('dialogue-text');
+            if (q.dialogue) {
+                dialogueText.innerText = q.dialogue;
+                dialogueBox.classList.remove('hidden');
+            } else {
+                dialogueBox.classList.add('hidden');
+            }
+
+            // Render Interactivity Container
+            const container = document.getElementById('interactive-area');
+            container.innerHTML = '';
+
+            if (q.type === 'choice') {
+                // 선택지 랜덤 셔플
+                const mappedOptions = q.options.map((opt, originalIdx) => ({ opt, originalIdx }));
+                const shuffledOptions = shuffleArray(mappedOptions);
+
+                shuffledOptions.forEach((item) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'w-full text-left p-4 mb-3 duo-card font-bold text-slate-700 text-base flex items-center justify-between';
+                    btn.innerHTML = `<span>${item.opt}</span><div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs check-indicator"></div>`;
+                    btn.onclick = () => {
+                        if (isAnswerChecked) return;
+                        document.querySelectorAll('#interactive-area button').forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        selectedOption = item.originalIdx;
+                    };
+                    container.appendChild(btn);
+                });
+            } else if (q.type === 'arrange') {
+                const dropArea = document.createElement('div');
+                dropArea.id = 'drop-area';
+                dropArea.className = 'drop-area mb-5';
+
+                const poolArea = document.createElement('div');
+                poolArea.id = 'pool-area';
+                poolArea.className = 'flex flex-wrap gap-2.5 justify-center py-2';
+
+                const shuffledWords = shuffleArray(q.words);
+
+                shuffledWords.forEach((word) => {
+                    const chip = document.createElement('button');
+                    chip.className = 'word-chip';
+                    chip.innerText = word;
+                    chip.onclick = () => {
+                        if (!isAnswerChecked) handleWordClick(chip, word);
+                    };
+                    poolArea.appendChild(chip);
+                });
+
+                container.appendChild(dropArea);
+                container.appendChild(poolArea);
+
+            } else if (q.type === 'text') {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = 'text-answer-input';
+                input.placeholder = '답안을 여기에 입력하세요...';
+                input.className = 'w-full p-4 border-2 border-slate-200 rounded-2xl font-bold text-lg focus:border-lime-500 focus:outline-none transition-colors';
+                input.onkeyup = (e) => {
+                    if (e.key === 'Enter') checkAnswer();
+                };
+                container.appendChild(input);
+                setTimeout(() => input.focus(), 100);
+
+            } else if (q.type === 'multi_choice') {
+                q.groups.forEach((group, gIdx) => {
+                    const groupDiv = document.createElement('div');
+                    groupDiv.className = 'mb-3.5 p-3.5 bg-slate-50 rounded-2xl border border-slate-100';
+                    groupDiv.innerHTML = `<div class="text-xs font-bold text-slate-500 mb-2">${group.label}</div>`;
+
+                    const optWrapper = document.createElement('div');
+                    optWrapper.className = 'flex gap-2';
+
+                    const shuffledOpts = shuffleArray(group.options);
+
+                    shuffledOpts.forEach((opt) => {
+                        const btn = document.createElement('button');
+                        btn.className = `flex-1 py-2.5 px-3 border-2 border-slate-200 rounded-xl font-bold text-sm bg-white hover:bg-slate-100 g-btn-${gIdx} transition-colors`;
+                        btn.innerText = opt;
+                        btn.onclick = () => {
+                            if (isAnswerChecked) return;
+                            document.querySelectorAll(`.g-btn-${gIdx}`).forEach(b => {
+                                b.classList.remove('bg-lime-100', 'border-lime-500', 'text-lime-800');
+                            });
+                            btn.classList.add('bg-lime-100', 'border-lime-500', 'text-lime-800');
+                            multiChoiceState[gIdx] = opt;
+                        };
+                        optWrapper.appendChild(btn);
+                    });
+
+                    groupDiv.appendChild(optWrapper);
+                    container.appendChild(groupDiv);
+                });
+            }
+        }
+
+        // Word Click Handler for Word Arrange Type
+        function handleWordClick(chip, word) {
+            const dropArea = document.getElementById('drop-area');
+            const poolArea = document.getElementById('pool-area');
+
+            if (chip.parentElement.id === 'pool-area') {
+                dropArea.appendChild(chip);
+                userArrangeState.push(word);
+            } else {
+                poolArea.appendChild(chip);
+                const idx = userArrangeState.indexOf(word);
+                if (idx > -1) userArrangeState.splice(idx, 1);
+            }
+        }
+
+        // Check Answer Procedure
+        function checkAnswer() {
+            if (isAnswerChecked) return;
+
+            const q = quizList[currentIndex];
+            let isCorrect = false;
+            let detailMessage = "";
+
+            if (q.type === 'choice') {
+                if (selectedOption === null) {
+                    alert('정답을 선택해 주세요!');
+                    return;
+                }
+                isCorrect = (selectedOption === q.answer);
+                detailMessage = q.options[q.answer];
+            } else if (q.type === 'arrange') {
+                const userSentence = userArrangeState.join(' ');
+                const targetSentence = q.answer.join(' ');
+                isCorrect = (cleanPunctuation(userSentence) === cleanPunctuation(targetSentence));
+                detailMessage = targetSentence;
+            } else if (q.type === 'text') {
+                const inputEl = document.getElementById('text-answer-input');
+                const val = inputEl ? inputEl.value.trim() : "";
+                if (!val) {
+                    alert('답을 입력해 주세요!');
+                    return;
+                }
+                const cleanedVal = cleanPunctuation(val);
+                isCorrect = q.answer.some(ans => cleanPunctuation(ans) === cleanedVal);
+                detailMessage = q.answer[0];
+            } else if (q.type === 'multi_choice') {
+                if (Object.keys(multiChoiceState).length < q.groups.length) {
+                    alert('모든 선택지를 골라주세요!');
+                    return;
+                }
+                isCorrect = q.groups.every((group, idx) => multiChoiceState[idx] === group.answer);
+                detailMessage = q.groups.map(g => g.answer).join(', ');
+            }
+
+            isAnswerChecked = true;
+            document.getElementById('btn-submit').disabled = true;
+
+            currentFeedbackDetailText = detailMessage;
+
+            if (isCorrect) {
+                score += 5;
+                streak++;
+            } else {
+                streak = 0;
+                incorrectQuestions.push(q);
+            }
+
+            showFeedback(isCorrect, `정답: ${detailMessage}`);
+        }
+
+        // Feedback Bottom Drawer Animation
+        function showFeedback(isCorrect, detail) {
+            const modal = document.getElementById('feedback-modal');
+            const icon = document.getElementById('feedback-icon');
+            const title = document.getElementById('feedback-title');
+            const detailEl = document.getElementById('feedback-detail');
+
+            if (isCorrect) {
+                modal.className = modal.className.replace(/border-[\w-]+/, 'border-lime-500 bg-lime-50');
+                icon.innerText = '✅';
+                title.innerText = streak > 1 ? `정답입니다! 🔥 ${streak}연속 정답!` : '정답입니다!';
+                title.className = 'font-black text-xl text-lime-700';
+                detailEl.innerText = '아주 잘하셨어요!';
+                confetti({ particleCount: 35 + Math.min(streak * 5, 40), spread: 60, origin: { y: 0.85 } });
+            } else {
+                modal.className = modal.className.replace(/border-[\w-]+/, 'border-rose-500 bg-rose-50');
+                icon.innerText = '❌';
+                title.innerText = '아쉬워요!';
+                title.className = 'font-black text-xl text-rose-700';
+                detailEl.innerText = detail;
+            }
+
+            modal.classList.remove('translate-y-full');
+        }
+
+        // Proceed to Next Question
+        function nextQuestion() {
+            document.getElementById('feedback-modal').classList.add('translate-y-full');
+
+            currentIndex++;
+            if (currentIndex < quizList.length) {
+                renderQuestion();
+            } else {
+                completeQuiz();
+            }
+        }
+
+        // Complete Quiz
+        function completeQuiz() {
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-result').classList.remove('hidden');
+
+            document.getElementById('final-score').innerText = `${score}점`;
+
+            const reviewBtn = document.getElementById('btn-review-wrong');
+            if (incorrectQuestions.length > 0) {
+                document.getElementById('wrong-count-text').innerText = incorrectQuestions.length;
+                reviewBtn.classList.remove('hidden');
+                document.getElementById('result-feedback').innerText = `${incorrectQuestions.length}개 문제를 틀렸어요. 오답 노트를 복습해 보세요!`;
+            } else {
+                reviewBtn.classList.add('hidden');
+                document.getElementById('result-feedback').innerText = '완벽해요! 모든 문제를 완벽하게 맞혔습니다. 👑';
+            }
+
+            saveRecord(currentStudent, score);
+
+            confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+        }
+
+        // LocalStorage Save Manager
+        function saveRecord(studentName, finalScore) {
+            const today = new Date().toISOString().split('T')[0];
+            const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+
+            const records = JSON.parse(localStorage.getItem('eng_quest_records') || '[]');
+            records.push({
+                date: today,
+                time: timeStr,
+                name: studentName,
+                score: finalScore,
+                status: finalScore >= 70 ? '완수 ⭐' : '복습 필요 📝'
+            });
+
+            localStorage.setItem('eng_quest_records', JSON.stringify(records));
+        }
+
+        // Export Records to CSV
+        function exportRecordsCSV() {
+            const records = JSON.parse(localStorage.getItem('eng_quest_records') || '[]');
+            if (records.length === 0) {
+                alert('다운로드할 학습 기록이 없습니다.');
+                return;
+            }
+
+            let csv = "\uFEFF날짜,시간,학생 이름,점수,상태\n";
+            records.forEach(r => {
+                csv += `"${r.date}","${r.time}","${r.name}","${r.score}점","${r.status}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `ColinT_영어공부_학습기록_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Restart App
+        function restartApp() {
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-welcome').classList.remove('hidden');
+            document.getElementById('student-name').value = '';
+        }
+
+        function goHome() {
+            if (confirm('학습을 중단하고 메인 화면으로 돌아갈까요?')) {
+                document.getElementById('feedback-modal').classList.add('translate-y-full');
+                document.getElementById('screen-quiz').classList.add('hidden');
+                document.getElementById('screen-result').classList.add('hidden');
+                document.getElementById('screen-welcome').classList.remove('hidden');
+            }
+        }
+
+        // Teacher Admin Modal Logic
+        function toggleTeacherModal() {
+            const modal = document.getElementById('teacher-modal');
+            modal.classList.toggle('hidden');
+            document.body.classList.toggle('modal-open');
+
+            if (!modal.classList.contains('hidden')) {
+                document.getElementById('filter-date').value = new Date().toISOString().split('T')[0];
+                renderRecords();
+                initQRInput();
+            }
+        }
+
+        function switchTeacherTab(tab) {
+            const secRecords = document.getElementById('teacher-sec-records');
+            const secQR = document.getElementById('teacher-sec-qr');
+            const tabRecords = document.getElementById('tab-records');
+            const tabQR = document.getElementById('tab-qr');
+
+            if (tab === 'records') {
+                secRecords.classList.remove('hidden');
+                secQR.classList.add('hidden');
+                tabRecords.className = "px-4 py-2 font-bold text-lime-600 border-b-2 border-lime-500 text-sm";
+                tabQR.className = "px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm";
+            } else {
+                secRecords.classList.add('hidden');
+                secQR.classList.remove('hidden');
+                tabRecords.className = "px-4 py-2 font-bold text-slate-400 border-b-2 border-transparent text-sm";
+                tabQR.className = "px-4 py-2 font-bold text-lime-600 border-b-2 border-lime-500 text-sm";
+            }
+        }
+
+        function renderRecords() {
+            const selectedDate = document.getElementById('filter-date').value;
+            const records = JSON.parse(localStorage.getItem('eng_quest_records') || '[]');
+            const tbody = document.getElementById('records-table-body');
+            tbody.innerHTML = '';
+
+            const filtered = records.filter(r => r.date === selectedDate);
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 text-xs font-bold">해당 날짜의 학습 기록이 없습니다.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3.5 text-slate-500 text-xs">${r.time}</td>
+                    <td class="p-3.5 font-bold text-slate-800">${r.name}</td>
+                    <td class="p-3.5 font-black text-lime-600">${r.score}점</td>
+                    <td class="p-3.5"><span class="px-2.5 py-1 bg-slate-100 rounded-lg text-xs font-bold">${r.status}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function clearRecords() {
+            if (confirm('모든 학습 기록을 삭제하시겠습니까?')) {
+                localStorage.removeItem('eng_quest_records');
+                renderRecords();
+            }
+        }
+
+        function initQRInput() {
+            const currentURL = window.location.href;
+            const input = document.getElementById('custom-qr-url');
+            const warning = document.getElementById('local-file-warning');
+
+            if (currentURL.startsWith('file:') || currentURL.includes('localhost') || currentURL.includes('127.0.0.1')) {
+                warning.classList.remove('hidden');
+            } else {
+                warning.classList.add('hidden');
+            }
+
+            if (!input.value) {
+                input.value = currentURL;
+            }
+            generateQRCode();
+        }
+
+        function generateQRCode() {
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
+            
+            const targetURL = document.getElementById('custom-qr-url').value.trim() || window.location.href;
+            document.getElementById('qr-url-text').innerText = targetURL;
+
+            new QRCode(qrContainer, {
+                text: targetURL,
+                width: 160,
+                height: 160,
+                colorDark: "#334155",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+    </script>
+</body>
+</html>
+```eof
