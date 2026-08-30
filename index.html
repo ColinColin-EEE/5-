@@ -312,6 +312,26 @@
         </div>
     </div>
 
+    <!-- Teacher Auth Modal -->
+    <div id="teacher-auth-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center space-y-4">
+            <div class="text-4xl">🔒</div>
+            <h3 class="text-xl font-extrabold text-slate-800">선생님 인증</h3>
+            <p class="text-xs text-slate-500 font-medium">선생님 전용 관리자 암호를 입력하세요.</p>
+            <input type="password" id="teacher-password-input" placeholder="비밀번호 입력" 
+                   onkeyup="if(event.key==='Enter') verifyTeacherPassword()"
+                   class="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-200 focus:border-lime-500 focus:outline-none font-bold text-center text-lg text-slate-800 transition-colors">
+            <div class="flex gap-2">
+                <button onclick="closeTeacherAuthModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 rounded-xl text-sm transition-colors">
+                    취소
+                </button>
+                <button onclick="verifyTeacherPassword()" class="flex-1 duo-btn-green py-3 rounded-xl font-bold text-sm">
+                    확인
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Teacher Management Modal -->
     <div id="teacher-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-2xl rounded-3xl p-6 shadow-2xl max-h-[90vh] flex flex-col">
@@ -397,6 +417,10 @@
 
     <!-- JavaScript Application Logic -->
     <script>
+        // Teacher Security Lock Config
+        const TEACHER_PASSWORD = "1234"; // 선생님 페이지 비밀번호
+        let isTeacherAuthenticated = false;
+
         // Raw Questions Data (26 Items)
         const RAW_QUESTIONS = [
             {
@@ -803,7 +827,6 @@
             container.innerHTML = '';
 
             if (q.type === 'choice') {
-                // 선택지 랜덤 셔플
                 const mappedOptions = q.options.map((opt, originalIdx) => ({ opt, originalIdx }));
                 const shuffledOptions = shuffleArray(mappedOptions);
 
@@ -1072,16 +1095,46 @@
             }
         }
 
-        // Teacher Admin Modal Logic
+        // Teacher Admin Auth Logic
         function toggleTeacherModal() {
             const modal = document.getElementById('teacher-modal');
-            modal.classList.toggle('hidden');
-            document.body.classList.toggle('modal-open');
-
-            if (!modal.classList.contains('hidden')) {
+            if (modal.classList.contains('hidden')) {
+                if (!isTeacherAuthenticated) {
+                    openTeacherAuthModal();
+                    return;
+                }
+                modal.classList.remove('hidden');
+                document.body.classList.add('modal-open');
                 document.getElementById('filter-date').value = new Date().toISOString().split('T')[0];
                 renderRecords();
                 initQRInput();
+            } else {
+                modal.classList.add('hidden');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function openTeacherAuthModal() {
+            document.getElementById('teacher-password-input').value = '';
+            document.getElementById('teacher-auth-modal').classList.remove('hidden');
+            document.body.classList.add('modal-open');
+            setTimeout(() => document.getElementById('teacher-password-input').focus(), 100);
+        }
+
+        function closeTeacherAuthModal() {
+            document.getElementById('teacher-auth-modal').classList.add('hidden');
+            document.body.classList.remove('modal-open');
+        }
+
+        function verifyTeacherPassword() {
+            const inputPw = document.getElementById('teacher-password-input').value;
+            if (inputPw === TEACHER_PASSWORD) {
+                isTeacherAuthenticated = true;
+                closeTeacherAuthModal();
+                toggleTeacherModal();
+            } else {
+                alert('비밀번호가 올바르지 않습니다.');
+                document.getElementById('teacher-password-input').value = '';
             }
         }
 
@@ -1172,5 +1225,3 @@
     </script>
 </body>
 </html>
-```eof
- 
