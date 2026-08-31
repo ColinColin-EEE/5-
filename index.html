@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5과 대화문 - Colin T의 영어 공부</title>
+    <title>5과 학습 - Colin T의 영어 공부</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -58,13 +58,6 @@
             transform: translateY(2px);
             border-bottom-width: 2px;
             margin-top: 2px;
-        }
-
-        .duo-btn-green:disabled {
-            background-color: #cbd5e1;
-            border-bottom-color: #94a3b8;
-            cursor: not-allowed;
-            transform: none;
         }
 
         .word-chip {
@@ -136,12 +129,15 @@
                     Colin T의 영어 공부
                 </div>
                 <div class="text-lg sm:text-xl font-black text-slate-800 tracking-tight mt-0.5">
-                    5과 대화문
+                    5과 학습
                 </div>
             </div>
 
             <div class="flex items-center space-x-2">
-                <div id="student-info-bar" class="hidden">
+                <div id="student-info-bar" class="hidden flex items-center gap-1.5">
+                    <span class="bg-amber-100 text-amber-800 font-extrabold px-2.5 py-1 rounded-full text-xs flex items-center gap-1 border border-amber-300">
+                        ⭐ <span id="display-cum-points">0</span>점
+                    </span>
                     <span class="bg-lime-100 text-lime-800 font-bold px-2.5 py-1 rounded-full text-xs flex items-center gap-1">
                         👤 <span id="display-student-name"></span>
                     </span>
@@ -165,32 +161,79 @@
                     Colin T의 영어 공부
                 </div>
                 <h1 class="text-4xl sm:text-5xl font-black text-slate-800 tracking-tight pt-1">
-                    5과 대화문
+                    5과 학습
                 </h1>
             </div>
 
             <p class="text-slate-500 font-medium text-base max-w-md mx-auto">
-                이름을 입력하고 매일 새로운 20개의 랜덤 퀴즈에 도전하세요!
+                이름을 입력하고 매일 문제를 풀며 포인트와 등수를 올려보세요!
             </p>
 
             <div class="bg-white p-6 sm:p-8 rounded-3xl border-2 border-slate-200 shadow-sm max-w-md mx-auto space-y-5">
                 <div class="text-left">
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">학생 이름</label>
                     <input type="text" id="student-name" placeholder="이름을 입력하세요 (예: 홍길동)" 
-                           onkeyup="if(event.key==='Enter') startQuiz()"
+                           onkeyup="if(event.key==='Enter') enterStudentName()"
                            class="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-200 focus:border-lime-500 focus:outline-none font-bold text-lg text-slate-800 transition-colors">
                 </div>
-                <button onclick="startQuiz()" class="w-full duo-btn-green py-4 rounded-2xl text-xl shadow-md tracking-wide">
+                <button onclick="enterStudentName()" class="w-full duo-btn-green py-4 rounded-2xl text-xl shadow-md tracking-wide">
                     학습 시작하기 🚀
                 </button>
             </div>
         </section>
 
-        <!-- STEP 2: Quiz Screen -->
+        <!-- STEP 2: Mode Selection & Realtime Leaderboard -->
+        <section id="screen-mode-select" class="hidden w-full max-w-md space-y-5 py-4">
+            <div class="bg-gradient-to-r from-lime-500 to-emerald-600 p-5 rounded-3xl text-white shadow-md flex justify-between items-center">
+                <div>
+                    <div class="text-xs font-bold opacity-80 uppercase tracking-wider">나의 누적 학습 활동</div>
+                    <div class="text-2xl font-black mt-0.5"><span id="mode-user-name"></span> 학생</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-xs font-bold opacity-80">누적 포인트</div>
+                    <div class="text-3xl font-black text-amber-300">⭐ <span id="mode-user-points">0</span>pt</div>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="text-xs font-extrabold text-slate-400 uppercase tracking-wider px-1">학습 파트 선택</div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="startMode('단어')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-5 rounded-3xl shadow-sm text-left transition-all duo-card group">
+                        <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">🔤</div>
+                        <div class="font-black text-lg text-slate-800">단어</div>
+                        <div class="text-xs text-slate-400 font-medium mt-1">어휘 & 뜻 학습</div>
+                    </button>
+                    <button onclick="startMode('연습문제')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-5 rounded-3xl shadow-sm text-left transition-all duo-card group">
+                        <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">📝</div>
+                        <div class="font-black text-lg text-slate-800">연습문제</div>
+                        <div class="text-xs text-slate-400 font-medium mt-1">대화문/문법/독해</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Realtime Leaderboard -->
+            <div class="bg-white p-5 rounded-3xl border-2 border-slate-200 shadow-sm space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                    <h3 class="font-black text-slate-800 text-base flex items-center gap-1.5">
+                        🏆 실시간 명예의 전당 (Top 10)
+                    </h3>
+                    <button onclick="loadLeaderboard()" class="text-xs font-bold text-slate-400 hover:text-slate-600">🔄 새로고침</button>
+                </div>
+                <div id="leaderboard-list" class="space-y-1.5 text-sm font-bold text-slate-700 max-h-48 overflow-y-auto pr-1">
+                    <div class="text-center py-4 text-xs text-slate-400">랭킹 불러오는 중...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 3: Quiz Screen -->
         <section id="screen-quiz" class="hidden flex-1 flex flex-col justify-between max-w-xl mx-auto w-full py-2">
             <div class="w-full mb-3">
                 <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-extrabold text-slate-400">
                     <span id="quiz-progress-text">1 / 20</span>
+
+                    <div id="review-mode-indicator" class="hidden bg-amber-100 text-amber-800 px-3 py-0.5 rounded-full border border-amber-300 font-black text-xs">
+                        📝 오답 노트 복습 중
+                    </div>
 
                     <div id="streak-badge" class="hidden items-center gap-1 bg-amber-100 text-amber-800 px-3 py-0.5 rounded-full border border-amber-300 font-black text-xs animate-flame">
                         <span>🔥</span>
@@ -241,29 +284,25 @@
             </div>
         </section>
 
-        <!-- STEP 3: Result Screen -->
+        <!-- STEP 4: Perfect Result Screen (오답 없을 때만 진입) -->
         <section id="screen-result" class="hidden text-center space-y-6 my-auto py-8 w-full max-w-md">
-            <div class="text-7xl mb-2 animate-bounce">🎉</div>
+            <div class="text-7xl mb-2 animate-bounce">👑</div>
             <div class="space-y-1">
                 <div class="inline-block bg-lime-100 text-lime-800 font-extrabold px-3.5 py-1 rounded-full text-xs tracking-wide">
                     Colin T의 영어 공부
                 </div>
-                <h1 class="text-3xl sm:text-4xl font-black text-slate-800">수고하셨습니다!</h1>
+                <h1 class="text-3xl sm:text-4xl font-black text-slate-800">완벽합니다!</h1>
             </div>
-            <p id="result-mode-desc" class="text-slate-500 font-medium">오늘의 20문항 학습을 모두 완료했습니다.</p>
+            <p id="result-mode-desc" class="text-slate-500 font-medium">모든 문제를 완벽하게 통과하셨습니다.</p>
 
             <div class="bg-white p-6 sm:p-8 rounded-3xl border-2 border-slate-200 shadow-sm space-y-5">
                 <div class="text-slate-500 font-bold text-sm uppercase tracking-wider">최종 점수</div>
                 <div id="final-score" class="text-5xl font-black text-lime-500 tracking-tight">100점</div>
-                <p id="result-feedback" class="text-sm font-bold text-slate-600">완벽해요! 끝까지 멋지게 완료했습니다.</p>
+                <p id="result-feedback" class="text-sm font-bold text-slate-600">축하합니다! 획득한 포인트가 누적되었습니다.</p>
                 
-                <div class="pt-2 space-y-3">
-                    <button id="btn-review-wrong" onclick="startWrongReview()" class="hidden w-full bg-amber-500 hover:bg-amber-600 border-b-4 border-amber-700 text-white font-extrabold py-3.5 rounded-2xl text-lg shadow-md transition-all">
-                        📝 틀린 문제 오답 노트 복습 (<span id="wrong-count-text">0</span>개)
-                    </button>
-
-                    <button onclick="restartApp()" class="w-full duo-btn-green py-3.5 rounded-2xl text-lg shadow-md">
-                        새로운 퀴즈 다시 도전하기 🔄
+                <div class="pt-2">
+                    <button onclick="backToModeSelect()" class="w-full duo-btn-green py-3.5 rounded-2xl text-lg shadow-md">
+                        메인 모드 선택으로 돌아가기 🔄
                     </button>
                 </div>
             </div>
@@ -272,9 +311,10 @@
     </main>
 
     <footer class="text-center py-4 text-xs font-medium text-slate-400">
-        Colin T의 영어 공부 • 5과 대화문 Interactive Quest
+        Colin T의 영어 공부 • 5과 학습 Interactive Quest
     </footer>
 
+    <!-- Answer Feedback Modal -->
     <div id="feedback-modal" class="fixed inset-x-0 bottom-0 p-5 sm:p-6 bg-white border-t-4 border-slate-300 shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1)] transition-transform transform translate-y-full duration-300 z-50">
         <div class="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-4 w-full sm:w-auto">
@@ -315,7 +355,6 @@
                 </button>
             </div>
 
-            <!-- 초기화 퀴즈 버튼 -->
             <div class="pt-2 border-t border-slate-100">
                 <button onclick="resetPasswordToDefault()" class="text-xs font-bold text-slate-400 hover:text-slate-600 underline">
                     비밀번호 초기화 퀴즈 풀기 🔒
@@ -358,19 +397,23 @@
             <div id="teacher-sec-records" class="flex-1 overflow-y-auto space-y-4 pr-1">
                 <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                     <div class="flex items-center space-x-2">
-                        <label class="font-bold text-xs text-slate-500 uppercase tracking-wider">날짜:</label>
-                        <input type="date" id="filter-date" onchange="renderRecords()" class="border-2 border-slate-200 rounded-xl px-3 py-1.5 font-bold text-slate-700 text-sm focus:outline-none focus:border-lime-500">
+                        <input type="date" id="filter-date" onchange="renderRecords()" class="border-2 border-slate-200 rounded-xl px-3 py-1.5 font-bold text-slate-700 text-xs focus:outline-none focus:border-lime-500">
+                        <select id="filter-mode" onchange="renderRecords()" class="border-2 border-slate-200 rounded-xl px-3 py-1.5 font-bold text-slate-700 text-xs focus:outline-none focus:border-lime-500">
+                            <option value="전체">전체 파트</option>
+                            <option value="단어">🔤 단어</option>
+                            <option value="연습문제">📝 연습문제</option>
+                        </select>
                     </div>
                     
-                    <div class="flex items-center gap-2">
-                        <button onclick="renderRecords()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-2 rounded-xl transition-colors border border-slate-200 flex items-center gap-1">
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="renderRecords()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-2.5 py-1.5 rounded-xl transition-colors border border-slate-200">
                             🔄 새로고침
                         </button>
-                        <button onclick="exportRecordsCSV()" class="text-xs bg-lime-500 hover:bg-lime-600 text-white font-bold px-3 py-2 rounded-xl transition-colors shadow-sm flex items-center gap-1">
-                            📥 CSV 내보내기
+                        <button onclick="exportRecordsCSV()" class="text-xs bg-lime-500 hover:bg-lime-600 text-white font-bold px-2.5 py-1.5 rounded-xl transition-colors shadow-sm">
+                            📥 CSV 다운
                         </button>
-                        <button onclick="clearRecords()" class="text-xs bg-rose-50 text-rose-600 hover:bg-rose-100 font-bold px-3 py-2 rounded-xl transition-colors">
-                            기록 초기화
+                        <button onclick="clearRecords()" class="text-xs bg-rose-50 text-rose-600 hover:bg-rose-100 font-bold px-2.5 py-1.5 rounded-xl transition-colors">
+                            기록 삭제
                         </button>
                     </div>
                 </div>
@@ -379,13 +422,13 @@
                     <table class="w-full text-left border-collapse">
                         <thead class="bg-slate-50 text-slate-500 text-xs uppercase font-extrabold">
                             <tr>
-                                <th class="p-3.5 border-b">시간</th>
-                                <th class="p-3.5 border-b">이름</th>
-                                <th class="p-3.5 border-b">점수</th>
-                                <th class="p-3.5 border-b">상태</th>
+                                <th class="p-3 border-b">시간</th>
+                                <th class="p-3 border-b">모드</th>
+                                <th class="p-3 border-b">이름</th>
+                                <th class="p-3 border-b">점수</th>
                             </tr>
                         </thead>
-                        <tbody id="records-table-body" class="text-sm font-medium divide-y divide-slate-100"></tbody>
+                        <tbody id="records-table-body" class="text-xs font-medium divide-y divide-slate-100"></tbody>
                     </table>
                 </div>
             </div>
@@ -418,7 +461,7 @@
                     <div class="text-center pb-2 border-b border-slate-200">
                         <span class="text-3xl">🔒</span>
                         <h4 class="font-extrabold text-lg text-slate-800 mt-1">비밀번호 변경</h4>
-                        <p class="text-xs text-slate-500">선생님 접속 비밀번호를 변경합니다 (전체 기기 자동 동기화).</p>
+                        <p class="text-xs text-slate-500">선생님 접속 비밀번호를 변경합니다.</p>
                     </div>
 
                     <div>
@@ -446,13 +489,12 @@
                     <div class="text-center pb-2 border-b border-slate-200">
                         <span class="text-3xl">☁️</span>
                         <h4 class="font-extrabold text-lg text-slate-800 mt-1">실시간 클라우드 DB 연동</h4>
-                        <p class="text-xs text-slate-500 mt-0.5">모든 기기 간 비밀번호 및 학생 학습 기록이 실시간 자동 동기화됩니다.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">선생님 파이어베이스 Realtime Database 주소를 입력하세요.</p>
                     </div>
 
                     <div class="space-y-1 text-left">
                         <label class="text-xs font-bold text-slate-600">Firebase Realtime DB URL:</label>
                         <input type="text" id="cloud-db-url-input" placeholder="https://your-project-rtdb.firebaseio.com" class="w-full px-3.5 py-2.5 border-2 border-slate-200 rounded-xl font-bold text-xs focus:outline-none focus:border-lime-500 bg-white">
-                        <p class="text-[11px] text-slate-400">기본 공유 클라우드 DB가 작동 중입니다. 필요 시 개인 Firebase DB 주소로 설정할 수 있습니다.</p>
                     </div>
 
                     <div class="flex gap-2">
@@ -462,14 +504,6 @@
                         <button onclick="saveCloudDbUrl()" class="flex-1 duo-btn-green py-2.5 rounded-xl font-bold text-xs">
                             💾 DB 주소 저장
                         </button>
-                    </div>
-
-                    <div class="p-3 bg-blue-50 border border-blue-200 rounded-2xl text-xs text-blue-900 space-y-1">
-                        <div class="font-bold flex items-center gap-1">💡 자동 동기화 작동 안내</div>
-                        <ul class="list-disc list-inside space-y-0.5 text-[11px] text-blue-800">
-                            <li>학생들이 각자 QR 코드로 접속해 문제를 제출하면 실시간으로 선생님 페이지에 집계됩니다.</li>
-                            <li>선생님이 비밀번호를 변경하면 다른 어떤 기기에서 접속하더라도 변경된 비밀번호가 적용됩니다.</li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -481,32 +515,27 @@
     <script>
         let isTeacherAuthenticated = false;
 
-        // 중앙 클라우드 데이터베이스 URL 관리
         function getCloudDbUrl() {
             const saved = localStorage.getItem('cloud_db_url');
             if (saved && saved.trim()) {
                 return saved.trim().replace(/\/$/, '');
             }
-            // 공용 기본 Firebase Realtime Database 엔드포인트
             return "https://unit5-mid2english-default-rtdb.firebaseio.com";
         }
 
         function initCloudInput() {
             const input = document.getElementById('cloud-db-url-input');
-            if (input) {
-                input.value = localStorage.getItem('cloud_db_url') || getCloudDbUrl();
-            }
+            if (input) input.value = localStorage.getItem('cloud_db_url') || getCloudDbUrl();
         }
 
         function saveCloudDbUrl() {
             const inputVal = document.getElementById('cloud-db-url-input').value.trim();
             if (!inputVal) {
                 localStorage.removeItem('cloud_db_url');
-                alert('기본 공용 클라우드 DB로 설정되었습니다.');
+                alert('기본 클라우드 DB로 설정되었습니다.');
             } else {
-                const cleanUrl = inputVal.replace(/\/$/, '');
-                localStorage.setItem('cloud_db_url', cleanUrl);
-                alert('클라우드 DB 주소가 정상적으로 저장되었습니다!');
+                localStorage.setItem('cloud_db_url', inputVal.replace(/\/$/, ''));
+                alert('클라우드 DB 주소가 저장되었습니다!');
             }
             initCloudInput();
         }
@@ -515,13 +544,10 @@
             const dbUrl = document.getElementById('cloud-db-url-input').value.trim() || getCloudDbUrl();
             try {
                 const res = await fetch(`${dbUrl}/ping.json`);
-                if (res.ok) {
-                    alert('✅ 클라우드 DB 연결 성공! 실시간 동기화가 정상 작동합니다.');
-                } else {
-                    alert('⚠️ 연결 실패: DB 주소를 확인해 주세요.');
-                }
+                if (res.ok) alert('✅ 클라우드 DB 연결 성공!');
+                else alert('⚠️ 연결 실패: DB 주소 및 보안 규칙(.read/.write=true)을 확인하세요.');
             } catch (e) {
-                alert('❌ 연결 오류: 인터넷 연결 상태나 DB 주소를 확인해 주세요.');
+                alert('❌ 연결 오류 발생!');
             }
         }
 
@@ -537,9 +563,7 @@
                             return cloudPw;
                         }
                     }
-                } catch (e) {
-                    console.warn("클라우드 비밀번호 가져오기 실패, 로컬 캐시 사용:", e);
-                }
+                } catch (e) {}
             }
             return localStorage.getItem('teacher_password') || "1234";
         }
@@ -562,255 +586,136 @@
             }
         }
 
-        const RAW_QUESTIONS = [
-            {
-                id: 1,
-                type: 'arrange',
-                title: "'~에 어떻게 가나요?'에 알맞게 말을 배열하시오.",
-                words: ['how', 'can', 'I', 'get', 'to'],
-                answer: ['how', 'can', 'I', 'get', 'to']
-            },
-            {
-                id: 2,
-                type: 'choice',
-                title: "빈칸에 들어갈 응답으로 가장 알맞은 것은?",
-                dialogue: "A: What is the best way to get to the museum?\nB: (                                   )",
-                options: [
-                    "About one hour by subway.",
-                    "It's a little difficult, James.",
-                    "You can walk there."
-                ],
-                answer: 2
-            },
-            {
-                id: 3,
-                type: 'text',
-                title: "빈칸에 들어갈 알맞은 의문사를 쓰시오.",
-                dialogue: "(        ) can I get to the bank?",
-                answer: ["How", "how"]
-            },
-            {
-                id: 4,
-                type: 'choice',
-                title: "대화의 내용과 일치하는 것은?",
-                dialogue: "B: Excuse me, how can I get to the Star Stadium?\nG: You can get there by subway. Take line 4, the green line, and get off at Hangang Station.\nB: Line 4 and Hangang Station. Got it. How long will it take?\nG: A little more than 30 minutes.",
-                options: [
-                    "The boy should leave the subway at City Hall Station.",
-                    "The trip to the Star Stadium takes a little more than 30 minutes.",
-                    "To get to the Star Stadium, the boy should use bus."
-                ],
-                answer: 1
-            },
-            {
-                id: 5,
-                type: 'choice',
-                title: "빈칸에 들어갈 알맞은 응답은?",
-                dialogue: "B: Excuse me. I’m going to the National Art Museum. What’s the best way to get there?\nG: You can walk. Go straight for about 500 meters and turn left. It’ll be on your right.\nB: I see. How long will it take?\nG: (                      )\nB: Really? Thanks.",
-                options: [
-                    "Only about 15 minutes.",
-                    "You can get to the museum.",
-                    "I know it took one hour to get there."
-                ],
-                answer: 0
-            },
-            {
-                id: 6,
-                type: 'choice',
-                title: "빈칸에 들어갈 알맞은 응답은?",
-                dialogue: "B: Excuse me, how can I get to the Star Stadium?\nG: (                       ) Take line 4, the green line, and get off at Hangang Station.\nB: Line 4 and Hangang Station. Got it. How long will it take?\nG: A little more than 30 minutes.",
-                options: [
-                    "You can get there on foot.",
-                    "Why don't you take the subway?",
-                    "About 30 minutes."
-                ],
-                answer: 1
-            },
-            {
-                id: 7,
-                type: 'arrange',
-                title: "'10분 이하로 걸릴 거예요'에 알맞게 말을 배열하시오.",
-                words: ['It\'ll', 'take', 'less', 'than', '10 minutes'],
-                answer: ['It\'ll', 'take', 'less', 'than', '10 minutes']
-            },
-            {
-                id: 8,
-                type: 'multi_choice',
-                title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.",
-                dialogue: "B: Somi, I need help. What’s the best way [getting / to get] to Sebit Park from here?\nG: Sebit Park? Well, you can get there [on / by] bus or by subway, but the [bus / subway] is better.\nB: OK. Which line [I should / should I] take?\nG: Take line 3, and get [on / off] at Sebit Station.",
-                groups: [
-                    { label: "1번째 선택", options: ["getting", "to get"], answer: "to get" },
-                    { label: "2번째 선택", options: ["on", "by"], answer: "by" },
-                    { label: "3번째 선택", options: ["bus", "subway"], answer: "subway" },
-                    { label: "4번째 선택", options: ["I should", "should I"], answer: "should I" },
-                    { label: "5번째 선택", options: ["on", "off"], answer: "off" }
-                ]
-            },
-            {
-                id: 9,
-                type: 'text',
-                title: "주어진 단어를 모두 사용하여 빈칸에 들어갈 질문을 쓰시오.\n(What's / best / way / get)",
-                dialogue: "B: Excuse me. I’m going to the National Art Museum. (                           )\nG: You can walk. Go straight for about 500 meters and turn left. It’ll be on your right.\nB: I see. How long will it take?\nG: Only about 15 minutes.\nB: Really? Thanks.",
-                answer: ["What's the best way to get there?", "What's the best way to get there", "what's the best way to get there?"]
-            },
-            {
-                id: 10,
-                type: 'choice',
-                title: "빈칸에 들어갈 알맞은 응답은?",
-                dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: (                           )\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I'm free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.",
-                options: [
-                    "About 40 minutes.",
-                    "You can take the subway.",
-                    "Why don't you buy the tickets?"
-                ],
-                answer: 0
-            },
-            {
-                id: 11,
-                type: 'arrange',
-                title: "'한 시간 조금 넘게 걸릴 거예요.'에 알맞게 말을 배열하시오.",
-                words: ['It\'ll take', 'a', 'little', 'more', 'than', 'one', 'hour'],
-                answer: ['It\'ll take', 'a', 'little', 'more', 'than', 'one', 'hour']
-            },
-            {
-                id: 12,
-                type: 'arrange',
-                title: "'500미터 정도 곧장 가서 왼쪽으로 도세요.'에 알맞게 말을 배열하시오.",
-                words: ['go', 'straight', 'for', 'about', '500 meters', 'and', 'turn', 'left'],
-                answer: ['go', 'straight', 'for', 'about', '500 meters', 'and', 'turn', 'left']
-            },
-            {
-                id: 13,
-                type: 'choice',
-                title: "대화의 내용과 일치하는 것은?",
-                dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I’m free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.",
-                options: [
-                    "The subway is the best way to get to Sebit Park.",
-                    "On the day of the art fair, the girl will be not busy.",
-                    "By getting off at Sebit Station before taking line 3, the boy can get to Sebit Park."
-                ],
-                answer: 0
-            },
-            {
-                id: 14,
-                type: 'choice',
-                title: "빈칸에 들어갈 알맞은 말은?",
-                dialogue: "G: Do you need help?\nB: Yes. How can I get to the Dream Shopping Mall from here? Can I walk?\nG: You can, but it’s a little far. (                           ) Take No. 12.\nB: OK. How long will it take by bus?\nG: Not very long. It’ll take less than 10 minutes.",
-                options: [
-                    "You are able to go by subway.",
-                    "Why don't you take the bus?",
-                    "It will take 10 minutes."
-                ],
-                answer: 1
-            },
-            {
-                id: 15,
-                type: 'text',
-                title: "'조금 멀어요.'에 알맞게 주어진 단어를 사용하여 영문장을 쓰시오.\n(is / little)",
-                answer: ["It is a little far.", "It's a little far.", "It is a little far", "It's a little far"]
-            },
-            {
-                id: 16,
-                type: 'arrange',
-                title: "'은행에 가는 길을 알려 주실 수 있나요?'에 알맞게 말을 배열하시오.",
-                words: ['Can', 'you', 'tell', 'me', 'how', 'to', 'get', 'to', 'the', 'bank?'],
-                answer: ['Can', 'you', 'tell', 'me', 'how', 'to', 'get', 'to', 'the', 'bank?']
-            },
-            {
-                id: 17,
-                type: 'arrange',
-                title: "대화를 순서대로 알맞게 배열하시오.",
-                words: [
-                    "I'm sorry, but how can I get to the Sky Cinema?",
-                    "It's not far, but it's a little difficult to find. Why don't you take a taxi?",
-                    "OK. How long will it take?",
-                    "About 20 minutes."
-                ],
-                answer: [
-                    "I'm sorry, but how can I get to the Sky Cinema?",
-                    "It's not far, but it's a little difficult to find. Why don't you take a taxi?",
-                    "OK. How long will it take?",
-                    "About 20 minutes."
-                ]
-            },
-            {
-                id: 18,
-                type: 'arrange',
-                title: "대화를 순서대로 알맞게 배열하시오.",
-                words: [
-                    "Do you need help?",
-                    "Yes. How can I get to the Dream Shopping Mall from here? Can I walk?",
-                    "You can, but it's a little far. Why don't you go by bus? Take bus No. 12",
-                    "OK. How long will it take by bus?",
-                    "Not very long. It'll take less than 10 minutes."
-                ],
-                answer: [
-                    "Do you need help?",
-                    "Yes. How can I get to the Dream Shopping Mall from here? Can I walk?",
-                    "You can, but it's a little far. Why don't you go by bus? Take bus No. 12",
-                    "OK. How long will it take by bus?",
-                    "Not very long. It'll take less than 10 minutes."
-                ]
-            },
-            {
-                id: 19,
-                type: 'text',
-                title: "'가까운'에 해당하는 영단어를 쓰시오.",
-                answer: ["close", "Close"]
-            },
-            {
-                id: 20,
-                type: 'text',
-                title: "'나는 이번 주 토요일에 한가해.'에 알맞게 주어진 단어를 사용하여 영문장을 쓰시오.\n(I'm / this)",
-                answer: ["I'm free this Saturday.", "I'm free this Saturday", "i'm free this saturday.", "I am free this Saturday."]
-            },
-            {
-                id: 21,
-                type: 'text',
-                title: "대화의 흐름상 빈칸에 들어갈 질문을 쓰시오.",
-                dialogue: "B: Line 3 and get off at Sebit Station. (                           )\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?",
-                answer: ["How long will it take?", "How long will it take", "how long will it take?"]
-            },
-            {
-                id: 22,
-                type: 'choice',
-                title: "다음 대화의 [if]와 의미/쓰임이 같은 문장은?",
-                dialogue: "B: Line 3 and get off at Sebit Station. How long will it take?\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me [if] you want.",
-                options: [
-                    "If you come here, I will be satisfied.",
-                    "You can believe if you made your cake.",
-                    "I cannot tell you if it is raining outside.",
-                    "We did not know if Sally could invited us."
-                ],
-                answer: 0
-            },
-            {
-                id: 23,
-                type: 'text',
-                title: "'그 경기장에 어떻게 가나요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(get / can)",
-                answer: ["How can I get to the stadium?", "How can I get to the stadium", "How can I get to the Star Stadium?"]
-            },
-            {
-                id: 24,
-                type: 'text',
-                title: "'택시를 타는 게 어때요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(a taxi / take)",
-                answer: ["Why don't you take a taxi?", "Why don't you take a taxi", "why don't you take a taxi?"]
-            },
-            {
-                id: 25,
-                type: 'arrange',
-                title: "'찾는 데 조금 어려울 거야.'에 알맞게 말을 배열하시오.",
-                words: ["It's", "a", "little", "difficult", "to", "find"],
-                answer: ["It's", "a", "little", "difficult", "to", "find"]
-            },
-            {
-                id: 26,
-                type: 'text',
-                title: "'그 공원에 가는 가장 좋은 방법이 무엇인가요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(way / is / park / go)",
-                answer: ["What's the best way to go to the park?", "What is the best way to go to the park?", "What's the best way to go to the park?"]
-            }
+        // 기존 수록 문제는 '연습문제' 파트로 수록
+        const PRACTICE_QUESTIONS = [
+            { id: 101, type: 'arrange', title: "'~에 어떻게 가나요?'에 알맞게 말을 배열하시오.", words: ['how', 'can', 'I', 'get', 'to'], answer: ['how', 'can', 'I', 'get', 'to'] },
+            { id: 102, type: 'choice', title: "빈칸에 들어갈 응답으로 가장 알맞은 것은?", dialogue: "A: What is the best way to get to the museum?\nB: (                                   )", options: ["About one hour by subway.", "It's a little difficult, James.", "You can walk there."], answer: 2 },
+            { id: 103, type: 'text', title: "빈칸에 들어갈 알맞은 의문사를 쓰시오.", dialogue: "(        ) can I get to the bank?", answer: ["How", "how"] },
+            { id: 104, type: 'choice', title: "대화의 내용과 일치하는 것은?", dialogue: "B: Excuse me, how can I get to the Star Stadium?\nG: You can get there by subway. Take line 4, the green line, and get off at Hangang Station.\nB: Line 4 and Hangang Station. Got it. How long will it take?\nG: A little more than 30 minutes.", options: ["The boy should leave the subway at City Hall Station.", "The trip to the Star Stadium takes a little more than 30 minutes.", "To get to the Star Stadium, the boy should use bus."], answer: 1 },
+            { id: 105, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Excuse me. I’m going to the National Art Museum. What’s the best way to get there?\nG: You can walk. Go straight for about 500 meters and turn left. It’ll be on your right.\nB: I see. How long will it take?\nG: (                      )\nB: Really? Thanks.", options: ["Only about 15 minutes.", "You can get to the museum.", "I know it took one hour to get there."], answer: 0 },
+            { id: 106, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Excuse me, how can I get to the Star Stadium?\nG: (                       ) Take line 4, the green line, and get off at Hangang Station.\nB: Line 4 and Hangang Station. Got it. How long will it take?\nG: A little more than 30 minutes.", options: ["You can get there on foot.", "Why don't you take the subway?", "About 30 minutes."], answer: 1 },
+            { id: 107, type: 'arrange', title: "'10분 이하로 걸릴 거예요'에 알맞게 말을 배열하시오.", words: ['It\'ll', 'take', 'less', 'than', '10 minutes'], answer: ['It\'ll', 'take', 'less', 'than', '10 minutes'] },
+            { id: 108, type: 'multi_choice', title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.", dialogue: "B: Somi, I need help. What’s the best way [getting / to get] to Sebit Park from here?\nG: Sebit Park? Well, you can get there [on / by] bus or by subway, but the [bus / subway] is better.\nB: OK. Which line [I should / should I] take?\nG: Take line 3, and get [on / off] at Sebit Station.", groups: [{ label: "1번째 선택", options: ["getting", "to get"], answer: "to get" }, { label: "2번째 선택", options: ["on", "by"], answer: "by" }, { label: "3번째 선택", options: ["bus", "subway"], answer: "subway" }, { label: "4번째 선택", options: ["I should", "should I"], answer: "should I" }, { label: "5번째 선택", options: ["on", "off"], answer: "off" }] },
+            { id: 109, type: 'text', title: "주어진 단어를 모두 사용하여 빈칸에 들어갈 질문을 쓰시오.\n(What's / best / way / get)", dialogue: "B: Excuse me. I’m going to the National Art Museum. (                           )\nG: You can walk. Go straight for about 500 meters and turn left. It’ll be on your right.\nB: I see. How long will it take?\nG: Only about 15 minutes.\nB: Really? Thanks.", answer: ["What's the best way to get there?", "What's the best way to get there", "what's the best way to get there?"] },
+            { id: 110, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: (                           )\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I'm free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.", options: ["About 40 minutes.", "You can take the subway.", "Why don't you buy the tickets?"], answer: 0 },
+            { id: 111, type: 'arrange', title: "'한 시간 조금 넘게 걸릴 거예요.'에 알맞게 말을 배열하시오.", words: ['It\'ll take', 'a', 'little', 'more', 'than', 'one', 'hour'], answer: ['It\'ll take', 'a', 'little', 'more', 'than', 'one', 'hour'] },
+            { id: 112, type: 'arrange', title: "'500미터 정도 곧장 가서 왼쪽으로 도세요.'에 알맞게 말을 배열하시오.", words: ['go', 'straight', 'for', 'about', '500 meters', 'and', 'turn', 'left'], answer: ['go', 'straight', 'for', 'about', '500 meters', 'and', 'turn', 'left'] },
+            { id: 113, type: 'choice', title: "대화의 내용과 일치하는 것은?", dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I’m free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.", options: ["The subway is the best way to get to Sebit Park.", "On the day of the art fair, the girl will be not busy.", "By getting off at Sebit Station before taking line 3, the boy can get to Sebit Park."], answer: 0 },
+            { id: 114, type: 'choice', title: "빈칸에 들어갈 알맞은 말은?", dialogue: "G: Do you need help?\nB: Yes. How can I get to the Dream Shopping Mall from here? Can I walk?\nG: You can, but it’s a little far. (                           ) Take No. 12.\nB: OK. How long will it take by bus?\nG: Not very long. It’ll take less than 10 minutes.", options: ["You are able to go by subway.", "Why don't you take the bus?", "It will take 10 minutes."], answer: 1 },
+            { id: 115, type: 'text', title: "'조금 멀어요.'에 알맞게 주어진 단어를 사용하여 영문장을 쓰시오.\n(is / little)", answer: ["It is a little far.", "It's a little far.", "It is a little far", "It's a little far"] },
+            { id: 116, type: 'arrange', title: "'은행에 가는 길을 알려 주실 수 있나요?'에 알맞게 말을 배열하시오.", words: ['Can', 'you', 'tell', 'me', 'how', 'to', 'get', 'to', 'the', 'bank?'], answer: ['Can', 'you', 'tell', 'me', 'how', 'to', 'get', 'to', 'the', 'bank?'] },
+            { id: 117, type: 'arrange', title: "대화를 순서대로 알맞게 배열하시오.", words: ["I'm sorry, but how can I get to the Sky Cinema?", "It's not far, but it's a little difficult to find. Why don't you take a taxi?", "OK. How long will it take?", "About 20 minutes."], answer: ["I'm sorry, but how can I get to the Sky Cinema?", "It's not far, but it's a little difficult to find. Why don't you take a taxi?", "OK. How long will it take?", "About 20 minutes."] },
+            { id: 118, type: 'arrange', title: "대화를 순서대로 알맞게 배열하시오.", words: ["Do you need help?", "Yes. How can I get to the Dream Shopping Mall from here? Can I walk?", "You can, but it's a little far. Why don't you go by bus? Take bus No. 12", "OK. How long will it take by bus?", "Not very long. It'll take less than 10 minutes."], answer: ["Do you need help?", "Yes. How can I get to the Dream Shopping Mall from here? Can I walk?", "You can, but it's a little far. Why don't you go by bus? Take bus No. 12", "OK. How long will it take by bus?", "Not very long. It'll take less than 10 minutes."] },
+            { id: 119, type: 'text', title: "'가까운'에 해당하는 영단어를 쓰시오.", answer: ["close", "Close"] },
+            { id: 120, type: 'text', title: "'나는 이번 주 토요일에 한가해.'에 알맞게 주어진 단어를 사용하여 영문장을 쓰시오.\n(I'm / this)", answer: ["I'm free this Saturday.", "I'm free this Saturday", "i'm free this saturday.", "I am free this Saturday."] },
+            { id: 121, type: 'text', title: "대화의 흐름상 빈칸에 들어갈 질문을 쓰시오.", dialogue: "B: Line 3 and get off at Sebit Station. (                           )\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?", answer: ["How long will it take?", "How long will it take", "how long will it take?"] },
+            { id: 122, type: 'choice', title: "다음 대화의 [if]와 의미/쓰임이 같은 문장은?", dialogue: "B: Line 3 and get off at Sebit Station. How long will it take?\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me [if] you want.", options: ["If you come here, I will be satisfied.", "You can believe if you made your cake.", "I cannot tell you if it is raining outside.", "We did not know if Sally could invited us."], answer: 0 },
+            { id: 123, type: 'text', title: "'그 경기장에 어떻게 가나요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(get / can)", answer: ["How can I get to the stadium?", "How can I get to the stadium", "How can I get to the Star Stadium?"] },
+            { id: 124, type: 'text', title: "'택시를 타는 게 어때요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(a taxi / take)", answer: ["Why don't you take a taxi?", "Why don't you take a taxi", "why don't you take a taxi?"] },
+            { id: 125, type: 'arrange', title: "'찾는 데 조금 어려울 거야.'에 알맞게 말을 배열하시오.", words: ["It's", "a", "little", "difficult", "to", "find"], answer: ["It's", "a", "little", "difficult", "to", "find"] },
+            { id: 126, type: 'text', title: "'그 공원에 가는 가장 좋은 방법이 무엇인가요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(way / is / park / go)", answer: ["What's the best way to go to the park?", "What is the best way to go to the park?", "What's the best way to go to the park?"] }
+        ];
+
+        // 새 요청 단어 문제 수록
+        const VOCAB_QUESTIONS = [
+            { id: 1, type: 'choice', title: "'자세히'에 해당하는 영단어는?", options: ['closely', 'national', 'lively', 'poor'], answer: 0 },
+            { id: 2, type: 'text', title: "worker의 뜻을 쓰시오.", answer: ["노동자", "근로자", "일하는 사람"] },
+            { id: 3, type: 'choice', title: "빈칸에 들어갈 말은?\nYou should take (    ) 2 to get to the museum faster.", options: ['Anyway', 'Line', 'Way', 'Great'], answer: 1 },
+            { id: 4, type: 'multi_choice', title: "뜻을 바르게 연결하시오.", groups: [
+                { label: "modern", options: ["근대의", "예술 작품", "곧장"], answer: "근대의" },
+                { label: "artwork", options: ["예술 작품", "단서", "근대의"], answer: "예술 작품" },
+                { label: "straight", options: ["곧장", "근대의", "단서"], answer: "곧장" },
+                { label: "clue", options: ["단서", "예술 작품", "곧장"], answer: "단서" }
+            ]},
+            { id: 5, type: 'choice', title: "빈칸에 들어갈 말은?\nShe was famous (    ) her volunteer.", options: ['to', 'in', 'for', 'with'], answer: 2 },
+            { id: 6, type: 'text', title: "national의 뜻을 쓰시오.", answer: ["국가의"] },
+            { id: 7, type: 'text', title: "internationally의 뜻을 쓰시오.", answer: ["국제적으로"] },
+            { id: 8, type: 'text', title: "ancient의 뜻을 쓰시오.", answer: ["고대의", "옛날의"] },
+            { id: 9, type: 'text', title: "opinion의 뜻을 쓰시오.", answer: ["의견", "견해"] },
+            { id: 10, type: 'multi_choice', title: "뜻이 알맞은 단어의 해설을 고르시오.", groups: [
+                { label: "drop", options: ["떨어뜨리다", "솟구치다"], answer: "떨어뜨리다" },
+                { label: "lively", options: ["활기찬", "어두운"], answer: "활기찬" },
+                { label: "opinion", options: ["견해", "실험"], answer: "견해" },
+                { label: "future", options: ["미래", "과거"], answer: "미래" }
+            ]},
+            { id: 11, type: 'text', title: "future의 뜻을 쓰시오.", answer: ["미래"] },
+            { id: 12, type: 'choice', title: "빈칸에 들어갈 말은?\nThe tall (    ) in the picture looks lonely.", options: ['clue', 'example', 'social', 'figure'], answer: 3 },
+            { id: 13, type: 'text', title: "carry의 뜻을 쓰시오.", answer: ["담다", "지니다", "나르다"] },
+            { id: 14, type: 'choice', title: "빈칸에 들어갈 말은?\nThe boy looked (    ) at the old coin.", options: ['closely', 'artist', 'opinion', 'final'], answer: 0 },
+            { id: 15, type: 'choice', title: "through의 뜻은?", options: ['~을 통해서', '~의 안으로', '~다시피', '~로써'], answer: 0 },
+            { id: 16, type: 'text', title: "leafless의 뜻을 쓰시오.", answer: ["잎이 없는", "잎이 떨어진"] },
+            { id: 17, type: 'text', title: "social의 뜻을 쓰시오.", answer: ["사회적인", "사회의"] },
+            { id: 18, type: 'text', title: "piece의 뜻을 쓰시오.", answer: ["작품", "조각", "한 점"] },
+            { id: 19, type: 'text', title: "pleasure의 뜻을 쓰시오.", answer: ["기쁨", "즐거움", "행복"] },
+            { id: 20, type: 'text', title: "modern의 뜻을 쓰시오.", answer: ["현대의", "근대의"] },
+            { id: 21, type: 'arrange', title: "'그 남자는 그의 능력으로 잘 알려져 있다.'에 알맞게 말을 배열하시오.", words: ['The man', 'is', 'known', 'for', 'his', 'skill'], answer: ['The man', 'is', 'known', 'for', 'his', 'skill'] },
+            { id: 22, type: 'text', title: "'한가한'에 해당하는 영단어를 쓰시오.", answer: ["free", "Free"] },
+            { id: 23, type: 'text', title: "represent의 뜻을 쓰시오.", answer: ["나타내다", "상징하다", "대표하다"] },
+            { id: 24, type: 'choice', title: "빈칸에 들어갈 말은?\nThe girl in the drawing (    ) peace.", options: ['dropped', 'turned', 'got off', 'represented'], answer: 3 },
+            { id: 25, type: 'text', title: "take care of의 뜻을 쓰시오.", answer: ["~을 돌보다", "돌보다"] },
+            { id: 26, type: 'choice', title: "[As]의 뜻은?\n[As] you can see, this fair is much bigger.", options: ['~듯이', '~로써', '~처럼', '~할 때'], answer: 0 },
+            { id: 27, type: 'choice', title: "[as]의 뜻은?\nI know my uncle is working [as] a superman.", options: ['~다시피', '~할 때', '~라면', '~처럼'], answer: 3 },
+            { id: 28, type: 'choice', title: "[As]의 뜻은?\n[As] I was tired, I went to the bed early.", options: ['~다시피', '~할 때', '~이므로', '~라면'], answer: 2 },
+            { id: 29, type: 'choice', title: "[As]의 뜻은?\n[As] you know, English is an international language.", options: ['~다시피', '~할 때', '~이므로', '~라면'], answer: 0 },
+            { id: 30, type: 'choice', title: "[As]의 뜻은?\n[As] I explained before, this rule may be so tight.", options: ['~듯이', '~일지라도', '~이므로', '~처럼'], answer: 0 },
+            { id: 31, type: 'choice', title: "[As]의 뜻은?\n[As] I told you, he does not live here anymore.", options: ['~듯이', '~이므로', '~함에 따라', '~라면'], answer: 0 },
+            { id: 32, type: 'choice', title: "[as]의 뜻은?\nI used the box [as] a table.", options: ['~듯이', '~처럼', '~이므로', '~만큼'], answer: 1 },
+            { id: 33, type: 'choice', title: "빈칸에 들어갈 말은?\nWe should protect (    ) for animals and plants.", options: ['spray', 'social', 'dot', 'nature'], answer: 3 },
+            { id: 34, type: 'text', title: "past의 뜻을 쓰시오.", answer: ["과거"] },
+            { id: 35, type: 'text', title: "present의 뜻을 쓰시오.", answer: ["현재"] },
+            { id: 36, type: 'text', title: "about의 뜻을 쓰시오.", answer: ["대략"] },
+            { id: 37, type: 'text', title: "personal의 뜻을 쓰시오.", answer: ["개인적인"] },
+            { id: 38, type: 'text', title: "private의 뜻을 쓰시오.", answer: ["개인적인"] },
+            { id: 39, type: 'choice', title: "about, hold의 뜻을 순서대로 짝지은 것은?", options: ['대하여, 씹다', '대략, 쥐다', '대하여, 담다', '대략, 담다'], answer: 3 },
+            { id: 40, type: 'text', title: "anyway의 뜻을 쓰시오.", answer: ["그런데", "어쨌든"] },
+            { id: 41, type: 'text', title: "hold의 과거형을 쓰시오.", answer: ["held", "Held"] },
+            { id: 42, type: 'text', title: "lively의 뜻을 쓰시오.", answer: ["활기찬", "생기 넘치는"] },
+            { id: 43, type: 'text', title: "area의 뜻을 쓰시오.", answer: ["구역", "지역"] },
+            { id: 44, type: 'choice', title: "빈칸에 들어갈 말은?\nOnline classes are a useful (    ) of learning.", options: ['message', 'national', 'form', 'artwork'], answer: 2 },
+            { id: 45, type: 'choice', title: "빈칸에 들어갈 말은?\nThe farmer (    ) water on the dry plants.", options: ['held', 'stopped', 'sprayed', 'carried'], answer: 2 },
+            { id: 46, type: 'choice', title: "빈칸에 들어갈 말은?\nSunlight came (    ) the curtains in the morning.", options: ['into', 'about', 'though', 'through'], answer: 3 },
+            { id: 47, type: 'choice', title: "빈칸에 들어갈 말은?\n(    ) the map, the library is next to the bank.", options: ['Internationally', 'For example', 'According to', 'Through'], answer: 2 },
+            { id: 48, type: 'choice', title: "[ ] 속 표현이 옳은 것은?", options: ['This diary has many [personal] stories.', 'A lion will be known [in] his hunger.', 'The children walked [far] to hide fast.', 'If you get [to] at the bank, you will find the library.', 'The concert will start in [through] ten minutes.'], answer: 0 },
+            { id: 49, type: 'choice', title: "'국가의'에 해당하는 영단어는?", options: ['subway', 'famous', 'national', 'nature', 'pleasure'], answer: 2 },
+            { id: 50, type: 'text', title: "poor의 뜻을 쓰시오.", answer: ["가난한"] },
+            { id: 51, type: 'choice', title: "빈칸에 들어갈 말은?\nThis picture is a good (    ) of modern street art.", options: ['example', 'opinion', 'leafless', 'nature', 'private'], answer: 0 },
+            { id: 52, type: 'text', title: "well-known의 뜻을 쓰시오.", answer: ["잘 알려진", "유명한"] },
+            { id: 53, type: 'text', title: "popular의 뜻을 쓰시오.", answer: ["인기 있는"] },
+            { id: 54, type: 'text', title: "free의 뜻을 쓰시오.", answer: ["한가한", "시간이 있는"] },
+            { id: 55, type: 'text', title: "hip의 뜻을 쓰시오.", answer: ["세련된", "최신 유행의", "유행에 밝은", "최신 유행에 밝은"] },
+            { id: 56, type: 'choice', title: "빈칸에 들어갈 말은?\nThe new shop is (    ) among young people.", options: ['area', 'fair', 'hip', 'poor'], answer: 2 },
+            { id: 57, type: 'choice', title: "빈칸에 들어갈 말은?\nThe old castle was the second (    ).", options: ['stop', 'drop', 'lively', 'far'], answer: 0 },
+            { id: 58, type: 'arrange', title: "'서점에서 왼쪽으로 돌면 우체국이 보일 것이다.'에 알맞게 말을 배열하시오.", words: ['Turn', 'left', 'at', 'the bookstore', 'and', 'you', 'will', 'see', 'the post office'], answer: ['Turn', 'left', 'at', 'the bookstore', 'and', 'you', 'will', 'see', 'the post office'] },
+            { id: 59, type: 'arrange', title: "'공원에서 오른쪽으로 돌면 은행이 보일 것이다.'에 알맞게 말을 배열하시오.", words: ['Turn', 'right', 'at', 'the park', 'and', 'you', 'will', 'see', 'the bank.'], answer: ['Turn', 'right', 'at', 'the park', 'and', 'you', 'will', 'see', 'the bank.'] },
+            { id: 60, type: 'arrange', title: "'왼쪽으로 돌다'에 알맞게 말을 배열하시오.", words: ['turn', 'left'], answer: ['turn', 'left'] },
+            { id: 61, type: 'arrange', title: "'우리 할아버지는 자주 과거에 대하여 이야기하신다.'에 알맞게 말을 배열하시오.", words: ['My', 'grandfather', 'often', 'talks about', 'the', 'past.'], answer: ['My', 'grandfather', 'often', 'talks about', 'the', 'past.'] },
+            { id: 62, type: 'arrange', title: "'어쨌든, 우리는 점심 전에 포스터를 끝내야 한다.'에 알맞게 말을 배열하시오.", words: ['anyway', 'we', 'should', 'finish', 'the poster', 'before', 'lunch'], answer: ['anyway', 'we', 'should', 'finish', 'the poster', 'before', 'lunch'] },
+            { id: 63, type: 'text', title: "a little의 뜻을 쓰시오.", answer: ["조금", "약간"] },
+            { id: 64, type: 'arrange', title: "'우리는 그들을 위해 자연을 보호해야 한다.'에 알맞게 말을 배열하시오.", words: ['We', 'should', 'protect', 'nature', 'for', 'them'], answer: ['We', 'should', 'protect', 'nature', 'for', 'them'] },
+            { id: 65, type: 'arrange', title: "'중요한 단어 아래에 곧은 선을 그어라.'에 알맞게 말을 배열하시오.", words: ['Draw', 'a', 'straight', 'word', 'under', 'the important', 'word'], answer: ['Draw', 'a', 'straight', 'word', 'under', 'the important', 'word'] },
+            { id: 66, type: 'arrange', title: "'예시' 영단어에 맞게 철자를 배열하시오.", words: ['e', 'x', 'a', 'm', 'p', 'l', 'e'], answer: ['e', 'x', 'a', 'm', 'p', 'l', 'e'] },
+            { id: 67, type: 'arrange', title: "'나타내다' 영단어에 맞게 철자를 배열하시오.", words: ['r', 'e', 'p', 'r', 'e', 's', 'e', 'n', 't'], answer: ['r', 'e', 'p', 'r', 'e', 's', 'e', 'n', 't'] },
+            { id: 68, type: 'arrange', title: "'그 왕은 강력한 인물임에 틀림없다.'에 알맞게 말을 배열하시오.", words: ['The king', 'must', 'be', 'a', 'powerful', 'figure'], answer: ['The king', 'must', 'be', 'a', 'powerful', 'figure'] },
+            { id: 69, type: 'arrange', title: "'이 식당은 훌륭한 서비스로 알려져 있다.'에 알맞게 말을 배열하시오.", words: ['this', 'restaurant', 'is', 'known', 'for', 'its', 'excellent', 'service'], answer: ['this', 'restaurant', 'is', 'known', 'for', 'its', 'excellent', 'service'] },
+            { id: 70, type: 'arrange', title: "'그는 커피 한 잔을 들고 있다'에 알맞게 말을 배열하시오.", words: ['he', 'holds', 'a cup', 'of', 'coffee'], answer: ['he', 'holds', 'a cup', 'of', 'coffee'] },
+            { id: 71, type: 'choice', title: "빈칸에 들어갈 말은?\nShe (    ) her baby in her arms.", options: ['held', 'sprayed', 'great', 'took'], answer: 0 },
+            { id: 72, type: 'arrange', title: "'그 회사는 국제적으로 인정받고 있다.'에 알맞게 말을 배열하시오.", words: ['the', 'company', 'is', 'recognized', 'internationally'], answer: ['the', 'company', 'is', 'recognized', 'internationally'] },
+            { id: 73, type: 'arrange', title: "'박물관에는 단순하고 현대적인 의자들이 있다.'에 알맞게 말을 배열하시오.", words: ['The museum', 'has', 'simple', 'and', 'modern', 'chairs'], answer: ['The museum', 'has', 'simple', 'and', 'modern', 'chairs'] },
+            { id: 74, type: 'text', title: "simple의 뜻을 쓰시오.", answer: ["간단한"] },
+            { id: 75, type: 'arrange', title: "'그 오래된 다리는 사진 찍기에 잘 알려져 있는 장소였다.'에 알맞게 말을 배열하시오.", words: ['the old', 'bridge', 'was', 'a', 'well-known', 'place', 'for taking', 'photos'], answer: ['the old', 'bridge', 'was', 'a', 'well-known', 'place', 'for taking', 'photos'] },
+            { id: 76, type: 'choice', title: "다음 관계와 같은 관계의 단어 짝은? private : personal", options: ['tiny : big', 'nature : world', 'drop : hold', 'great : huge'], answer: 3 },
+            { id: 77, type: 'choice', title: "다음 관계와 같은 관계의 단어 짝은? drop : hold", options: ['way : form', 'area : worker', 'lively : modern', 'social : straight'], answer: 0 },
+            { id: 78, type: 'arrange', title: "'곧장' 영단어에 철자를 배열하시오.", words: ['s', 't', 'r', 'a', 'i', 'g', 'h', 't'], answer: ['s', 't', 'r', 'a', 'i', 'g', 'h', 't'] },
+            { id: 79, type: 'text', title: "street의 뜻을 쓰시오.", answer: ["거리", "도로"] },
+            { id: 80, type: 'choice', title: "뜻이 알맞은 것은?", options: ['artwork - 거리 예술', 'national - 국제적인', 'ancient - 고대의', 'carry - 쥐다'], answer: 2 },
+            { id: 81, type: 'choice', title: "뜻이 알맞은 것은?", options: ['personal - 공공연한', 'stop - 들르는 곳', 'take care of - 수리하다', 'example - 단서'], answer: 1 },
+            { id: 82, type: 'choice', title: "뜻이 알맞은 것은?", options: ['get off - 끄다', 'about - 대략', 'drop - 올리다', 'present - 과거'], answer: 1 },
+            { id: 83, type: 'choice', title: "뜻이 알맞은 것은?", options: ['anyway - 그럼에도', 'chew - 씹는', 'piece - 방법', 'social - 사회의'], answer: 3 }
         ];
 
         let currentStudent = "";
+        let currentMode = "단어"; // '단어' 또는 '연습문제'
+        let cumPoints = 0; // 누적 포인트
         let quizList = [];
         let currentIndex = 0;
         let score = 0;
@@ -820,6 +725,7 @@
         let multiChoiceState = {};
         let isAnswerChecked = false;
         let incorrectQuestions = [];
+        let isReviewMode = false;
         let currentFeedbackDetailText = "";
 
         function cleanPunctuation(str) {
@@ -863,7 +769,8 @@
             return arr;
         }
 
-        function startQuiz() {
+        // 1. 이름 입력
+        function enterStudentName() {
             const nameInput = document.getElementById('student-name').value.trim();
             if (!nameInput) {
                 alert('학생 이름을 입력해 주세요!');
@@ -873,28 +780,41 @@
             document.getElementById('display-student-name').innerText = currentStudent;
             document.getElementById('student-info-bar').classList.remove('hidden');
 
-            quizList = shuffleArray(RAW_QUESTIONS).slice(0, 20);
-            currentIndex = 0;
-            score = 0;
-            streak = 0;
-            incorrectQuestions = [];
+            // 누적 포인트 불러오기 (Local + Cloud)
+            loadStudentPoints();
 
             document.getElementById('screen-welcome').classList.add('hidden');
-            document.getElementById('screen-quiz').classList.remove('hidden');
+            document.getElementById('screen-mode-select').classList.remove('hidden');
+            document.getElementById('mode-user-name').innerText = currentStudent;
 
-            renderQuestion();
+            loadLeaderboard();
         }
 
-        function startWrongReview() {
-            if (incorrectQuestions.length === 0) return;
+        function loadStudentPoints() {
+            const localSaved = localStorage.getItem(`eng_pts_${currentStudent}`) || '0';
+            cumPoints = parseInt(localSaved, 10);
+            updatePointDisplay();
+        }
 
-            quizList = [...incorrectQuestions];
-            incorrectQuestions = [];
+        function updatePointDisplay() {
+            document.getElementById('display-cum-points').innerText = cumPoints;
+            document.getElementById('mode-user-points').innerText = cumPoints;
+        }
+
+        // 2. 모드 선택 후 학습 시작
+        function startMode(mode) {
+            currentMode = mode;
+            const sourceQuestions = (mode === '단어') ? VOCAB_QUESTIONS : PRACTICE_QUESTIONS;
+            quizList = shuffleArray(sourceQuestions).slice(0, 20);
+
             currentIndex = 0;
             score = 0;
             streak = 0;
+            incorrectQuestions = [];
+            isReviewMode = false;
 
-            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('review-mode-indicator').classList.add('hidden');
+            document.getElementById('screen-mode-select').classList.add('hidden');
             document.getElementById('screen-quiz').classList.remove('hidden');
 
             renderQuestion();
@@ -909,7 +829,7 @@
             document.getElementById('quiz-score-live').innerText = `점수: ${score}`;
 
             const streakBadge = document.getElementById('streak-badge');
-            if (streak > 1) {
+            if (streak > 1 && !isReviewMode) {
                 document.getElementById('streak-count').innerText = streak;
                 streakBadge.classList.remove('hidden');
                 streakBadge.classList.add('flex');
@@ -925,10 +845,10 @@
             document.getElementById('btn-submit').disabled = false;
 
             const badgeMap = {
-                'arrange': '🧩 문장/단어 배열',
+                'arrange': '🧩 배열 문제',
                 'choice': '선택형 객관식',
-                'text': '✏️ 단어/문장 쓰기',
-                'multi_choice': '☑️ 빈칸 어휘 선택'
+                'text': '✏️ 쓰기 문제',
+                'multi_choice': '☑️ 매칭 선택'
             };
             document.getElementById('question-type-badge').innerText = badgeMap[q.type] || '문제';
             document.getElementById('question-title').innerText = q.title;
@@ -1083,18 +1003,34 @@
 
             isAnswerChecked = true;
             document.getElementById('btn-submit').disabled = true;
-
             currentFeedbackDetailText = detailMessage;
 
             if (isCorrect) {
                 score += 5;
                 streak++;
+                cumPoints += 3; // 정답 맞추면 +3점 누적
+                updatePointDisplay();
+                savePointsToStorageAndCloud();
             } else {
                 streak = 0;
-                incorrectQuestions.push(q);
+                if (!isReviewMode) {
+                    incorrectQuestions.push(q);
+                }
             }
 
             showFeedback(isCorrect, `정답: ${detailMessage}`);
+        }
+
+        function savePointsToStorageAndCloud() {
+            localStorage.setItem(`eng_pts_${currentStudent}`, cumPoints.toString());
+            const dbUrl = getCloudDbUrl();
+            if (dbUrl) {
+                fetch(`${dbUrl}/leaderboard/${encodeURIComponent(currentStudent)}.json`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: currentStudent, points: cumPoints, updated: Date.now() })
+                }).catch(() => {});
+            }
         }
 
         function showFeedback(isCorrect, detail) {
@@ -1106,10 +1042,10 @@
             if (isCorrect) {
                 modal.className = modal.className.replace(/border-[\w-]+/, 'border-lime-500 bg-lime-50');
                 icon.innerText = '✅';
-                title.innerText = streak > 1 ? `정답입니다! 🔥 ${streak}연속 정답!` : '정답입니다!';
+                title.innerText = streak > 1 ? `정답입니다! (+3pt) 🔥 ${streak}연속!` : '정답입니다! (+3pt)';
                 title.className = 'font-black text-xl text-lime-700';
-                detailEl.innerText = '아주 잘하셨어요!';
-                confetti({ particleCount: 35 + Math.min(streak * 5, 40), spread: 60, origin: { y: 0.85 } });
+                detailEl.innerText = '포인트 3점이 누적되었습니다!';
+                confetti({ particleCount: 30 + Math.min(streak * 5, 30), spread: 50, origin: { y: 0.85 } });
             } else {
                 modal.className = modal.className.replace(/border-[\w-]+/, 'border-rose-500 bg-rose-50');
                 icon.innerText = '❌';
@@ -1128,50 +1064,52 @@
             if (currentIndex < quizList.length) {
                 renderQuestion();
             } else {
-                completeQuiz();
+                completeQuizRound();
             }
         }
 
-        function completeQuiz() {
-            document.getElementById('screen-quiz').classList.add('hidden');
-            document.getElementById('screen-result').classList.remove('hidden');
+        // 퀴즈 1라운드 종료 처리
+        function completeQuizRound() {
+            saveRecord(currentStudent, score, currentMode);
 
-            document.getElementById('final-score').innerText = `${score}점`;
-
-            const reviewBtn = document.getElementById('btn-review-wrong');
+            // 틀린 문제가 남아있는 경우: 바로 오답 노트 복습 모드로 자동 진입 (선택지 없이)
             if (incorrectQuestions.length > 0) {
-                document.getElementById('wrong-count-text').innerText = incorrectQuestions.length;
-                reviewBtn.classList.remove('hidden');
-                document.getElementById('result-feedback').innerText = `${incorrectQuestions.length}개 문제를 틀렸어요. 오답 노트를 복습해 보세요!`;
+                alert(`📝 ${incorrectQuestions.length}개 문제를 틀렸습니다. 바로 오답 노트 복습을 시작합니다!`);
+                quizList = [...incorrectQuestions];
+                incorrectQuestions = [];
+                currentIndex = 0;
+                score = 0;
+                streak = 0;
+                isReviewMode = true;
+
+                document.getElementById('review-mode-indicator').classList.remove('hidden');
+                renderQuestion();
             } else {
-                reviewBtn.classList.add('hidden');
-                document.getElementById('result-feedback').innerText = '완벽해요! 모든 문제를 완벽하게 맞혔습니다. 👑';
+                // 완벽히 다 맞춘 경우
+                document.getElementById('screen-quiz').classList.add('hidden');
+                document.getElementById('screen-result').classList.remove('hidden');
+                document.getElementById('final-score').innerText = `${score}점`;
+                confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
             }
-
-            saveRecord(currentStudent, score);
-
-            confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
         }
 
-        async function saveRecord(studentName, finalScore) {
+        async function saveRecord(studentName, finalScore, modeName) {
             const today = new Date().toISOString().split('T')[0];
             const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
 
             const newRecord = {
                 date: today,
                 time: timeStr,
+                mode: modeName,
                 name: studentName,
                 score: finalScore,
-                status: finalScore >= 70 ? '완수 ⭐' : '복습 필요 📝',
                 timestamp: Date.now()
             };
 
-            // 1. 로컬에 백업 저장
-            const localRecords = JSON.parse(localStorage.getItem('eng_quest_records') || '[]');
+            const localRecords = JSON.parse(localStorage.getItem('eng_quest_records_v2') || '[]');
             localRecords.push(newRecord);
-            localStorage.setItem('eng_quest_records', JSON.stringify(localRecords));
+            localStorage.setItem('eng_quest_records_v2', JSON.stringify(localRecords));
 
-            // 2. 실시간 중앙 클라우드 DB로 자동 전송 (모든 기기 동기화)
             const dbUrl = getCloudDbUrl();
             if (dbUrl) {
                 try {
@@ -1180,79 +1118,76 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(newRecord)
                     });
-                } catch (e) {
-                    console.warn("클라우드 기록 전송 실패, 로컬에 기록됨:", e);
-                }
+                } catch (e) {}
             }
         }
 
-        async function exportRecordsCSV() {
-            let records = [];
+        // 리더보드 로드
+        async function loadLeaderboard() {
+            const listEl = document.getElementById('leaderboard-list');
+            listEl.innerHTML = `<div class="text-center py-4 text-xs text-slate-400">랭킹 불러오는 중...</div>`;
+
+            let leaderboardArr = [];
             const dbUrl = getCloudDbUrl();
 
             if (dbUrl) {
                 try {
-                    const res = await fetch(`${dbUrl}/records.json`);
+                    const res = await fetch(`${dbUrl}/leaderboard.json`);
                     if (res.ok) {
                         const data = await res.json();
-                        if (data) records = Object.values(data);
+                        if (data) leaderboardArr = Object.values(data);
                     }
-                } catch (e) {
-                    records = JSON.parse(localStorage.getItem('eng_quest_records') || '[]');
-                }
-            } else {
-                records = JSON.parse(localStorage.getItem('eng_quest_records') || '[]');
+                } catch (e) {}
             }
 
-            if (records.length === 0) {
-                alert('다운로드할 학습 기록이 없습니다.');
-                return;
+            // 클라우드 데이터가 없는 경우 현재 유저 기본값 표시
+            if (leaderboardArr.length === 0) {
+                leaderboardArr = [{ name: currentStudent, points: cumPoints }];
             }
 
-            records.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+            leaderboardArr.sort((a, b) => (b.points || 0) - (a.points || 0));
 
-            let csv = "\uFEFF날짜,시간,학생 이름,점수,상태\n";
-            records.forEach(r => {
-                csv += `"${r.date}","${r.time}","${r.name}","${r.score}점","${r.status}"\n`;
+            listEl.innerHTML = '';
+            leaderboardArr.slice(0, 10).forEach((item, idx) => {
+                const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}위`;
+                const isMe = item.name === currentStudent;
+
+                const row = document.createElement('div');
+                row.className = `flex justify-between items-center p-2 rounded-xl ${isMe ? 'bg-lime-100 text-lime-900 border border-lime-300' : 'bg-slate-50'}`;
+                row.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="w-8 text-center font-black">${medal}</span>
+                        <span>${item.name} ${isMe ? '(나)' : ''}</span>
+                    </div>
+                    <span class="font-black text-lime-600">⭐ ${item.points || 0}pt</span>
+                `;
+                listEl.appendChild(row);
             });
-
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `ColinT_영어공부_통합학습기록_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
         }
 
-        function restartApp() {
+        function backToModeSelect() {
             document.getElementById('screen-result').classList.add('hidden');
-            document.getElementById('screen-welcome').classList.remove('hidden');
-            document.getElementById('student-name').value = '';
+            document.getElementById('screen-mode-select').classList.remove('hidden');
+            loadLeaderboard();
         }
 
         function goHome() {
-            if (confirm('학습을 중단하고 메인 화면으로 돌아갈까요?')) {
+            if (confirm('메인 화면 모드 선택으로 돌아갈까요?')) {
                 document.getElementById('feedback-modal').classList.add('translate-y-full');
                 document.getElementById('screen-quiz').classList.add('hidden');
                 document.getElementById('screen-result').classList.add('hidden');
-                document.getElementById('screen-welcome').classList.remove('hidden');
+                document.getElementById('screen-mode-select').classList.remove('hidden');
+                loadLeaderboard();
             }
         }
 
         function toggleTeacherModal() {
             const modal = document.getElementById('teacher-modal');
-            const isVisible = !modal.classList.contains('hidden');
-
-            if (isVisible) {
+            if (!modal.classList.contains('hidden')) {
                 hideModal('teacher-modal');
             } else {
-                if (!isTeacherAuthenticated) {
-                    openTeacherAuthModal();
-                } else {
-                    openTeacherModalDirectly();
-                }
+                if (!isTeacherAuthenticated) openTeacherAuthModal();
+                else openTeacherModalDirectly();
             }
         }
 
@@ -1275,32 +1210,16 @@
                 openTeacherModalDirectly();
             } else {
                 alert('비밀번호가 올바르지 않습니다.');
-                document.getElementById('teacher-password-input').value = '';
             }
         }
 
         async function resetPasswordToDefault() {
             const userAnswer = prompt("불난 집에 (        ).");
-            if (userAnswer === null) return;
-
-            if (userAnswer.trim() === "부채질하다 불타 죽는다") {
+            if (userAnswer && userAnswer.trim() === "부채질하다 불타 죽는다") {
                 localStorage.setItem('teacher_password', '1234');
-                const dbUrl = getCloudDbUrl();
-                if (dbUrl) {
-                    try {
-                        await fetch(`${dbUrl}/teacher_password.json`, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify("1234")
-                        });
-                    } catch (e) {
-                        console.warn("클라우드 초기화 실패:", e);
-                    }
-                }
                 alert('비밀번호가 1234로 초기화되었습니다!');
-                document.getElementById('teacher-password-input').value = '1234';
             } else {
-                alert('틀렸습니다! 비밀번호 초기화에 실패했습니다.');
+                alert('비밀번호 초기화 실패!');
             }
         }
 
@@ -1314,36 +1233,22 @@
                 alert('현재 비밀번호가 일치하지 않습니다.');
                 return;
             }
-            if (!newPwInput) {
-                alert('새 비밀번호를 입력해 주세요.');
-                return;
-            }
-            if (newPwInput !== confirmPwInput) {
-                alert('새 비밀번호 확인이 일치하지 않습니다.');
+            if (!newPwInput || newPwInput !== confirmPwInput) {
+                alert('새 비밀번호를 확인해 주세요.');
                 return;
             }
 
-            // 1. 로컬 저장
             localStorage.setItem('teacher_password', newPwInput);
-
-            // 2. 클라우드 DB로 동기화 전송 (다른 기기에서도 동일하게 적용되도록 저장)
             const dbUrl = getCloudDbUrl();
             if (dbUrl) {
-                try {
-                    await fetch(`${dbUrl}/teacher_password.json`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(newPwInput)
-                    });
-                } catch (e) {
-                    console.warn("클라우드 비밀번호 변경 실패:", e);
-                }
+                fetch(`${dbUrl}/teacher_password.json`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newPwInput)
+                });
             }
 
-            alert('비밀번호가 성공적으로 변경되었습니다! (모든 기기에 동일하게 반영됩니다)');
-            document.getElementById('pw-current').value = '';
-            document.getElementById('pw-new').value = '';
-            document.getElementById('pw-confirm').value = '';
+            alert('비밀번호가 변경되었습니다!');
             switchTeacherTab('records');
         }
 
@@ -1360,42 +1265,25 @@
             const secQR = document.getElementById('teacher-sec-qr');
             const secPW = document.getElementById('teacher-sec-pw');
             const secCloud = document.getElementById('teacher-sec-cloud');
-            
-            const tabRecords = document.getElementById('tab-records');
-            const tabQR = document.getElementById('tab-qr');
-            const tabPW = document.getElementById('tab-pw');
-            const tabCloud = document.getElementById('tab-cloud');
 
             secRecords.classList.add('hidden');
             secQR.classList.add('hidden');
             secPW.classList.add('hidden');
             secCloud.classList.add('hidden');
 
-            tabRecords.className = "py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center text-slate-500 hover:text-slate-800";
-            tabQR.className = "py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center text-slate-500 hover:text-slate-800";
-            tabPW.className = "py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center text-slate-500 hover:text-slate-800";
-            tabCloud.className = "py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center text-slate-500 hover:text-slate-800";
-
             if (tab === 'records') {
                 secRecords.classList.remove('hidden');
-                tabRecords.className = "py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center bg-white text-lime-600 shadow-sm border border-slate-200";
                 renderRecords();
-            } else if (tab === 'qr') {
-                secQR.classList.remove('hidden');
-                tabQR.className = "py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center bg-white text-lime-600 shadow-sm border border-slate-200";
-            } else if (tab === 'pw') {
-                secPW.classList.remove('hidden');
-                tabPW.className = "py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center bg-amber-500 text-white shadow-sm border border-amber-600";
-            } else if (tab === 'cloud') {
-                secCloud.classList.remove('hidden');
-                tabCloud.className = "py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center bg-lime-500 text-white shadow-sm border border-lime-600";
-            }
+            } else if (tab === 'qr') secQR.classList.remove('hidden');
+            else if (tab === 'pw') secPW.classList.remove('hidden');
+            else if (tab === 'cloud') secCloud.classList.remove('hidden');
         }
 
         async function renderRecords() {
             const selectedDate = document.getElementById('filter-date').value;
+            const selectedMode = document.getElementById('filter-mode').value;
             const tbody = document.getElementById('records-table-body');
-            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 text-xs font-bold animate-pulse">🔄 클라우드에서 학습 기록을 불러오는 중...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 text-xs">불러오는 중...</td></tr>`;
 
             let records = [];
             const dbUrl = getCloudDbUrl();
@@ -1405,50 +1293,79 @@
                     const res = await fetch(`${dbUrl}/records.json`);
                     if (res.ok) {
                         const data = await res.json();
-                        if (data) {
-                            records = Object.values(data);
-                        }
+                        if (data) records = Object.values(data);
                     }
                 } catch (e) {
-                    console.warn("클라우드 기록 조회 실패, 로컬 백업 불러오기:", e);
-                    records = JSON.parse(localStorage.getItem('eng_quest_records') || '[]');
+                    records = JSON.parse(localStorage.getItem('eng_quest_records_v2') || '[]');
                 }
             } else {
-                records = JSON.parse(localStorage.getItem('eng_quest_records') || '[]');
+                records = JSON.parse(localStorage.getItem('eng_quest_records_v2') || '[]');
             }
 
             records.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-            const filtered = records.filter(r => r.date === selectedDate);
-            tbody.innerHTML = '';
 
+            let filtered = records.filter(r => r.date === selectedDate);
+            if (selectedMode !== '전체') {
+                filtered = filtered.filter(r => r.mode === selectedMode);
+            }
+
+            tbody.innerHTML = '';
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 text-xs font-bold">해당 날짜의 학습 기록이 없습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 text-xs">기록이 없습니다.</td></tr>`;
                 return;
             }
 
             filtered.forEach(r => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td class="p-3.5 text-slate-500 text-xs">${r.time}</td>
-                    <td class="p-3.5 font-bold text-slate-800">${r.name}</td>
-                    <td class="p-3.5 font-black text-lime-600">${r.score}점</td>
-                    <td class="p-3.5"><span class="px-2.5 py-1 bg-slate-100 rounded-lg text-xs font-bold">${r.status}</span></td>
+                    <td class="p-3 text-slate-500">${r.time}</td>
+                    <td class="p-3 font-bold ${r.mode==='단어'?'text-blue-600':'text-emerald-600'}">${r.mode || '연습문제'}</td>
+                    <td class="p-3 font-bold text-slate-800">${r.name}</td>
+                    <td class="p-3 font-black text-lime-600">${r.score}점</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        async function clearRecords() {
-            if (confirm('모든 학습 기록을 삭제하시겠습니까? (클라우드 기록도 함께 삭제됩니다)')) {
-                localStorage.removeItem('eng_quest_records');
-                const dbUrl = getCloudDbUrl();
-                if (dbUrl) {
-                    try {
-                        await fetch(`${dbUrl}/records.json`, { method: 'DELETE' });
-                    } catch (e) {
-                        console.warn("클라우드 기록 삭제 실패:", e);
+        async function exportRecordsCSV() {
+            let records = JSON.parse(localStorage.getItem('eng_quest_records_v2') || '[]');
+            const dbUrl = getCloudDbUrl();
+
+            if (dbUrl) {
+                try {
+                    const res = await fetch(`${dbUrl}/records.json`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data) records = Object.values(data);
                     }
-                }
+                } catch (e) {}
+            }
+
+            if (records.length === 0) {
+                alert('내보낼 기록이 없습니다.');
+                return;
+            }
+
+            let csv = "\uFEFF날짜,시간,모드,학생 이름,점수\n";
+            records.forEach(r => {
+                csv += `"${r.date}","${r.time}","${r.mode || '연습문제'}","${r.name}","${r.score}점"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `ColinT_5과학습_기록_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function clearRecords() {
+            if (confirm('모든 학습 기록을 삭제하시겠습니까?')) {
+                localStorage.removeItem('eng_quest_records_v2');
+                const dbUrl = getCloudDbUrl();
+                if (dbUrl) fetch(`${dbUrl}/records.json`, { method: 'DELETE' });
                 renderRecords();
             }
         }
@@ -1456,24 +1373,13 @@
         function initQRInput() {
             const currentURL = window.location.href;
             const input = document.getElementById('custom-qr-url');
-            const warning = document.getElementById('local-file-warning');
-
-            if (currentURL.startsWith('file:') || currentURL.includes('localhost') || currentURL.includes('127.0.0.1')) {
-                warning.classList.remove('hidden');
-            } else {
-                warning.classList.add('hidden');
-            }
-
-            if (!input.value) {
-                input.value = currentURL;
-            }
+            if (!input.value) input.value = currentURL;
             generateQRCode();
         }
 
         function generateQRCode() {
             const qrContainer = document.getElementById('qrcode');
             qrContainer.innerHTML = '';
-            
             const targetURL = document.getElementById('custom-qr-url').value.trim() || window.location.href;
             document.getElementById('qr-url-text').innerText = targetURL;
 
