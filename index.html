@@ -201,12 +201,12 @@
                     <button onclick="startMode('단어')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-5 rounded-3xl shadow-sm text-left transition-all duo-card group">
                         <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">🔤</div>
                         <div class="font-black text-lg text-slate-800">단어</div>
-                        <div class="text-xs text-slate-400 font-medium mt-1">어휘 & 뜻 학습</div>
+                        <div class="text-xs text-slate-400 font-medium mt-1">30문항 무작위 출제</div>
                     </button>
                     <button onclick="startMode('연습문제')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-5 rounded-3xl shadow-sm text-left transition-all duo-card group">
                         <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">📝</div>
                         <div class="font-black text-lg text-slate-800">연습문제</div>
-                        <div class="text-xs text-slate-400 font-medium mt-1">대화문/문법/독해</div>
+                        <div class="text-xs text-slate-400 font-medium mt-1">20문항 무작위 출제</div>
                     </button>
                 </div>
             </div>
@@ -232,7 +232,7 @@
                     <span id="quiz-progress-text">1 / 20</span>
 
                     <div id="review-mode-indicator" class="hidden bg-amber-100 text-amber-800 px-3 py-0.5 rounded-full border border-amber-300 font-black text-xs">
-                        📝 오답 노트 복습 중
+                        📝 오답 노트 복습 중 (맞히면 2pt)
                     </div>
 
                     <div id="streak-badge" class="hidden items-center gap-1 bg-amber-100 text-amber-800 px-3 py-0.5 rounded-full border border-amber-300 font-black text-xs animate-flame">
@@ -591,6 +591,7 @@
         }
 
         const PRACTICE_QUESTIONS = [
+            // 기존 수록 문제들
             { id: 101, type: 'arrange', title: "'~에 어떻게 가나요?'에 알맞게 말을 배열하시오.", words: ['how', 'can', 'I', 'get', 'to'], answer: ['how', 'can', 'I', 'get', 'to'] },
             { id: 102, type: 'choice', title: "빈칸에 들어갈 응답으로 가장 알맞은 것은?", dialogue: "A: What is the best way to get to the museum?\nB: (                                   )", options: ["About one hour by subway.", "It's a little difficult, James.", "You can walk there."], answer: 2 },
             { id: 103, type: 'text', title: "빈칸에 들어갈 알맞은 의문사를 쓰시오.", dialogue: "(        ) can I get to the bank?", answer: ["How", "how"] },
@@ -616,11 +617,120 @@
             { id: 123, type: 'text', title: "'그 경기장에 어떻게 가나요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(get / can)", answer: ["How can I get to the stadium?", "How can I get to the stadium", "How can I get to the Star Stadium?"] },
             { id: 124, type: 'text', title: "'택시를 타는 게 어때요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(a taxi / take)", answer: ["Why don't you take a taxi?", "Why don't you take a taxi", "why don't you take a taxi?"] },
             { id: 125, type: 'arrange', title: "'찾는 데 조금 어려울 거야.'에 알맞게 말을 배열하시오.", words: ["It's", "a", "little", "difficult", "to", "find"], answer: ["It's", "a", "little", "difficult", "to", "find"] },
-            { id: 126, type: 'text', title: "'그 공원에 가는 가장 좋은 방법이 무엇인가요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(way / is / park / go)", answer: ["What's the best way to go to the park?", "What is the best way to go to the park?", "What's the best way to go to the park?"] }
+            { id: 126, type: 'text', title: "'그 공원에 가는 가장 좋은 방법이 무엇인가요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(way / is / park / go)", answer: ["What's the best way to go to the park?", "What is the best way to go to the park?", "What's the best way to go to the park?"] },
+
+            // 신규 추가된 연습문제들
+            { id: 201, type: 'choice', title: "빈칸에 들어갈 관계대명사로 옳은 것은?", dialogue: "She has the dog (   ) we love so much.", options: ["whom", "what", "which", "where"], answer: 2 },
+            { id: 202, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "James used to use the smartphone.", answer: ["James did not use to use the smartphone.", "James didn't use to use the smartphone.", "James didn't use to use the smartphone", "James did not use to use the smartphone"] },
+            { id: 203, type: 'text', title: "다음 문장을 의문문으로 바꾸시오.", dialogue: "Sophia used to watch the horror movie.", answer: ["Did Sophia use to watch the horror movie?", "Did Sophia use to watch the horror movie", "did Sophia use to watch the horror movie?"] },
+            { id: 204, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "We used to make a difference.", answer: ["We did not use to make a difference.", "We didn't use to make a difference.", "We didn't use to make a difference", "We did not use to make a difference"] },
+            { id: 205, type: 'choice', title: "다음 문장을 의문문으로 바꾼 것은?", dialogue: "They used to dance happily.", options: ["Are they used to dance happily?", "Do they use to dance happily?", "Do they used to dance happily?", "Did they use to dance happily?", "Did they used to dance happily?"], answer: 3 },
+            { id: 206, type: 'multi_choice', title: "문장의 괄호에서 어법상 옳은 것을 고르시오.", groups: [
+                { label: "My memory [used / is used] to memorize the event.", options: ["used", "is used"], answer: "is used" },
+                { label: "Their science project in the computers which [was / were] finished can be better.", options: ["was", "were"], answer: "was" },
+                { label: "I see the boy and a small cat which [is / are] running fast.", options: ["is", "are"], answer: "are" }
+            ]},
+            { id: 207, type: 'choice', title: "[that]의 쓰임이 나머지와 다른 하나는?", options: [
+                "We are thinking [that] the butter is good for our health.",
+                "Henry plays with a toy [that] his uncle gave to him.",
+                "Yesterday, I bought small bread [that] the small woman would made.",
+                "My teacher [that] everyone really likes finds my notebook."
+            ], answer: 0 },
+            { id: 208, type: 'multi_choice', title: "문장의 괄호에서 어법상 옳은 것을 고르시오.", groups: [
+                { label: "I live in the house around [that / which] a painter was walking.", options: ["that", "which"], answer: "which" },
+                { label: "No one caught garbages and used [to protect / pretecting] green trees.", options: ["to protect", "pretecting"], answer: "to protect" },
+                { label: "The gorvernment told people [who / that] the cost of food could increase.", options: ["who", "that"], answer: "that" }
+            ]},
+            { id: 209, type: 'choice', title: "다음 문장을 영어로 바꾼 것은?\n박테리아는 사람의 몸에 나쁜 영향을 미치게 사용되기도 했다.", options: [
+                "Bacteria used to use to give the human body harmful effects.",
+                "Bacteria used to be used to give the human body harmful effects.",
+                "Bacteria are used to give the human body harmful effects.",
+                "Bacteria are used to use to give the human body harmful effects.",
+                "Bacteria are used to be used to give the human body harmful effects."
+            ], answer: 1 },
+            { id: 210, type: 'choice', title: "다음 문장을 영어로 바꾼 것은?\n예술가가 자세히 보던 국가적인 책을 읽는 것은 그의 취미이다.", options: [
+                "Reading a national book an artist looked at closely is his hobby.",
+                "Reading a national book that an artist looked closely is his hobby.",
+                "Reading a national book which an artist looked at it closely is his hobby.",
+                "Reading a national book whom an artist looked at closely is his hobby."
+            ], answer: 0 },
+            { id: 211, type: 'choice', title: "다음 문장을 영어로 바꾼 것은?\n그 농부가 기른 보라색 가지는 시장에 팔렸다.", options: [
+                "The farmer grew the purple eggplant that was sold at the market.",
+                "The farmer who grew the purple eggplant was sold at the market.",
+                "The farmer grew the purple eggplant which sold at the market.",
+                "The purple eggplant that the farmer grew sold at the market.",
+                "The purple eggplant which the farmer grew was sold at the market."
+            ], answer: 4 },
+            { id: 212, type: 'arrange', title: "'그 남자는 수영장에서 수영을 하곤 했다.'에 알맞게 말을 배열하시오.", words: ['the', 'man', 'used', 'to', 'swim', 'in', 'the', 'swimming', 'pool'], answer: ['the', 'man', 'used', 'to', 'swim', 'in', 'the', 'swimming', 'pool'] },
+            { id: 213, type: 'arrange', title: "'은행 옆에 병원이 있곤 했다.'에 알맞게 말을 배열하시오.", words: ['there', 'used', 'to', 'be', 'a hospital', 'next to', 'the bank'], answer: ['there', 'used', 'to', 'be', 'a hospital', 'next to', 'the bank'] },
+            { id: 214, type: 'text', title: "빈칸에 들어갈 말을 쓰시오.", dialogue: "There (     ) a swing in this park. There is none now.", answer: ["used to be", "Used to be"] },
+            { id: 215, type: 'arrange', title: "'그가 듣던 한 음악은 내가 가장 좋아하는 음악이다.'에 알맞게 말을 배열하시오.", words: ['A music', 'that', 'he', 'listened', 'to', 'is', 'my favorite', 'music'], answer: ['A music', 'that', 'he', 'listened', 'to', 'is', 'my favorite', 'music'] },
+            { id: 216, type: 'multi_choice', title: "[that]의 쓰임이 같은 두 문장을 고르시오.", groups: [
+                { label: "My backpack [that] my brother bought for me was too big.", options: ["관계대명사", "접속사"], answer: "관계대명사" },
+                { label: "The manager told her workers [that] they needed to work harder.", options: ["관계대명사", "접속사"], answer: "접속사" },
+                { label: "Tigers may be similar to some rabbits [that] they continued to hunt.", options: ["관계대명사", "접속사"], answer: "관계대명사" }
+            ]},
+            { id: 217, type: 'choice', title: "어법상 옳은 문장은?", options: [
+                "The women whom I saw was in the restaurant.",
+                "My mom who my sister looked at sing was cooking soup.",
+                "The truth which I did not know it must be really shocking.",
+                "I went seeing the doctor whom sat on the chair yesterday."
+            ], answer: 1 },
+            { id: 218, type: 'choice', title: "다음 문장의 동사는?\nAccording to online reviews, his bakery many cooks wanted to join started getting famous.", options: ["reviews", "cooks", "wanted", "join", "started"], answer: 4 },
+            { id: 219, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "Kate used to make sweet cake together.", answer: ["Kate did not use to make sweet cake together.", "Kate didn't use to make sweet cake together.", "Kate didn't use to make sweet cake together", "Kate did not use to make sweet cake together"] },
+            { id: 220, type: 'choice', title: "다음 두 문장을 결합한 것은?\n- I go to the fun fair.\n- My family liked it so much.", options: [
+                "I go to the fun fair my family liked so much.",
+                "I go to the fun fair that my family liked it so much.",
+                "The fun fair my family liked so much I go to.",
+                "My family liked the fun fair which I go so much.",
+                "My family liked the fun fair to that I go so much."
+            ], answer: 0 },
+            { id: 221, type: 'choice', title: "빈칸에 들어갈 관계대명사로 옳은 것은?", dialogue: "The kid in the museum (    ) called his friend a hero was my brother.", options: ["who", "which", "whom", "what"], answer: 0 },
+            { id: 222, type: 'choice', title: "대화의 빈칸에 들어갈 질문은?", dialogue: "A: (                                                )\nB: About 3 hours.", options: ["How long will it take there?", "How can I get to the library?", "How did I go to Star Cinema?"], answer: 0 },
+            { id: 223, type: 'arrange', title: "'너는 내가 들었던 노래를 아니?'에 알맞게 말을 배열하시오.", words: ['Do', 'you', 'know', 'the music', 'that', 'I', 'listened', 'to'], answer: ['Do', 'you', 'know', 'the music', 'that', 'I', 'listened', 'to'] },
+            { id: 224, type: 'arrange', title: "'Jane이 물을 주었던 그 큰 꽃이 어디 있니?'에 알맞게 말을 배열하시오.", words: ['Where', 'is', 'the', 'big', 'flower', 'which', 'Jane', 'watered.'], answer: ['Where', 'is', 'the', 'big', 'flower', 'which', 'Jane', 'watered.'] },
+            { id: 225, type: 'choice', title: "관계대명사가 들어갈 곳은?\nThe (A) old (B) doctors (C) made upset (D) can be better.", options: ["(A)", "(B)", "(C)", "(D)"], answer: 1 },
+            { id: 226, type: 'choice', title: "관계대명사가 들어갈 곳은?\n(A) The woman (B) you (C) were talking to (D) is my aunt.", options: ["(A)", "(B)", "(C)", "(D)"], answer: 1 },
+            { id: 227, type: 'arrange', title: "'이것은 내가 보고 싶었던 영화이다.'에 알맞게 말을 배열하시오.", words: ['This', 'is', 'the', 'movie', 'that', 'I', 'wanted', 'to', 'see.'], answer: ['This', 'is', 'the', 'movie', 'that', 'I', 'wanted', 'to', 'see.'] },
+            { id: 228, type: 'multi_choice', title: "어법상 옳은 문장을 모두 고르시오.", groups: [
+                { label: "The topic about which they talked was very interesting.", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "Where is the key that I left on the table?", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "The book which they bought yesterday were so nice.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "Everyone likes the teacher whom got an award.", options: ["옳음", "틀림"], answer: "틀림" }
+            ]},
+            { id: 229, type: 'arrange', title: "'나는 네가 추천했던 영화를 좋아한다.'에 알맞게 말을 배열하시오.", words: ['I', 'like', 'the', 'movie', 'you', 'recommended'], answer: ['I', 'like', 'the', 'movie', 'you', 'recommended'] },
+            { id: 230, type: 'arrange', title: "'이것은 내 남동생이 사용하던 컴퓨터이다.'에 알맞게 말을 배열하시오.", words: ['this', 'is', 'the computer', 'my', 'brother', 'used'], answer: ['this', 'is', 'the computer', 'my', 'brother', 'used'] },
+            { id: 231, type: 'choice', title: "빈칸에 들어갈 말은?\nThe cake which my mother made last month (    ) delicious.", options: ["was", "were", "be", "are"], answer: 0 },
+            { id: 232, type: 'arrange', title: "'선생님이 칭찬했던 학생은 매우 행복했다.'에 알맞게 말을 배열하시오.", words: ['the student', 'whom', 'the', 'teacher', 'praised', 'was', 'very', 'happy'], answer: ['the student', 'whom', 'the', 'teacher', 'praised', 'was', 'very', 'happy'] },
+            { id: 233, type: 'arrange', title: "'나는 우리가 처음 만난 날을 기억한다.'에 알맞게 말을 배열하시오.", words: ['I', 'remembered', 'the day', 'that', 'we', 'first', 'met'], answer: ['I', 'remembered', 'the day', 'that', 'we', 'first', 'met'] },
+            { id: 234, type: 'multi_choice', title: "어법상 옳은 문장을 모두 고르시오.", groups: [
+                { label: "My family loved the house that my grandmother built it.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "I watched the video which you sent me.", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "The actor whom many people admire appeared on TV.", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "This is the restaurant which my friends recommended.", options: ["옳음", "틀림"], answer: "옳음" }
+            ]},
+            { id: 235, type: 'choice', title: "[that]의 쓰임이 나머지와 다른 하나는?", options: [
+                "They heard [that] the store was closed.",
+                "I am sure [that] she is right.",
+                "She met a man [that] works at the bank.",
+                "The girl knows [that] you read many books."
+            ], answer: 2 },
+            { id: 236, type: 'choice', title: "문장의 [that]의 의미는?\nThey said [that] they needed more time.", options: ["~것", "~하는", "저것", "~이라는"], answer: 0 },
+            { id: 237, type: 'choice', title: "문장의 [that]의 의미는?\nHe found the wallet [that] I lost.", options: ["~것", "~하는", "저것", "~이라는"], answer: 1 },
+            { id: 238, type: 'choice', title: "문장의 [that]의 의미는?\nThe restaurant [that] we visited was perfect.", options: ["~것", "~하는", "저것", "~이라는"], answer: 1 },
+            { id: 239, type: 'choice', title: "[that]의 쓰임이 같은 것은?\nShe showed me the picture [that] she took in Paris.", options: [
+                "Sally met a man [that] can draw pictures.",
+                "They said [that] the test was so easy.",
+                "The book [that] I borrowed from the library was interesting."
+            ], answer: 2 },
+            { id: 240, type: 'choice', title: "[that]의 쓰임이 같은 것은?\nI did not know [that] he lived here.", options: [
+                "Henry ate the cookies [that] his aunt made for him.",
+                "The fact is [that] we don't have enough money.",
+                "The man [that] I looked at yesterday was very kind."
+            ], answer: 1 }
         ];
 
         const VOCAB_QUESTIONS = [
-            // 신규 추가 3문항
             { id: 84, type: 'arrange', title: "'나는 오늘 오후에 한가해서 멀리 걸어갈 거야.'에 알맞게 말을 배열하시오.", words: ['I', 'am', 'free', 'this', 'afternoon', 'so', "I'll", 'walk', 'far'], answer: ['I', 'am', 'free', 'this', 'afternoon', 'so', "I'll", 'walk', 'far'] },
             { id: 85, type: 'arrange', title: "'그 공장 노동자는 국가적 박물관을 자세히 보았다.'에 알맞게 말을 배열하시오.", words: ['The factory', 'worker', 'looked', 'a', 'national', 'museum', 'closely'], answer: ['The factory', 'worker', 'looked', 'a', 'national', 'museum', 'closely'] },
             { id: 86, type: 'multi_choice', title: "뜻이 알맞은 단어의 해설을 고르시오.", groups: [
@@ -630,7 +740,6 @@
                 { label: "artist - 작가", options: ["맞음", "틀림"], answer: "맞음" },
                 { label: "spray - 분무기", options: ["맞음", "틀림"], answer: "틀림" }
             ]},
-            // 기존 단어 문제들
             { id: 1, type: 'choice', title: "'자세히'에 해당하는 영단어는?", options: ['closely', 'national', 'lively', 'poor'], answer: 0 },
             { id: 2, type: 'text', title: "worker의 뜻을 쓰시오.", answer: ["노동자", "근로자", "일하는 사람"] },
             { id: 3, type: 'choice', title: "빈칸에 들어갈 말은?\nYou should take (    ) 2 to get to the museum faster.", options: ['Anyway', 'Line', 'Way', 'Great'], answer: 1 },
@@ -738,7 +847,7 @@
         let multiChoiceState = {};
         let isAnswerChecked = false;
         let incorrectQuestions = [];
-        let isReviewMode = false; // 복습 여부 상태 관리
+        let isReviewMode = false;
         let currentFeedbackDetailText = "";
 
         function cleanPunctuation(str) {
@@ -782,7 +891,6 @@
             return arr;
         }
 
-        // 1. 학생 이름 입력 및 중앙 DB 점수 동기화
         async function enterStudentName() {
             const nameInput = document.getElementById('student-name').value.trim();
             if (!nameInput) {
@@ -828,11 +936,12 @@
             document.getElementById('mode-user-points').innerText = cumPoints;
         }
 
-        // 2. 모드 선택 후 학습 시작
         function startMode(mode) {
             currentMode = mode;
             const sourceQuestions = (mode === '단어') ? VOCAB_QUESTIONS : PRACTICE_QUESTIONS;
-            quizList = shuffleArray(sourceQuestions).slice(0, 20);
+            // 단어 탭은 30개, 연습문제 탭은 20개 출제
+            const questionLimit = (mode === '단어') ? 30 : 20;
+            quizList = shuffleArray(sourceQuestions).slice(0, questionLimit);
 
             currentIndex = 0;
             score = 0;
@@ -1035,7 +1144,9 @@
             if (isCorrect) {
                 score += 5;
                 streak++;
-                cumPoints += 3;
+                // 복습 문제인 경우 2점, 일반 문제는 3점 획득
+                const pointsEarned = isReviewMode ? 2 : 3;
+                cumPoints += pointsEarned;
                 updatePointDisplay();
                 savePointsToStorageAndCloud();
             } else {
@@ -1067,12 +1178,14 @@
             const title = document.getElementById('feedback-title');
             const detailEl = document.getElementById('feedback-detail');
 
+            const earnedPts = isReviewMode ? 2 : 3;
+
             if (isCorrect) {
                 modal.className = modal.className.replace(/border-[\w-]+/, 'border-lime-500 bg-lime-50');
                 icon.innerText = '✅';
-                title.innerText = streak > 1 ? `정답입니다! (+3pt) 🔥 ${streak}연속!` : '정답입니다! (+3pt)';
+                title.innerText = streak > 1 ? `정답입니다! (+${earnedPts}pt) 🔥 ${streak}연속!` : `정답입니다! (+${earnedPts}pt)`;
                 title.className = 'font-black text-xl text-lime-700';
-                detailEl.innerText = '포인트 3점이 누적되었습니다!';
+                detailEl.innerText = `포인트 ${earnedPts}점이 누적되었습니다!`;
                 confetti({ particleCount: 30 + Math.min(streak * 5, 30), spread: 50, origin: { y: 0.85 } });
             } else {
                 modal.className = modal.className.replace(/border-[\w-]+/, 'border-rose-500 bg-rose-50');
@@ -1096,13 +1209,11 @@
             }
         }
 
-        // 퀴즈 1라운드 종료 처리 (복습 모드 자동 판별 및 기록 저장)
         function completeQuizRound() {
-            // 복습 모드 여부(isReviewMode)를 기록에 함께 전달
             saveRecord(currentStudent, score, currentMode, isReviewMode);
 
             if (incorrectQuestions.length > 0) {
-                alert(`📝 ${incorrectQuestions.length}개 문제를 틀렸습니다. 바로 오답 노트 복습을 시작합니다!`);
+                alert(`📝 ${incorrectQuestions.length}개 문제를 틀렸습니다. 바로 오답 노트 복습을 시작합니다! (맞히면 2pt)`);
                 quizList = [...incorrectQuestions];
                 incorrectQuestions = [];
                 currentIndex = 0;
@@ -1151,7 +1262,6 @@
             }
         }
 
-        // 실시간 리더보드 (모든 기기 동기화)
         async function loadLeaderboard() {
             const listEl = document.getElementById('leaderboard-list');
             listEl.innerHTML = `<div class="text-center py-4 text-xs text-slate-400">전체 학생 실시간 랭킹 불러오는 중...</div>`;
