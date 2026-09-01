@@ -201,12 +201,12 @@
                     <button onclick="startMode('단어')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-5 rounded-3xl shadow-sm text-left transition-all duo-card group">
                         <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">🔤</div>
                         <div class="font-black text-lg text-slate-800">단어</div>
-                        <div class="text-xs text-slate-400 font-medium mt-1">30문항 무작위 출제</div>
+                        <div class="text-xs text-slate-400 font-medium mt-1">무작위 출제</div>
                     </button>
                     <button onclick="startMode('연습문제')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-5 rounded-3xl shadow-sm text-left transition-all duo-card group">
                         <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">📝</div>
                         <div class="font-black text-lg text-slate-800">연습문제</div>
-                        <div class="text-xs text-slate-400 font-medium mt-1">대화문9/문법14/독해12 (35문항)</div>
+                        <div class="text-xs text-slate-400 font-medium mt-1">대화/문법/본문</div>
                     </button>
                 </div>
             </div>
@@ -1208,19 +1208,16 @@
             document.getElementById('mode-user-points').innerText = cumPoints;
         }
 
-        // 모드 선택 후 학습 시작 (연습문제 탭은 대화문 9, 문법 14, 독해 12 무작위 조합)
         function startMode(mode) {
             currentMode = mode;
 
             if (mode === '단어') {
                 quizList = shuffleArray(VOCAB_QUESTIONS).slice(0, 30);
             } else {
-                // 대화문 9개 + 문법 14개 + 독해 12개 = 총 35개
                 const sampledDialogue = shuffleArray(PRACTICE_DIALOGUE).slice(0, 9);
                 const sampledGrammar = shuffleArray(PRACTICE_GRAMMAR).slice(0, 14);
                 const sampledReading = shuffleArray(PRACTICE_READING).slice(0, 12);
 
-                // 파트 구분 없이 전체를 무작위로 뒤섞음
                 quizList = shuffleArray([...sampledDialogue, ...sampledGrammar, ...sampledReading]);
             }
 
@@ -1343,9 +1340,15 @@
                     const optWrapper = document.createElement('div');
                     optWrapper.className = 'flex gap-2';
 
-                    const shuffledOpts = shuffleArray(group.options);
+                    // 적절 / 부적절 선지인 경우 순서를 ['적절', '부적절']로 완전 고정
+                    let optsToRender;
+                    if (group.options.includes('적절') || group.options.includes('부적절')) {
+                        optsToRender = ['적절', '부적절'];
+                    } else {
+                        optsToRender = shuffleArray(group.options);
+                    }
 
-                    shuffledOpts.forEach((opt) => {
+                    optsToRender.forEach((opt) => {
                         const btn = document.createElement('button');
                         btn.className = `flex-1 py-2.5 px-3 border-2 border-slate-200 rounded-xl font-bold text-sm bg-white hover:bg-slate-100 g-btn-${gIdx} transition-colors`;
                         btn.innerText = opt;
@@ -1425,7 +1428,6 @@
             if (isCorrect) {
                 score += 5;
                 streak++;
-                // 복습 문제인 경우 2점, 일반 문제는 3점 획득
                 const pointsEarned = isReviewMode ? 2 : 3;
                 cumPoints += pointsEarned;
                 updatePointDisplay();
