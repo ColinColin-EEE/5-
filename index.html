@@ -206,7 +206,7 @@
                     <button onclick="startMode('연습문제')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-5 rounded-3xl shadow-sm text-left transition-all duo-card group">
                         <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">📝</div>
                         <div class="font-black text-lg text-slate-800">연습문제</div>
-                        <div class="text-xs text-slate-400 font-medium mt-1">20문항 무작위 출제</div>
+                        <div class="text-xs text-slate-400 font-medium mt-1">대화문9/문법14/독해12 (35문항)</div>
                     </button>
                 </div>
             </div>
@@ -229,7 +229,7 @@
         <section id="screen-quiz" class="hidden flex-1 flex flex-col justify-between max-w-xl mx-auto w-full py-2">
             <div class="w-full mb-3">
                 <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-extrabold text-slate-400">
-                    <span id="quiz-progress-text">1 / 20</span>
+                    <span id="quiz-progress-text">1 / 35</span>
 
                     <div id="review-mode-indicator" class="hidden bg-amber-100 text-amber-800 px-3 py-0.5 rounded-full border border-amber-300 font-black text-xs">
                         📝 오답 노트 복습 중 (맞히면 2pt)
@@ -590,8 +590,8 @@
             }
         }
 
-        const PRACTICE_QUESTIONS = [
-            // 기존 수록 문제들
+        // 1. 대화문 (Dialogue) 파트 문제 은행
+        const PRACTICE_DIALOGUE = [
             { id: 101, type: 'arrange', title: "'~에 어떻게 가나요?'에 알맞게 말을 배열하시오.", words: ['how', 'can', 'I', 'get', 'to'], answer: ['how', 'can', 'I', 'get', 'to'] },
             { id: 102, type: 'choice', title: "빈칸에 들어갈 응답으로 가장 알맞은 것은?", dialogue: "A: What is the best way to get to the museum?\nB: (                                   )", options: ["About one hour by subway.", "It's a little difficult, James.", "You can walk there."], answer: 2 },
             { id: 103, type: 'text', title: "빈칸에 들어갈 알맞은 의문사를 쓰시오.", dialogue: "(        ) can I get to the bank?", answer: ["How", "how"] },
@@ -613,17 +613,19 @@
             { id: 119, type: 'text', title: "'가까운'에 해당하는 영단어를 쓰시오.", answer: ["close", "Close"] },
             { id: 120, type: 'text', title: "'나는 이번 주 토요일에 한가해.'에 알맞게 주어진 단어를 사용하여 영문장을 쓰시오.\n(I'm / this)", answer: ["I'm free this Saturday.", "I'm free this Saturday", "i'm free this saturday.", "I am free this Saturday."] },
             { id: 121, type: 'text', title: "대화의 흐름상 빈칸에 들어갈 질문을 쓰시오.", dialogue: "B: Line 3 and get off at Sebit Station. (                           )\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?", answer: ["How long will it take?", "How long will it take", "how long will it take?"] },
-            { id: 122, type: 'choice', title: "다음 대화의 [if]와 의미/쓰임이 같은 문장은?", dialogue: "B: Line 3 and get off at Sebit Station. How long will it take?\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me [if] you want.", options: ["If you come here, I will be satisfied.", "You can believe if you made your cake.", "I cannot tell you if it is raining outside.", "We did not know if Sally could invited us."], answer: 0 },
             { id: 123, type: 'text', title: "'그 경기장에 어떻게 가나요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(get / can)", answer: ["How can I get to the stadium?", "How can I get to the stadium", "How can I get to the Star Stadium?"] },
             { id: 124, type: 'text', title: "'택시를 타는 게 어때요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(a taxi / take)", answer: ["Why don't you take a taxi?", "Why don't you take a taxi", "why don't you take a taxi?"] },
             { id: 125, type: 'arrange', title: "'찾는 데 조금 어려울 거야.'에 알맞게 말을 배열하시오.", words: ["It's", "a", "little", "difficult", "to", "find"], answer: ["It's", "a", "little", "difficult", "to", "find"] },
             { id: 126, type: 'text', title: "'그 공원에 가는 가장 좋은 방법이 무엇인가요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(way / is / park / go)", answer: ["What's the best way to go to the park?", "What is the best way to go to the park?", "What's the best way to go to the park?"] },
+            { id: 222, type: 'choice', title: "대화의 빈칸에 들어갈 질문은?", dialogue: "A: (                                                )\nB: About 3 hours.", options: ["How long will it take there?", "How can I get to the library?", "How did I go to Star Cinema?"], answer: 0 }
+        ];
 
-            // 신규 추가된 연습문제들
+        // 2. 문법 (Grammar) 파트 문제 은행
+        const PRACTICE_GRAMMAR = [
             { id: 201, type: 'choice', title: "빈칸에 들어갈 관계대명사로 옳은 것은?", dialogue: "She has the dog (   ) we love so much.", options: ["whom", "what", "which", "where"], answer: 2 },
-            { id: 202, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "James used to use the smartphone.", answer: ["James did not use to use the smartphone.", "James didn't use to use the smartphone.", "James didn't use to use the smartphone", "James did not use to use the smartphone"] },
-            { id: 203, type: 'text', title: "다음 문장을 의문문으로 바꾸시오.", dialogue: "Sophia used to watch the horror movie.", answer: ["Did Sophia use to watch the horror movie?", "Did Sophia use to watch the horror movie", "did Sophia use to watch the horror movie?"] },
-            { id: 204, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "We used to make a difference.", answer: ["We did not use to make a difference.", "We didn't use to make a difference.", "We didn't use to make a difference", "We did not use to make a difference"] },
+            { id: 202, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "James used to use the smartphone.", answer: ["James did not use to use the smartphone.", "James didn't use to use the smartphone.", "James didn't use to use the smartphone"] },
+            { id: 203, type: 'text', title: "다음 문장을 의문문으로 바꾸시오.", dialogue: "Sophia used to watch the horror movie.", answer: ["Did Sophia use to watch the horror movie?", "Did Sophia use to watch the horror movie"] },
+            { id: 204, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "We used to make a difference.", answer: ["We did not use to make a difference.", "We didn't use to make a difference."] },
             { id: 205, type: 'choice', title: "다음 문장을 의문문으로 바꾼 것은?", dialogue: "They used to dance happily.", options: ["Are they used to dance happily?", "Do they use to dance happily?", "Do they used to dance happily?", "Did they use to dance happily?", "Did they used to dance happily?"], answer: 3 },
             { id: 206, type: 'multi_choice', title: "문장의 괄호에서 어법상 옳은 것을 고르시오.", groups: [
                 { label: "My memory [used / is used] to memorize the event.", options: ["used", "is used"], answer: "is used" },
@@ -677,7 +679,7 @@
                 "I went seeing the doctor whom sat on the chair yesterday."
             ], answer: 1 },
             { id: 218, type: 'choice', title: "다음 문장의 동사는?\nAccording to online reviews, his bakery many cooks wanted to join started getting famous.", options: ["reviews", "cooks", "wanted", "join", "started"], answer: 4 },
-            { id: 219, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "Kate used to make sweet cake together.", answer: ["Kate did not use to make sweet cake together.", "Kate didn't use to make sweet cake together.", "Kate didn't use to make sweet cake together", "Kate did not use to make sweet cake together"] },
+            { id: 219, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "Kate used to make sweet cake together.", answer: ["Kate did not use to make sweet cake together.", "Kate didn't use to make sweet cake together."] },
             { id: 220, type: 'choice', title: "다음 두 문장을 결합한 것은?\n- I go to the fun fair.\n- My family liked it so much.", options: [
                 "I go to the fun fair my family liked so much.",
                 "I go to the fun fair that my family liked it so much.",
@@ -686,7 +688,6 @@
                 "My family liked the fun fair to that I go so much."
             ], answer: 0 },
             { id: 221, type: 'choice', title: "빈칸에 들어갈 관계대명사로 옳은 것은?", dialogue: "The kid in the museum (    ) called his friend a hero was my brother.", options: ["who", "which", "whom", "what"], answer: 0 },
-            { id: 222, type: 'choice', title: "대화의 빈칸에 들어갈 질문은?", dialogue: "A: (                                                )\nB: About 3 hours.", options: ["How long will it take there?", "How can I get to the library?", "How did I go to Star Cinema?"], answer: 0 },
             { id: 223, type: 'arrange', title: "'너는 내가 들었던 노래를 아니?'에 알맞게 말을 배열하시오.", words: ['Do', 'you', 'know', 'the music', 'that', 'I', 'listened', 'to'], answer: ['Do', 'you', 'know', 'the music', 'that', 'I', 'listened', 'to'] },
             { id: 224, type: 'arrange', title: "'Jane이 물을 주었던 그 큰 꽃이 어디 있니?'에 알맞게 말을 배열하시오.", words: ['Where', 'is', 'the', 'big', 'flower', 'which', 'Jane', 'watered.'], answer: ['Where', 'is', 'the', 'big', 'flower', 'which', 'Jane', 'watered.'] },
             { id: 225, type: 'choice', title: "관계대명사가 들어갈 곳은?\nThe (A) old (B) doctors (C) made upset (D) can be better.", options: ["(A)", "(B)", "(C)", "(D)"], answer: 1 },
@@ -727,9 +728,280 @@
                 "Henry ate the cookies [that] his aunt made for him.",
                 "The fact is [that] we don't have enough money.",
                 "The man [that] I looked at yesterday was very kind."
-            ], answer: 1 }
+            ], answer: 1 },
+            { id: 301, type: 'arrange', title: "'그는 그의 친구가 추천했던 영화를 보았다.'에 알맞게 말을 배열하시오.", words: ['he', 'watched', 'the', 'movie', 'which', 'his', 'friend', 'recommended'], answer: ['he', 'watched', 'the', 'movie', 'which', 'his', 'friend', 'recommended'] },
+            { id: 302, type: 'arrange', title: "'저것은 Jessica가 내게 빌려 주었던 재킷이다.'에 알맞게 말을 배열하시오.", words: ['that', 'is', 'the', 'jacket', 'Jessica', 'lent', 'to', 'me'], answer: ['that', 'is', 'the', 'jacket', 'Jessica', 'lent', 'to', 'me'] },
+            { id: 303, type: 'arrange', title: "'저 사람은 우리가 연필을 주었던 여자이다.'에 알맞게 말을 배열하시오.", words: ['that', 'is', 'the', 'woman', 'whom', 'we', 'gave', 'pencil', 'to'], answer: ['that', 'is', 'the', 'woman', 'whom', 'we', 'gave', 'pencil', 'to'] },
+            { id: 304, type: 'choice', title: "[that]의 쓰임이 같은 것은?\nShe kept the gift [that] I gave her.", options: ["Yesterday, He ate the soup [that] his wife cooked.", "I don't think [that] he is a doctor.", "National zoos [that] are famous for various animals are great."], answer: 0 },
+            { id: 305, type: 'multi_choice', title: "[that]의 쓰임이 같은 것을 모두 고르시오.\n원문: They visited the city [that] I recommended.", groups: [
+                { label: "He explained [that] the train was delayed.", options: ["같음", "다름"], answer: "다름" },
+                { label: "They decided [that] they would stay here.", options: ["같음", "다름"], answer: "다름" },
+                { label: "Please move [that] over there.", options: ["같음", "다름"], answer: "다름" }
+            ]},
+            { id: 306, type: 'arrange', title: "'그는 그의 프로젝트를 설명하곤 했다.'에 알맞게 말을 배열하시오.", words: ['he', 'used', 'to', 'explain', 'his', 'project.'], answer: ['he', 'used', 'to', 'explain', 'his', 'project.'] },
+            { id: 307, type: 'choice', title: "우리말에 맞게 빈칸에 들어갈 말을 고르시오.\n그는 저 상자를 바닥에 놓곤 했다.\n→ He (                      ) that box on the floor.", options: ["did put", "used to put", "was putting", "used for put"], answer: 1 },
+            { id: 308, type: 'choice', title: "[that]의 쓰임이 같은 것끼리 연결된 것은?", options: [
+                "I think [that] she should sleep more. - I believe [that] seems better than mine.",
+                "This is the skirt [that] she gave you. - We hope [that] the weather will improve.",
+                "I noticed [that] he looked nervous. - International Airport said [that] one airplane No. 10 was delayed.",
+                "The school teaches the language [that] all the people use. - We heard [that] Mina got a new job."
+            ], answer: 2 },
+            { id: 309, type: 'arrange', title: "'나는 지난 주말에 찍은 사진들을 삭제했다.'에 알맞게 말을 배열하시오.", words: ['I', 'deleted', 'photos', 'which', 'I', 'took', 'last', 'weekend'], answer: ['I', 'deleted', 'photos', 'which', 'I', 'took', 'last', 'weekend'] },
+            { id: 310, type: 'choice', title: "어법상 알맞은 것은?", options: [
+                "I didn't using to compete in any sports during high school.",
+                "She used to be baked fresh bread at dawn every morning.",
+                "My grandfather used to repair television sets as a side job.",
+                "She didn't use to having any interest in painting or drawing."
+            ], answer: 2 },
+            { id: 311, type: 'choice', title: "빈칸에 들어갈 말은?\nMy father (    ) long hair, but she has short hair now.", options: ["have", "was having", "would have", "used to have"], answer: 3 },
+            { id: 312, type: 'choice', title: "[used to]를 [would]로 바꿀 수 있는 문장은?", options: ["I [used to] believe in ghosts.", "He [used to] live alone.", "They [used to] ride bikes."], answer: 2 },
+            { id: 313, type: 'choice', title: "[used to]를 [would]로 바꿀 수 있는 문장은?", options: ["Lucy [used to] be very shy.", "The boy [used to] eat pizza a lot.", "We [used to] know each other well."], answer: 1 },
+            { id: 314, type: 'multi_choice', title: "[used to]를 [would]로 바꿀 수 있는 문장을 모두 고르시오.", groups: [
+                { label: "I [used to] walk here.", options: ["가능", "불가능"], answer: "가능" },
+                { label: "He [used to] have a big house.", options: ["가능", "불가능"], answer: "불가능" },
+                { label: "My father [used to] work at a bank.", options: ["가능", "불가능"], answer: "불가능" },
+                { label: "They [used to] play basketball together.", options: ["가능", "불가능"], answer: "가능" }
+            ]},
+            { id: 315, type: 'multi_choice', title: "[used to]를 [would]로 바꿀 수 있는 문장을 모두 고르시오.", groups: [
+                { label: "There [used to] be a big museum.", options: ["가능", "불가능"], answer: "불가능" },
+                { label: "My sister [used to] like chocolate.", options: ["가능", "불가능"], answer: "불가능" },
+                { label: "She [used to] drink coffee every morning.", options: ["가능", "불가능"], answer: "가능" },
+                { label: "I [used to] meet my friends at the library.", options: ["가능", "불가능"], answer: "가능" }
+            ]},
+            { id: 316, type: 'choice', title: "빈칸에 알맞은 말을 고르시오.\nWhen I was young, I (    ) play soccer after school.", options: ["would / used to", "have to / had better", "would / have to", "used to / had better"], answer: 0 },
+            { id: 317, type: 'multi_choice', title: "[used to]를 [would]로 바꿀 수 있는 문장을 모두 고르시오.", groups: [
+                { label: "My family [used to] live in Seoul.", options: ["가능", "불가능"], answer: "불가능" },
+                { label: "There [used to] be a small park next to the bank.", options: ["가능", "불가능"], answer: "불가능" },
+                { label: "We [used to] build a snowman.", options: ["가능", "불가능"], answer: "가능" },
+                { label: "He [used to] read lots of comic books.", options: ["가능", "불가능"], answer: "가능" }
+            ]},
+            { id: 318, type: 'multi_choice', title: "[used to]를 [would]로 바꿀 수 있는 문장을 모두 고르시오.", groups: [
+                { label: "My dog [used to] have dark brown fur.", options: ["가능", "불가능"], answer: "불가능" },
+                { label: "She [used to] sing in the school choir.", options: ["가능", "불가능"], answer: "가능" },
+                { label: "My brother [used to] write in my diary every night.", options: ["가능", "불가능"], answer: "가능" },
+                { label: "I [used to] study history because it was amazing.", options: ["가능", "불가능"], answer: "가능" }
+            ]},
+            { id: 319, type: 'multi_choice', title: "문장의 괄호에서 어법상 옳은 것을 고르시오.", groups: [
+                { label: "Many eggs [used / are used] to create the protein.", options: ["used", "are used"], answer: "are used" },
+                { label: "I am used to [wake / waking] up before sunrise for morning exercise.", options: ["wake", "waking"], answer: "waking" },
+                { label: "Susan used to [study / studying] Spanish.", options: ["study", "studying"], answer: "study" }
+            ]},
+            { id: 320, type: 'multi_choice', title: "문장의 괄호에서 어법상 옳은 것을 고르시오.", groups: [
+                { label: "I know the best cook [who / that] was on TV yesterday.", options: ["who", "that"], answer: "that" },
+                { label: "Hot water and soap [used / are used] to wash dishes effectively.", options: ["used", "are used"], answer: "are used" },
+                { label: "She is my sister who [broke / break] the window.", options: ["broke", "break"], answer: "broke" }
+            ]},
+            { id: 321, type: 'multi_choice', title: "어법상 옳은 문장을 모두 고르시오.", groups: [
+                { label: "That is the boy whom you are looking for.", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "The girl who has wears glasses are my sister.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "There is the set of keys that I lost yesterday.", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "The novel which I bought it last week isn't good.", options: ["옳음", "틀림"], answer: "틀림" }
+            ]},
+            { id: 322, type: 'multi_choice', title: "[ ] 속 말을 생략할 수 있는 문장을 모두 고르시오.", groups: [
+                { label: "The movie [that] I saw last weekend is exciting.", options: ["가능", "불가능"], answer: "가능" },
+                { label: "Jinho is singing a song [which] Yuna likes.", options: ["가능", "불가능"], answer: "가능" },
+                { label: "The car [which] he is driving is not his.", options: ["가능", "불가능"], answer: "가능" },
+                { label: "I met my brother [who] lives in Japan.", options: ["가능", "불가능"], answer: "불가능" }
+            ]},
+            { id: 323, type: 'choice', title: "[ ] 속 말을 생략할 수 있는 문장은?", options: [
+                "She is the rude girl about [whom] I talked.",
+                "Who us the man [that] is standing at the gate?",
+                "You can't cancel the meeting [which] you arranged.",
+                "The girl [who] is seeting on the chair is my cousin."
+            ], answer: 2 },
+            { id: 324, type: 'multi_choice', title: "[ ] 속 말을 생략할 수 있는 문장을 모두 고르시오.", groups: [
+                { label: "She is the girl [that] I like most.", options: ["가능", "불가능"], answer: "가능" },
+                { label: "I think [that] she is very angry.", options: ["가능", "불가능"], answer: "가능" },
+                { label: "Can you see the bird [that] is on the roof?", options: ["가능", "불가능"], answer: "불가능" },
+                { label: "They like the cake [that] I bake.", options: ["가능", "불가능"], answer: "가능" }
+            ]},
+            { id: 325, type: 'choice', title: "[that]의 쓰임이 같은 것은?\nPicasso is the painter [that] I like most.", options: [
+                "Is [this] your umbrella?",
+                "I know [that] he is honest.",
+                "Look at [that] boy in the living room.",
+                "Those are my toys [that] my brother broke."
+            ], answer: 3 },
+            { id: 326, type: 'choice', title: "다음 두 문장을 결합한 것을 모두 고르시오.\n- Did you eat the cake?\n- I made it for you.", options: [
+                "Did you eat the cake I made for you?",
+                "Did you eat the cake which I made it for you?",
+                "Did you eat the cake who I made for you?",
+                "Did you eat the cake for which I made you?"
+            ], answer: 0 },
+            { id: 327, type: 'choice', title: "문장의 괄호에서 어법상 옳은 것끼리 연결된 것은?\n- The women who I met yesterday [want / wants] to see me again.\n- I gave her just money [that / which] she needed.\n- The person [who / which] I visited gave me tea.", options: [
+                "want - that - which",
+                "want - which - who",
+                "wants - that - who",
+                "wants - which - which"
+            ], answer: 2 },
+            { id: 328, type: 'arrange', title: "'이것은 Minsu가 어제 내게 사 주었던 책이다.'에 알맞게 말을 배열하시오.", words: ['this', 'is', 'the book', 'which', 'Minsu', 'bought', 'me', 'yesterday'], answer: ['this', 'is', 'the book', 'which', 'Minsu', 'bought', 'me', 'yesterday'] },
+            { id: 329, type: 'arrange', title: "'Jake는 클래식 음악을 듣곤 했니?'에 알맞게 말을 배열하시오.", words: ['did', 'Jake', 'use', 'to listen', 'to', 'classical', 'music'], answer: ['did', 'Jake', 'use', 'to listen', 'to', 'classical', 'music'] },
+            { id: 330, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nWhen I was young, I (    ) play soccer every weekend.", options: ["would / used to", "have to / need to", "used to / had better", "would / had better"], answer: 0 },
+            { id: 331, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nThe town (    ) have a large market at that time.", options: ["used to", "would", "have to", "had better"], answer: 0 },
+            { id: 332, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nHenry (    ) live there for many years.", options: ["used to", "would", "need to", "had better"], answer: 0 },
+            { id: 333, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nWe (    ) watch the drama when we are young.", options: ["would / used to", "have to / need to", "would / have to", "used to / had better"], answer: 0 },
+            { id: 334, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nWe (    ) like playing basketball at that time.", options: ["used to", "would", "have to", "had better"], answer: 0 },
+            { id: 335, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nThere (    ) be a school in my childhood.", options: ["used to", "would", "have to", "need to"], answer: 0 },
+            { id: 336, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nWe (    ) visit our grandparents every summer in the past.", options: ["would / used to", "have to / need to", "would / have to", "used to / had better"], answer: 0 },
+            { id: 337, type: 'arrange', title: "'나는 어린 시절에 그 아이스크림을 먹곤 했다.'에 알맞게 말을 배열하시오.", words: ['I', 'used', 'to', 'eat', 'the', 'ice cream', 'in', 'my', 'childhood'], answer: ['I', 'used', 'to', 'eat', 'the', 'ice cream', 'in', 'my', 'childhood'] },
+            { id: 338, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nWe (    ) know him well in those days.", options: ["used to", "would", "have to", "had better"], answer: 0 },
+            { id: 339, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nShe (    ) seem very excited in those days.", options: ["used to", "would", "have to", "had better"], answer: 0 },
+            { id: 340, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nShe (    ) take photos in those days.", options: ["would / used to", "have to / need to", "would / have to", "used to / had better"], answer: 0 },
+            { id: 341, type: 'arrange', title: "'나는 수학이 어렵다고 생각하곤 했다.'에 알맞게 말을 배열하시오.", words: ['I', 'used', 'to', 'think', 'that', 'math', 'was', 'difficult'], answer: ['I', 'used', 'to', 'think', 'that', 'math', 'was', 'difficult'] }
         ];
 
+        // 3. 독해 (Reading) 파트 문제 은행
+        const PRACTICE_READING = [
+            { id: 401, type: 'choice', title: "5과 본문의 주제로 가장 적절한 것은?", options: ["The history of street arts", "Popular places to draw pictures", "The examples of the street art", "A famous artist who makes street arts"], answer: 2 },
+            { id: 402, type: 'choice', title: "5과 본문의 제목으로 가장 적절한 것은?", options: ["Street Art in London", "Modern Artists in Shoreditch", "What Is the Most Popular Art?", "Lively and Colorful Artists"], answer: 0 },
+            { id: 403, type: 'arrange', title: "'오늘, 우리는 런던에 있는 몇몇 유명한 거리 예술 작품들을 살펴보겠습니다.'에 알맞게 말을 배열하시오.", words: ['today', 'we', 'are', 'going', 'to', 'see', 'well-known', 'street', 'artworks', 'in', 'London'], answer: ['today', 'we', 'are', 'going', 'to', 'see', 'well-known', 'street', 'artworks', 'in', 'London'] },
+            { id: 404, type: 'multi_choice', title: "다음 글에서 (A)~(D) 중 어법상 옳은 것을 모두 고르시오.", dialogue: "Modern street art comes (A)[in] many different forms, and it makes cities colorful and (B)[lively]. Today, we are going to see some well-known (C)[street artworks] (D)[in] London.", groups: [
+                { label: "(A) in", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "(B) lively", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "(C) street artworks", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "(D) in", options: ["옳음", "틀림"], answer: "옳음" }
+            ]},
+            { id: 405, type: 'multi_choice', title: "다음 글에서 (A)~(D) 중 어법상 옳은 것을 모두 고르시오.", dialogue: "The place that we are going to visit (A)[is] Shoreditch. Poor workers (B)[were used to live] in this area, but now it is (C)[one of the hippest area] in London. We can find so many great pieces of street art here. Do you see the painting (D)[over there]? It is by the artist STIK.", groups: [
+                { label: "(A) is", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "(B) were used to live", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "(C) one of the hippest area", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "(D) over there", options: ["옳음", "틀림"], answer: "옳음" }
+            ]},
+            { id: 406, type: 'multi_choice', title: "5과 본문에 언급된 Shoreditch에 관한 설명으로 옳은 것을 모두 고르시오.", groups: [
+                { label: "STIK의 작품으로 Shoreditch의 세 시점을 확인할 수 있다.", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "런던의 가난한 노동자들이 현재 주로 거주하는 지역이다.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "런던에서 가장 세련된 곳 중 하나이다.", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "초록색 나무와 관련된 거리 예술 작품이 존재하는 곳이다.", options: ["옳음", "틀림"], answer: "틀림" }
+            ]},
+            { id: 407, type: 'choice', title: "5과 본문에서 언급된 지역을 순서대로 배열하시오.", options: ["Shoreditch - Finsbury Park - Muswell Hill", "Finsbury Park - Shoreditch - Muswell Hill", "Muswell Hill - Shoreditch - Finsbury Park"], answer: 0 },
+            { id: 408, type: 'choice', title: "[using]과 쓰임이 같은 것은?", dialogue: "He is famous for [using] only lines and dots in his paintings of human bodies. According to STIK, the three figures represent the past, present, and future of Shoreditch. Which figure represents which? Well, look closely at the eyes of the three figures. They are just dots, but they will give you a clue.", options: ["[Using] smartphones is very comfortable.", "She is [using] her own brush to draw pictures.", "Many people liked the person [using] computers."], answer: 0 },
+            { id: 409, type: 'choice', title: "[using]과 쓰임이 같은 것은?", dialogue: "He is famous for [using] only lines and dots in his paintings of human bodies. According to STIK, the three figures represent the past, present, and future of Shoreditch. Which figure represents which? Well, look closely at the eyes of the three figures. They are just dots, but they will give you a clue.", options: ["They finished [doing] their homework.", "Jenny was [taking] care of her babies.", "My brother [making] cake can make the cookies."], answer: 0 },
+            { id: 410, type: 'choice', title: "선과 점으로만 세 인물을 그린 예술가는?", options: ["STIK", "Banksy", "Ben Wilson", "Edison"], answer: 0 },
+            { id: 411, type: 'choice', title: "Ben Wilson의 예술 작품은?", options: ["여러 창의적 생각을 표현한 사진", "스프레이로 잎을 칠한 초록색 나무", "선과 점으로 사람의 몸을 나타낸 그림", "사람들이 씹고 버린 껌으로 만든 작품"], answer: 3 },
+            { id: 412, type: 'choice', title: "Banksy의 예술 작품에 대한 설명으로 옳은 것은?", options: ["Muswell Hill에 있다.", "자연이 힘든 시간을 겪었다는 생각이 담겨 있다.", "스프레이를 사용하여 나뭇가지를 표현한 작품이다.", "나뭇가지에 잎을 단 초록색 나무 작품이다."], answer: 1 },
+            { id: 413, type: 'text', title: "빈칸에 들어갈 말을 영어 단어 하나로 쓰시오.", dialogue: "Banksy’s artworks often carry social messages, and the green tree you see over there is a good example. As you can see, he created a green tree by (   ) green paint on a wall behind a leafless tree.", answer: ["spraying", "Spraying"] },
+            { id: 414, type: 'text', title: "빈칸에 들어갈 말을 영어 단어 하나로 쓰시오.", dialogue: "The final (   ) of our tour today is Muswell Hill. Can’t see any street artworks?", answer: ["stop", "Stop"] },
+            { id: 415, type: 'choice', title: "Banksy의 예술 작품에 대한 설명으로 옳은 것은?", options: ["선과 점으로 사람의 몸을 표현하였다.", "사람들이 씹고 버린 껌으로 만들어졌다.", "London의 가장 세련된 장소 중 하나에 있다.", "자연에 관해 사회에 전하는 메시지를 담고 있다."], answer: 3 },
+            { id: 416, type: 'choice', title: "다음 문장이 들어갈 곳은?", dialogue: "[Next to the tree, there is a person who is holding a sprayer.]\n\nWe are now in Finsbury Park to see a painting by Banksy, an internationally famous street artist. (A) Banksy’s artworks often carry social messages, and the green tree you see over there is a good example. (B) As you can see, he created a green tree by spraying green paint on a wall behind a leafless tree. (C) What message does Banksy want to give us through this painting? (D) In many people’s opinion, he is telling us that nature is having a hard time. (E) They think he wants us to take better care of it.", options: ["(A)", "(B)", "(C)", "(D)", "(E)"], answer: 2 },
+            { id: 417, type: 'choice', title: "초록색 나무를 Finsbury Park의 거리 예술 작품으로 만든 예술가는?", options: ["STIK", "Banksy", "Ben Wilson", "Edison"], answer: 1 },
+            { id: 418, type: 'choice', title: "Wilson의 껌 그림이 담고 있는 메시지의 예시로 가장 적절한 것은?", options: ["사람들이 생일 축하를 하고 있다.", "지구의 자연을 소중하게 다루어야 한다.", "일상의 과잉 소비를 지양하는 것이 좋다.", "국회의원들이 정책 회의를 했었다."], answer: 0 },
+            { id: 419, type: 'choice', title: "Wilson의 껌 그림이 담고 있는 메시지의 예시로 가장 적절한 것은?", options: ["한 여자가 발표 전 긴장을 풀고 있다.", "다른 사람의 사생활을 침해하면 안 된다.", "전국민이 참여한 대통령 투표가 어제 있었다.", "국내산 생산품을 사용하는 것이 경제를 증진한다."], answer: 0 },
+            { id: 420, type: 'choice', title: "[They]가 가리키는 것은?", dialogue: "The final stop of our tour today is Muswell Hill. Can’t see any street artworks? Well, look down and look closely. Do you see the little chewing gum paintings? [They] are by the artist Ben Wilson.", options: ["Muswell Hill", "the final stop", "Ben Wilson", "chewing gum paintings"], answer: 3 },
+            { id: 421, type: 'multi_choice', title: "Ben Wilson의 예술 작품에 대한 설명으로 옳은 것을 모두 고르시오.", groups: [
+                { label: "사람들에게 교훈을 전하기 위해 껌을 활용하였다.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "사회적이거나 환경 보호적인 메시지를 담고 있다.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "사람의 몸을 선과 점으로만 표현하였다.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "Muswell Hill에 존재한다.", options: ["옳음", "틀림"], answer: "옳음" }
+            ]},
+            { id: 422, type: 'choice', title: "다음 (A)~(C)를 순서대로 배열하시오.", dialogue: "The final stop of our tour today is Muswell Hill. Can’t see any street artworks? Well, look down and look closely. Do you see the little chewing gum paintings? They are by the artist Ben Wilson.\n(A) Wilson is well known for painting pictures on gum that people drop on the street.\n(B) His gum paintings often carry personal messages from people he meets on the street.\n(C) For example, the one over here is a happy birthday wish for a loved one.\nWilson’s gum paintings are tiny, but they give great pleasure to many people.", options: ["(A)-(B)-(C)", "(B)-(A)-(C)", "(C)-(A)-(B)"], answer: 0 },
+            { id: 423, type: 'text', title: "빈칸에 들어갈 말을 영어 단어 하나로 쓰시오.", dialogue: "The place that we are going to visit is Shoreditch... They are just dots, but they will give you a (   ).", answer: ["clue", "Clue"] },
+            { id: 424, type: 'multi_choice', title: "다음 글의 (A)~(D) 중 문맥상 옳은 것을 모두 고르시오.", dialogue: "We are now in Finsbury Park to see a painting by Banksy, an (A)[internationally] famous street artist. Banksy’s artworks often (B)[carry] social messages, and the green tree you see over there is a good example. As you can see, he created a green tree by spraying green paint on a wall behind a leafless tree. Next to the tree, there is a person who is holding a sprayer. What message does Banksy want to give us through this painting? In many people’s opinion, he is telling us that nature is having a (C)[positive] time. They think he wants us to take (D)[better] care of it.", groups: [
+                { label: "(A) internationally", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "(B) carry", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "(C) positive time", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "(D) better care", options: ["옳음", "틀림"], answer: "옳음" }
+            ]},
+            { id: 425, type: 'choice', title: "다음 (A)~(C)를 순서대로 배열하시오.", dialogue: "We are now in Finsbury Park to see a painting by Banksy, an internationally famous street artist.\n(A) As you can see, he created a green tree by spraying green paint on a wall behind a leafless tree.\n(B) Banksy’s artworks often carry social messages, and the green tree you see over there is a good example.\n(C) Next to the tree, there is a person who is holding a sprayer.\nWhat message does Banksy want to give us through this painting? In many people’s opinion, he is telling us that nature is having a hard time. They think he wants us to take better care of it.", options: ["(B)-(A)-(C)", "(A)-(B)-(C)", "(C)-(A)-(B)"], answer: 0 },
+            { id: 426, type: 'multi_choice', title: "Banksy의 예술 작품에 대한 설명으로 옳은 것을 모두 고르시오.", groups: [
+                { label: "잎이 없는 나무의 앞에 있는 벽에 초록색 스프레이를 분무했다.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "Shoreditch의 과거, 현재, 미래를 나타냈다.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "나무 옆에 스프레이를 들고 있는 사람이 있다.", options: ["옳음", "틀림"], answer: "옳음" },
+                { label: "작품으로 보는 이들에게 개인적 일화를 전한다.", options: ["옳음", "틀림"], answer: "틀림" }
+            ]},
+            { id: 427, type: 'multi_choice', title: "STIK의 예술 작품에 대한 설명으로 옳은 것을 모두 고르시오.", groups: [
+                { label: "Shoreditch의 과거, 현재, 미래를 점 하나로 표현했다.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "사람들이 길거리에 버린 껌으로 작품을 만들었다.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "사회적 교훈을 나타내는 작품이다.", options: ["옳음", "틀림"], answer: "틀림" },
+                { label: "가장 세련된 장소에 있는 그림이다.", options: ["옳음", "틀림"], answer: "옳음" }
+            ]},
+            { id: 428, type: 'arrange', title: "'그들은 우리가 자연을 더 잘 보살피기를 Banksy가 원한다고 생각한다.'에 알맞게 말을 배열하시오.", words: ['They', 'think', 'Banksy', 'wants', 'us', 'to', 'take', 'better', 'care', 'of', 'nature.'], answer: ['They', 'think', 'Banksy', 'wants', 'us', 'to', 'take', 'better', 'care', 'of', 'nature.'] },
+            { id: 429, type: 'choice', title: "[it]이 가리키는 것은?", dialogue: "We are now in Finsbury Park to see a painting by Banksy, an internationally famous street artist. Banksy’s artworks often carry social messages, and the green tree you see over there is a good example. As you can see, he created a green tree by spraying green paint on a wall behind a leafless tree. Next to the tree, there is a person who is holding a sprayer. What message does Banksy want to give us through this painting? In many people’s opinion, he is telling us that nature is having a hard time. They think he wants us to take better care of [it].", options: ["a painting", "famous street artist", "the green tree", "nature", "a sprayer"], answer: 3 },
+            { id: 430, type: 'choice', title: "다음 문장이 들어갈 곳은?", dialogue: "[Do you see the little chewing gum paintings?]\nThe final stop of our tour today is Muswell Hill. (A) Can’t see any street artworks? Well, look down and look closely. (B) They are by the artist Ben Wilson. (C) Wilson is well known for painting pictures on gum that people drop on the street. (D) His gum paintings often carry personal messages from people he meets on the street. (E) For example, the one over here is a happy birthday wish for a loved one. Wilson’s gum paintings are tiny, but they give great pleasure to many people.", options: ["(A)", "(B)", "(C)", "(D)", "(E)"], answer: 1 },
+            { id: 431, type: 'choice', title: "다음 문장이 들어갈 곳은?", dialogue: "[It is by the artist STIK.]\nThe place that we are going to visit is Shoreditch. Poor workers used to live in this area, but now it is one of the hippest areas in London. (A) We can find so many great pieces of street art here. (B) Do you see the painting over there? (C) He is famous for using only lines and dots in his paintings of human bodies. (D) According to STIK, the three figures represent the past, present, and future of Shoreditch. (E) Which figure represents which? Well, look closely at the eyes of the three figures. They are just dots, but they will give you a clue.", options: ["(A)", "(B)", "(C)", "(D)", "(E)"], answer: 2 },
+            { id: 432, type: 'choice', title: "빈칸에 들어갈 말은?", dialogue: "We are now in Finsbury Park to see a painting by Banksy, an internationally famous street artist. Banksy’s artworks often (                           ), and the green tree you see over there is a good example. As you can see, he created a green tree by spraying green paint on a wall behind a leafless tree. Next to the tree, there is a person who is holding a sprayer. What message does Banksy want to give us through this painting? In many people’s opinion, he is telling us that nature is having a hard time. They think he wants us to take better care of it.", options: ["include dark colors", "carry social messages", "share his own feelings", "show beautiful landscapes", "deliver the joy from nature"], answer: 1 },
+            { id: 433, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
+                { label: "쇼어디치는 과거에 가난한 노동자들이 살았던 지역이다.", options: ["일치", "불일치"], answer: "일치" },
+                { label: "현재 쇼어디치 거리에서는 멋진 길거리 예술 작품들을 볼 수 있다.", options: ["일치", "불일치"], answer: "일치" },
+                { label: "STIK은 점만을 사용해 인체를 그리는 예술가이다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "STIK은 자신의 과거, 현재, 미래를 세 인물로 나타냈다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "STIK이 그린 세 인물들의 눈은 점으로 되어 있다.", options: ["일치", "불일치"], answer: "일치" }
+            ]},
+            { id: 434, type: 'multi_choice', title: "(A)~(E) 중 문맥상 적절한 것만을 모두 고르시오.", dialogue: "The final stop of our tour today is Muswell Hill. Can’t see any street artworks? Well, (A)[look down] and look closely. Do you see the (B)[little] chewing gum paintings? They are by the artist Ben Wilson. Wilson is well (C)[known] for painting pictures on gum that people drop on the street. His gum paintings often carry (D)[social] messages from people he meets on the street. For example, the one over here is a happy birthday wish for a loved one. Wilson’s gum paintings are tiny, but they give great (E)[pleasure] to many people.", groups: [
+                { label: "(A) look down", options: ["적절", "부적절"], answer: "적절" },
+                { label: "(B) little", options: ["적절", "부적절"], answer: "적절" },
+                { label: "(C) known", options: ["적절", "부적절"], answer: "적절" },
+                { label: "(D) social", options: ["적절", "부적절"], answer: "부적절" },
+                { label: "(E) pleasure", options: ["적절", "부적절"], answer: "적절" }
+            ]},
+            { id: 435, type: 'choice', title: "빈칸에 알맞은 말은?", dialogue: "Wilson is well known for painting pictures on gum (   ) people drop on the street.", options: ["whom", "which", "where", "what"], answer: 1 },
+            { id: 436, type: 'choice', title: "빈칸에 알맞은 말은?", dialogue: "His gum paintings often carry personal messages from people he meets on the street. (   ), the one over here is a happy birthday wish for a loved one.", options: ["Instead", "Therefore", "For example", "However", "In fact"], answer: 2 },
+            { id: 437, type: 'choice', title: "빈칸에 알맞은 말은?", dialogue: "Wilson’s gum paintings are (   ), but they give great pleasure to many people.", options: ["huge", "tiny", "various", "traditional", "harmful"], answer: 1 },
+            { id: 438, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["쇼디치는 과거에 가장 부유한 사람들이 모여 살던 지역이었다.", "현대 스트리트 아트는 도시를 다채롭고 생동감 있게 만든다.", "오늘 투어의 첫 번째 방문 지역은 핀스버리 파크이다.", "STIK은 인간의 몸을 그릴 때 다양한 색채와 곡선을 주로 사용한다.", "쇼디치에는 현재 스트리트 아트 작품이 거의 남아있지 않다."], answer: 1 },
+            { id: 439, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["STIK의 그림에 등장하는 세 인물은 쇼디치의 과거, 현재, 미래를 나타낸다.", "STIK은 인물의 입모양을 통해 시대구분의 힌트를 제공한다.", "쇼디치는 예전부터 예술가들이 모여 살던 가난하지 않은 동네였다.", "뱅크시의 작품은 투어의 첫 번째 방문지인 쇼디치에서 감상하게 된다.", "STIK은 인간의 몸을 정교한 3D 입체 기법으로 그린다."], answer: 0 },
+            { id: 440, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["핀스버리 파크에서 만날 수 있는 작품은 벤 윌슨의 껌 그림이다.", "뱅크시는 국제적으로 잘 알려진 스트리트 아티스트이다.", "뱅크시는 주로 개인적인 축하 메시지를 담은 작품을 그린다.", "뱅크시의 그림에 나온 나무는 실제로 잎이 무성하게 자란 나무이다.", "뱅크시의 벽화 옆에는 카메라를 들고 있는 사람이 그려져 있다."], answer: 1 },
+            { id: 441, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["뱅크시는 잎이 없는 나무 옆에 또 다른 커다란 나무를 새로 심었다.", "사람들은 뱅크시의 나무 그림이 자연의 상처와 힘겨움을 보여 준다고 생각한다.", "뱅크시 작품 속 인물은 나무에 물을 주는 호스를 들고 서 있다.", "핀스버리 파크는 과거 가난한 노동자들이 모여 살던 대표적인 지역이다.", "뱅크시의 작품은 사회적 메시지보다 개인의 일상적 삶을 주로 다룬다."], answer: 1 },
+            { id: 442, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["머스웰 힐에서는 벽면에 그려진 거대한 크기의 벽화를 감상한다.", "벤 윌슨은 사람들이 길에 버린 껌 위에 그림을 그린다.", "벤 윌슨은 주로 국가 간의 정치적 갈등을 다루는 그림을 그린다.", "벤 윌슨의 작품은 크기가 매우 커서 멀리서도 한눈에 잘 보인다.", "오늘 투어의 첫 번째 방문 장소는 머스웰 힐이다."], answer: 1 },
+            { id: 443, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["머스웰 힐에서는 STIK의 점과 선으로 된 인물화를 감상할 수 있다.", "쇼디치는 전체 스트리트 아트 투어의 마지막 방문지이다.", "핀스버리 파크에서는 뱅크시의 작품을 볼 수 있다.", "뱅크시는 껌 위에 작은 그림을 그리는 작가로 유명하다.", "STIK은 스프레이로 벽에 녹색 물감을 칠해 나무 모양을 만들어낸다."], answer: 2 },
+            { id: 444, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
+                { label: "벤 윌슨은 자신이 직접 상점에서 구매한 새 껌에 그림을 그린다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "벤 윌슨이 길에서 만난 사람들의 개인적인 메시지가 그의 작품에 담기기도 한다.", options: ["일치", "불일치"], answer: "일치" },
+                { label: "글에 언급된 벤 윌슨의 작품 예시는 대학 합격을 축하하는 메시지이다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "머스웰 힐 방문객들은 벽을 높이 올려다보아야 벤 윌슨의 작품을 찾을 수 있다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "벤 윌슨의 껌 그림은 크기가 너무 작아 사람들에게 어떠한 즐거움도 주지 못한다.", options: ["일치", "불일치"], answer: "불일치" }
+            ]},
+            { id: 445, type: 'choice', title: "STIK에 대한 설명으로 옳은 것은?", options: ["STIK은 사람의 몸을 표현할 때 오직 선과 점만을 사용한다.", "STIK의 그림 속에 있는 세 인물은 모두 눈 모양이 선으로 그려져 있다.", "STIK은 쇼디치의 과거만을 기억하기 위해 작품을 제작했다.", "STIK의 인물화에는 세 명의 노동자가 실물과 똑같이 정교하게 그려져 있다.", "STIK은 핀스버리 파크를 대표하는 세계적인 스트리트 아티스트이다."], answer: 0 },
+            { id: 446, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
+                { label: "쇼디치는 옛날부터 런던에서 가장 유행에 민감하고 유흥가로 유명했던 곳이다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "쇼디치에서는 선과 점만으로 단순하게 그려진 인물 그림을 볼 수 있다.", options: ["일치", "불일치"], answer: "일치" },
+                { label: "쇼디치에 있는 STIK의 작품 속 세 인물은 각각 다른 세 가지 동물을 표현한다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "쇼디치는 런던 스트리트 아트 투어의 두 번째 방문 장소이다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "쇼디치의 노동자들은 모두 STIK의 그림 속에 실명으로 기록되어 있다.", options: ["일치", "불일치"], answer: "불일치" }
+            ]},
+            { id: 447, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
+                { label: "투어 이동 순서는 쇼어디치, 머스웰 힐, 핀스버리 파크 순이다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "오늘 투어에서는 런던에 위치한 유명 스트리트 아트 작품들을 둘러본다.", options: ["일치", "불일치"], answer: "일치" },
+                { label: "투어에서 만나보는 세 명의 작가는 모두 다른 재료와 기법을 사용한다.", options: ["일치", "불일치"], answer: "일치" },
+                { label: "필자는 스트리트 아트가 도시를 혼란스럽게 만든다고 생각한다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "투어에서 방문하는 장소는 모두 런던에서 멀리 떨어진 시골 마을들이다.", options: ["일치", "불일치"], answer: "불일치" }
+            ]},
+            { id: 448, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
+                { label: "뱅크시의 그림 앞에는 잎이 풍성하게 달린 진짜 나무가 서 있다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "뱅크시는 분무기로 초록색 물감을 뿌려 잎이 없는 나무 뒤에 풍성한 잎 모양을 만들었다.", options: ["일치", "불일치"], answer: "일치" },
+                { label: "뱅크시의 작품의 옆에 서 있는 한 인물은 미술용 붓과 팔레트를 손에 쥐고 있다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "뱅크시의 작품에 대해 사람들은 자연 환경이 매우 건강하게 보존되고 있음을 뜻한다고 본다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "뱅크시의 작품은 머스웰 힐 길거리에 버려진 물건 위에서 발견된다.", options: ["일치", "불일치"], answer: "불일치" }
+            ]},
+            { id: 449, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
+                { label: "벤 윌슨은 길거리에 버려진 껌 위에 그림을 그리는 것으로 잘 알려져 있다.", options: ["일치", "불일치"], answer: "일치" },
+                { label: "벤 윌슨의 껌 그림에는 사회 비판적인 정치적 메시지가 담긴다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "본문에 언급된 벤 윌슨의 작품은 지인의 빠른 쾌유를 비는 내용이다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "벤 윌슨은 런던시의 지원을 받아 세계 최대의 껌 아트 박물관을 설립했다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "벤 윌슨의 작품은 크기가 너무 커서 사람들이 통행하는 데 불편을 준다.", options: ["일치", "불일치"], answer: "불일치" }
+            ]},
+            { id: 450, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
+                { label: "STIK은 다양한 색상의 수채화 페인트를 사용해 인물의 표정을 세밀히 표현한다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "벤 윌슨의 작품은 매우 작지만 많은 사람들에게 커다란 즐거움을 준다.", options: ["일치", "불일치"], answer: "일치" },
+                { label: "뱅크시는 길거리에 버려진 껌을 모아 작고 세밀한 소형 조각품을 만든다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "STIK은 머스웰 힐에서 지나가는 사람들과 대화하며 그림의 소재를 얻는다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "벤 윌슨의 껌 그림은 핀스버리 파크 공원을 상징하는 대표적 예술품이다.", options: ["일치", "불일치"], answer: "불일치" }
+            ]},
+            { id: 451, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
+                { label: "첫 번째 방문 장소인 쇼디치는 과거 가난한 노동자들이 살던 곳이다.", options: ["일치", "불일치"], answer: "일치" },
+                { label: "두 번째 방문 장소인 머스웰 힐에서는 뱅크시의 작품을 감상하게 된다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "세 번째 방문 장소인 핀스버리 파크는 이번 투어의 최종 목적지이다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "쇼디치 방문 직후에 찾아가는 다음 장소는 머스웰 힐이다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "투어의 마지막 장소에서는 STIK의 인물화 작품을 볼 수 있다.", options: ["일치", "불일치"], answer: "불일치" }
+            ]},
+            { id: 452, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
+                { label: "뱅크시는 세계적으로 유명한 스트리트 아티스트로, 주로 개인적 메시지를 담아낸다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "STIK의 그림에 나오는 인물 세 명은 각각 노동자, 예술가, 관광객을 상징한다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "뱅크시의 작품은 잎이 많은 나무의 뒤편 벽에 녹색 물감을 칠해 만들었다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "벤 윌슨의 작품을 감상하려면 고개를 높이 들어 벽면 상단을 바라보아야 한다.", options: ["일치", "불일치"], answer: "불일치" },
+                { label: "STIK의 그림에서 인물의 눈은 모두 점으로 표현되어 있다.", options: ["일치", "불일치"], answer: "일치" }
+            ]},
+            { id: 453, type: 'arrange', title: "'그 나무 옆에는 분무기를 들고 있는 한 사람이 있다.'에 알맞게 말을 배열하시오.", words: ['next', 'to', 'the tree,', 'there', 'is', 'a person', 'who', 'is', 'holding', 'a sprayer'], answer: ['next', 'to', 'the tree,', 'there', 'is', 'a person', 'who', 'is', 'holding', 'a sprayer'] }
+        ];
+
+        // 4. 단어 파트 문제 은행
         const VOCAB_QUESTIONS = [
             { id: 84, type: 'arrange', title: "'나는 오늘 오후에 한가해서 멀리 걸어갈 거야.'에 알맞게 말을 배열하시오.", words: ['I', 'am', 'free', 'this', 'afternoon', 'so', "I'll", 'walk', 'far'], answer: ['I', 'am', 'free', 'this', 'afternoon', 'so', "I'll", 'walk', 'far'] },
             { id: 85, type: 'arrange', title: "'그 공장 노동자는 국가적 박물관을 자세히 보았다.'에 알맞게 말을 배열하시오.", words: ['The factory', 'worker', 'looked', 'a', 'national', 'museum', 'closely'], answer: ['The factory', 'worker', 'looked', 'a', 'national', 'museum', 'closely'] },
@@ -936,12 +1208,21 @@
             document.getElementById('mode-user-points').innerText = cumPoints;
         }
 
+        // 모드 선택 후 학습 시작 (연습문제 탭은 대화문 9, 문법 14, 독해 12 무작위 조합)
         function startMode(mode) {
             currentMode = mode;
-            const sourceQuestions = (mode === '단어') ? VOCAB_QUESTIONS : PRACTICE_QUESTIONS;
-            // 단어 탭은 30개, 연습문제 탭은 20개 출제
-            const questionLimit = (mode === '단어') ? 30 : 20;
-            quizList = shuffleArray(sourceQuestions).slice(0, questionLimit);
+
+            if (mode === '단어') {
+                quizList = shuffleArray(VOCAB_QUESTIONS).slice(0, 30);
+            } else {
+                // 대화문 9개 + 문법 14개 + 독해 12개 = 총 35개
+                const sampledDialogue = shuffleArray(PRACTICE_DIALOGUE).slice(0, 9);
+                const sampledGrammar = shuffleArray(PRACTICE_GRAMMAR).slice(0, 14);
+                const sampledReading = shuffleArray(PRACTICE_READING).slice(0, 12);
+
+                // 파트 구분 없이 전체를 무작위로 뒤섞음
+                quizList = shuffleArray([...sampledDialogue, ...sampledGrammar, ...sampledReading]);
+            }
 
             currentIndex = 0;
             score = 0;
