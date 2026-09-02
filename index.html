@@ -471,7 +471,7 @@
                 <!-- 학생별 / 과별 / 탭별 학습 완수 현황 요약 Card UI -->
                 <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-sm mb-4">
                     <h4 class="text-sm font-black text-slate-800 mb-3 flex items-center gap-1.5">
-                        📊 학생별·과별·탭별 학습 완수 현황 <span class="text-xs font-normal text-slate-400 ml-1">(선택 날짜 기준)</span>
+                        📊 학생별·과별·탭별 학습 완수 현황 <span class="text-xs font-normal text-slate-400 ml-1">(선택 날짜 기준, 복습 제외)</span>
                     </h4>
                     <div id="summary-text-detail" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-56 overflow-y-auto pr-1 custom-scrollbar">
                         <div class="text-sm text-slate-400 w-full col-span-2 text-center py-4 font-bold">로딩 중...</div>
@@ -820,7 +820,40 @@
             { id: 107, type: 'arrange', title: "'10분 이하로 걸릴 거예요'에 알맞게 말을 배열하시오.", words: ['It\'ll', 'take', 'less', 'than', '10 minutes'], answer: ['It\'ll', 'take', 'less', 'than', '10 minutes'] },
             { id: 108, type: 'multi_choice', title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.", dialogue: "B: Somi, I need help. What’s the best way [getting / to get] to Sebit Park from here?\nG: Sebit Park? Well, you can get there [on / by] bus or by subway, but the [bus / subway] is better.\nB: OK. Which line [I should / should I] take?\nG: Take line 3, and get [on / off] at Sebit Station.", groups: [{ label: "1번째 선택", options: ["getting", "to get"], answer: "to get" }, { label: "2번째 선택", options: ["on", "by"], answer: "by" }, { label: "3번째 선택", options: ["bus", "subway"], answer: "subway" }, { label: "4번째 선택", options: ["I should", "should I"], answer: "should I" }, { label: "5번째 선택", options: ["on", "off"], answer: "off" }] },
             { id: 109, type: 'text', title: "주어진 단어를 모두 사용하여 빈칸에 들어갈 질문을 쓰시오.\n(What's / best / way / get)", dialogue: "B: Excuse me. I’m going to the National Art Museum. (                            )\nG: You can walk. Go straight for about 500 meters and turn left. It’ll be on your right.\nB: I see. How long will it take?\nG: Only about 15 minutes.\nB: Really? Thanks.", answer: ["What's the best way to get there?", "What's the best way to get there", "what's the best way to get there?"] },
-            { id: 110, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: (                            )\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I'm free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.", options: ["About 40 minutes.", "You can take the subway.", "Why don't you buy the tickets?"], answer: 0 }
+            { id: 110, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: (                            )\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I'm free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.", options: ["About 40 minutes.", "You can take the subway.", "Why don't you buy the tickets?"], answer: 0 },
+            { id: 111, type: 'arrange', title: "'여기에서 Dream 쇼핑몰까지 어떻게 가나요?'에 알맞게 말을 배열하시오.", words: ['how', 'can', 'I', 'go', 'to', 'the', 'Dream Shopping', 'Mall', 'from', 'here'], answer: ['how', 'can', 'I', 'go', 'to', 'the', 'Dream Shopping', 'Mall', 'from', 'here'] },
+            { id: 112, type: 'choice', title: "빈칸에 공통으로 들어갈 말은?", dialogue: "A: Somi, I need help. What's the best way to get to Sebit Park from here?\nB: Sebit Park? Well, you can get there (   ) bus or (   ) subway, but the subway is better.", options: ["in", "by", "at", "on", "for"], answer: 1 },
+            { id: 113, type: 'choice', title: "빈칸에 들어갈 말은?", dialogue: "A: Excuse me. I'm going to the Kite Museum. How can I get there?\nB: You can walk. Go straight for (    ) 300 meters and turn right.\nA: I see.", options: ["about", "up", "into", "through", "since"], answer: 0 },
+            { id: 114, type: 'choice', title: "다음 대화의 내용과 일치하는 것은?", dialogue: "A: Excuse me. I'm going to the National Art Museum. How can I get there?\nB: You can walk. Go straight for about 500 meters and turn left. It'll be on your right.\nA: I see. How long will it take?\nB: Only about fifteen minutes.\nA: Really? Thanks.", options: ["A는 국제 미술관에 가고자 한다.", "A가 미술관에 가려면 왼쪽으로 돌고 500미터 직진해야 한다.", "A가 미술관에 가는 데까지 약 15분이 걸린다.", "A는 버스를 타고 미술관에 갈 것이다."], answer: 2 },
+            { id: 115, type: 'choice', title: "다음 대화의 내용과 일치하는 것은?", dialogue: "A: Excuse me. I'm going to the National Art Museum. How can I get there?\nB: You can walk. Go straight for about 500 meters and turn left. It'll be on your right.\nA: I see. How long will it take?\nB: Only about fifteen minutes.\nA: Really? Thanks.", options: ["미술관까지 가는 데 대략 50분이 걸린다.", "500미터 직진 후 왼쪽에 미술관이 있을 것이다.", "A는 국제적으로 운영되는 미술관에 가려고 한다.", "A는 도보로 출발하여 미술관에 도착할 수 있다."], answer: 3 },
+            { id: 116, type: 'choice', title: "빈칸에 들어갈 말은?", dialogue: "A: Excuse me. I'm going to the National Art Museum. What's the best way to get there?\nB: You can walk. Go straight for about 500 meters and turn left. It'll be (    ) your right.\nA: I see. How long will it take?\nB: Only about fifteen minutes.\nA: Really? Thanks.", options: ["in", "by", "at", "on", "to"], answer: 3 },
+            { id: 117, type: 'choice', title: "[to get]과 용법이 같은 것은?", dialogue: "A: Excuse me. I'm going to the National Art Museum. What's the best way [to get] there?\nB: You can walk. Go straight for about 500 meters and turn left. It'll be on your right.\nA: I see.", options: ["I studied hard [to pass] the exam.", "[To make] mistakes is nature.", "Do you have a pen [to write] with?", "My dream is [to become] a firefighter."], answer: 2 },
+            { id: 118, type: 'choice', title: "[to get]과 용법이 같은 것을 고르시오.", dialogue: "A: Excuse me. I'm going to the National Art Museum. What's the best way [to get] there?\nB: You can walk. Go straight for about 500 meters and turn left. It'll be on your right.\nA: I see.", options: ["There is nothing [to worry] about.", "Her goal is [to win] the contest.", "He needs [to finish] his homework.", "Jenny grew up [to become] the top student."], answer: 0 },
+            { id: 119, type: 'choice', title: "[to get]과 용법이 같은 것을 모두 고르시오.", dialogue: "A: Excuse me. I'm going to the National Art Museum. What's the best way [to get] there?\nB: You can walk. Go straight for about 500 meters and turn left. It'll be on your right.\nA: I see.", options: ["He has many books [to read].", "I am glad [to meet] you.", "She was the first student [to arrive].", "He promised [to call] me later."], answer: [0, 2] },
+            { id: 120, type: 'arrange', title: "'40분 이하로 걸릴 거예요'에 알맞게 말을 배열하시오.", words: ['it\'ll', 'take', 'less', 'than', '40 minutes'], answer: ['it\'ll', 'take', 'less', 'than', '40 minutes'] },
+            { id: 121, type: 'arrange', title: "'너는 버스를 타거나 지하철을 타고 거기로 갈 수 있는데, 지하철이 더 좋아.'에 알맞게 말을 배열하시오.", words: ['you', 'can', 'get', 'there', 'by', 'bus', 'or', 'by', 'subway', 'but', 'the subway', 'is', 'better'], answer: ['you', 'can', 'get', 'there', 'by', 'bus', 'or', 'by', 'subway', 'but', 'the subway', 'is', 'better'] },
+            { id: 122, type: 'arrange', title: "'이번 주 토요일에 미술 박람회가 있어.'에 알맞게 말을 배열하시오.", words: ['there', 'is', 'an', 'art fair', 'this', 'Saturday'], answer: ['there', 'is', 'an', 'art fair', 'this', 'Saturday'] },
+            { id: 123, type: 'arrange', title: "'시립 도서관까지 가는 데 얼마나 걸리나요?'에 알맞게 말을 배열하시오.", words: ['how', 'long', 'will', 'it', 'take', 'to get', 'to', 'the', 'city library'], answer: ['how', 'long', 'will', 'it', 'take', 'to get', 'to', 'the', 'city library'] },
+            { id: 124, type: 'arrange', title: "'한강역까지 가는 데 얼마나 걸리나요?'에 알맞게 말을 배열하시오.", words: ['how', 'long', 'will', 'it', 'take', 'to', 'get', 'to', 'Hangang Station'], answer: ['how', 'long', 'will', 'it', 'take', 'to', 'get', 'to', 'Hangang Station'] },
+            { id: 125, type: 'arrange', title: "'Joy 도서관까지 가는 데 얼마나 걸리나요?'에 알맞게 말을 배열하시오.", words: ['how', 'long', 'will', 'it', 'take', 'to', 'get', 'to', 'the', 'Joy Library'], answer: ['how', 'long', 'will', 'it', 'take', 'to', 'get', 'to', 'the', 'Joy Library'] },
+            { id: 126, type: 'multi_choice', title: "대화의 괄호에서 알맞은 말을 각각 고르시오.", dialogue: "A: Somi, I need help. What's the best way [getting / to get] to Sebit Park [from / for] here?\nB: Sebit Park? Well, you can get there [on / by] bus, or [on / by] subway, but the [bus / subway] is better.\nA: OK. Which line [I should / should I] take?\nB: Take line 3, and get [on / off] at Sebit Staion.\nA: Line 3 and get off at Sebit Station. How [long / much] will it take?\nB: It'll take [about / by] 40 minutes.\nA: Is it that [close / far]?\nB: Yes, [In fact / Anyway], [how / why] are you going to Sebit Park?\nA: Oh, there [is / are] an art fair this Saturday. You can come with me [if / when] you want.\nB: Really? I'm [busy / free] this Saturday. Let's go together.\nA: Perfect. Let's meet here [at / on] 10.", groups: [
+                { label: "1. [getting / to get]", options: ["getting", "to get"], answer: "to get" },
+                { label: "2. [from / for]", options: ["from", "for"], answer: "from" },
+                { label: "3. 버스 수단 [on / by]", options: ["on", "by"], answer: "by" },
+                { label: "4. 지하철 수단 [on / by]", options: ["on", "by"], answer: "by" },
+                { label: "5. [bus / subway] 더 좋은 것", options: ["bus", "subway"], answer: "subway" },
+                { label: "6. [I should / should I]", options: ["I should", "should I"], answer: "should I" },
+                { label: "7. [on / off]", options: ["on", "off"], answer: "off" },
+                { label: "8. [long / much]", options: ["long", "much"], answer: "long" },
+                { label: "9. [about / by]", options: ["about", "by"], answer: "about" },
+                { label: "10. [close / far]", options: ["close", "far"], answer: "far" },
+                { label: "11. [In fact / Anyway]", options: ["In fact", "Anyway"], answer: "Anyway" },
+                { label: "12. [how / why]", options: ["how", "why"], answer: "why" },
+                { label: "13. [is / are]", options: ["is", "are"], answer: "is" },
+                { label: "14. [if / when]", options: ["if", "when"], answer: "if" },
+                { label: "15. [busy / free]", options: ["busy", "free"], answer: "free" },
+                { label: "16. [at / on]", options: ["at", "on"], answer: "at" }
+            ]}
         ];
 
         const PRACTICE_GRAMMAR = [
@@ -994,7 +1027,6 @@
                 streakBadge.classList.remove('flex');
             }
 
-            selectedOption = null;
             userArrangeState = [];
             multiChoiceState = {};
             isAnswerChecked = false;
@@ -1022,6 +1054,9 @@
             container.innerHTML = '';
 
             if (q.type === 'choice') {
+                const isMultiSelect = Array.isArray(q.answer);
+                selectedOption = isMultiSelect ? [] : null;
+
                 const mappedOptions = q.options.map((opt, originalIdx) => ({ opt, originalIdx }));
                 const shuffledOptions = shuffleArray(mappedOptions);
 
@@ -1031,9 +1066,20 @@
                     btn.innerHTML = `<span>${item.opt}</span><div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs check-indicator"></div>`;
                     btn.onclick = () => {
                         if (isAnswerChecked) return;
-                        document.querySelectorAll('#interactive-area button').forEach(b => b.classList.remove('selected'));
-                        btn.classList.add('selected');
-                        selectedOption = item.originalIdx;
+                        if (isMultiSelect) {
+                            const pos = selectedOption.indexOf(item.originalIdx);
+                            if (pos > -1) {
+                                selectedOption.splice(pos, 1);
+                                btn.classList.remove('selected');
+                            } else {
+                                selectedOption.push(item.originalIdx);
+                                btn.classList.add('selected');
+                            }
+                        } else {
+                            document.querySelectorAll('#interactive-area button').forEach(b => b.classList.remove('selected'));
+                            btn.classList.add('selected');
+                            selectedOption = item.originalIdx;
+                        }
                     };
                     container.appendChild(btn);
                 });
@@ -1128,12 +1174,23 @@
             let detailMessage = "";
 
             if (q.type === 'choice') {
-                if (selectedOption === null) {
-                    alert('정답을 선택해 주세요!');
-                    return;
+                if (Array.isArray(q.answer)) {
+                    if (!selectedOption || selectedOption.length === 0) {
+                        alert('정답을 선택해 주세요!');
+                        return;
+                    }
+                    const userSorted = [...selectedOption].sort((a, b) => a - b);
+                    const ansSorted = [...q.answer].sort((a, b) => a - b);
+                    isCorrect = (JSON.stringify(userSorted) === JSON.stringify(ansSorted));
+                    detailMessage = q.answer.map(idx => q.options[idx]).join(', ');
+                } else {
+                    if (selectedOption === null) {
+                        alert('정답을 선택해 주세요!');
+                        return;
+                    }
+                    isCorrect = (selectedOption === q.answer);
+                    detailMessage = q.options[q.answer];
                 }
-                isCorrect = (selectedOption === q.answer);
-                detailMessage = q.options[q.answer];
             } else if (q.type === 'arrange') {
                 const userWordsArr = userArrangeState.map(x => x.word);
                 const userStrSpaced = userWordsArr.join(' ');
@@ -1463,7 +1520,7 @@
             }
         }
 
-        // 학생별 -> 과별(5과/6과/영영풀이) -> 탭별 완수 횟수 가독성 향상 집계 표시
+        // 학생별 -> 과별(5과/6과/영영풀이) -> 탭별 완수 횟수 집계 표시 (복습 제외)
         async function renderRecords() {
             const selectedDate = document.getElementById('filter-date').value;
             const selectedMode = document.getElementById('filter-mode').value;
@@ -1494,9 +1551,12 @@
                 filtered = filtered.filter(r => (r.mode || '').includes(selectedMode));
             }
 
-            // 계층 구조 데이터 생성: studentStats[학생이름][과이름][탭이름] = 완수횟수
+            // 계층 구조 데이터 생성: studentStats[학생이름][과이름][탭이름] = 완수횟수 (복습 카운트 제외)
             const studentStats = {};
             filtered.forEach(r => {
+                const isReview = (r.mode || '').includes('복습');
+                if (isReview) return; // 복습 카운트 제외 처리
+
                 const student = r.name || "알 수 없음";
                 const chapter = r.chapter || "5과";
                 const rawMode = (r.mode || "Word").replace(" (복습)", "");
@@ -1542,7 +1602,7 @@
                     summaryHTML += `</div></div>`;
                 }
             } else {
-                summaryHTML = '<div class="text-xs text-slate-400 w-full col-span-2 text-center py-4 font-bold">해당 날짜에 기록된 학습이 없습니다.</div>';
+                summaryHTML = '<div class="text-xs text-slate-400 w-full col-span-2 text-center py-4 font-bold">해당 날짜에 기록된 정규 학습 완료 건이 없습니다.</div>';
             }
             
             summaryEl.innerHTML = summaryHTML;
@@ -1643,5 +1703,4 @@
     </script>
 </body>
 </html>
-
 
