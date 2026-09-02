@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5과 학습 - Colin T의 영어 공부</title>
+    <title>2학기 중간 English - Colin T의 영어 공부</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -129,7 +129,7 @@
                     Colin T의 영어 공부
                 </div>
                 <div class="text-lg sm:text-xl font-black text-slate-800 tracking-tight mt-0.5">
-                    5과 학습
+                    2학기 중간 English
                 </div>
             </div>
 
@@ -161,7 +161,7 @@
                     Colin T의 영어 공부
                 </div>
                 <h1 class="text-4xl sm:text-5xl font-black text-slate-800 tracking-tight pt-1">
-                    5과 학습
+                    2학기 중간 English
                 </h1>
             </div>
 
@@ -182,11 +182,45 @@
             </div>
         </section>
 
-        <!-- STEP 2: Mode Selection & Realtime Leaderboard -->
+        <!-- STEP 2: Lesson Chapter Selection (5과 / 6과 / 영영풀이) -->
+        <section id="screen-chapter-select" class="hidden w-full max-w-md space-y-5 py-4 text-center">
+            <div class="space-y-1">
+                <div class="text-xs font-bold text-lime-600 uppercase tracking-wider">Chapter Select</div>
+                <h2 class="text-2xl font-black text-slate-800">학습 단원을 선택하세요</h2>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3.5">
+                <button onclick="selectChapter('5과')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-5 rounded-3xl shadow-sm text-left transition-all duo-card flex items-center justify-between group">
+                    <div>
+                        <div class="font-black text-xl text-slate-800">📘 5과</div>
+                        <div class="text-xs text-slate-400 font-medium mt-0.5">Lesson 5 Quest</div>
+                    </div>
+                    <span class="bg-lime-100 text-lime-700 font-bold text-xs px-3 py-1 rounded-full">학습 가능</span>
+                </button>
+
+                <button onclick="alert('업데이트 예정!')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 p-5 rounded-3xl shadow-sm text-left transition-all duo-card flex items-center justify-between group opacity-75">
+                    <div>
+                        <div class="font-black text-xl text-slate-700">📗 6과</div>
+                        <div class="text-xs text-slate-400 font-medium mt-0.5">Lesson 6 Quest</div>
+                    </div>
+                    <span class="bg-slate-100 text-slate-500 font-bold text-xs px-3 py-1 rounded-full">업데이트 예정!</span>
+                </button>
+
+                <button onclick="alert('업데이트 예정!')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 p-5 rounded-3xl shadow-sm text-left transition-all duo-card flex items-center justify-between group opacity-75">
+                    <div>
+                        <div class="font-black text-xl text-slate-700">📙 영영풀이</div>
+                        <div class="text-xs text-slate-400 font-medium mt-0.5">English-English Definitions</div>
+                    </div>
+                    <span class="bg-slate-100 text-slate-500 font-bold text-xs px-3 py-1 rounded-full">업데이트 예정!</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 3: Mode Selection & Realtime Leaderboard (5과) -->
         <section id="screen-mode-select" class="hidden w-full max-w-md space-y-5 py-4">
             <div class="bg-gradient-to-r from-lime-500 to-emerald-600 p-5 rounded-3xl text-white shadow-md flex justify-between items-center">
                 <div>
-                    <div class="text-xs font-bold opacity-80 uppercase tracking-wider">나의 누적 학습 활동</div>
+                    <div class="text-xs font-bold opacity-80 uppercase tracking-wider">5과 학습 활동</div>
                     <div class="text-2xl font-black mt-0.5"><span id="mode-user-name"></span> 학생</div>
                 </div>
                 <div class="text-right">
@@ -196,17 +230,22 @@
             </div>
 
             <div class="space-y-3">
-                <div class="text-xs font-extrabold text-slate-400 uppercase tracking-wider px-1">학습 파트 선택</div>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="startMode('단어')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-5 rounded-3xl shadow-sm text-left transition-all duo-card group">
-                        <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">🔤</div>
-                        <div class="font-black text-lg text-slate-800">단어</div>
-                        <div class="text-xs text-slate-400 font-medium mt-1">무작위 출제</div>
+                <div class="text-xs font-extrabold text-slate-400 uppercase tracking-wider px-1">학습 파트 선택 (5과)</div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    <button onclick="startMode('Word')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-4 rounded-2xl shadow-sm text-left transition-all duo-card group">
+                        <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">🔤</div>
+                        <div class="font-black text-base text-slate-800">Word</div>
+                        <div class="text-[11px] text-slate-400 font-medium mt-0.5">20문제 출제</div>
                     </button>
-                    <button onclick="startMode('연습문제')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-5 rounded-3xl shadow-sm text-left transition-all duo-card group">
-                        <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">📝</div>
-                        <div class="font-black text-lg text-slate-800">연습문제</div>
-                        <div class="text-xs text-slate-400 font-medium mt-1">대화/문법/본문</div>
+                    <button onclick="startMode('단어 문제')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-4 rounded-2xl shadow-sm text-left transition-all duo-card group">
+                        <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">✏️</div>
+                        <div class="font-black text-base text-slate-800">단어 문제</div>
+                        <div class="text-[11px] text-slate-400 font-medium mt-0.5">12문제 출제</div>
+                    </button>
+                    <button onclick="startMode('연습문제')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-4 rounded-2xl shadow-sm text-left transition-all duo-card group">
+                        <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">📝</div>
+                        <div class="font-black text-base text-slate-800">연습문제</div>
+                        <div class="text-[11px] text-slate-400 font-medium mt-0.5">대화/문법/본문</div>
                     </button>
                 </div>
             </div>
@@ -225,14 +264,14 @@
             </div>
         </section>
 
-        <!-- STEP 3: Quiz Screen -->
+        <!-- STEP 4: Quiz Screen -->
         <section id="screen-quiz" class="hidden flex-1 flex flex-col justify-between max-w-xl mx-auto w-full py-2">
             <div class="w-full mb-3">
                 <div class="flex justify-between items-center mb-1.5 text-xs sm:text-sm font-extrabold text-slate-400">
-                    <span id="quiz-progress-text">1 / 35</span>
+                    <span id="quiz-progress-text">1 / 20</span>
 
                     <div id="review-mode-indicator" class="hidden bg-amber-100 text-amber-800 px-3 py-0.5 rounded-full border border-amber-300 font-black text-xs">
-                        📝 오답 노트 복습 중 (맞히면 2pt)
+                        📝 오답 노트 복습 중
                     </div>
 
                     <div id="streak-badge" class="hidden items-center gap-1 bg-amber-100 text-amber-800 px-3 py-0.5 rounded-full border border-amber-300 font-black text-xs animate-flame">
@@ -284,7 +323,7 @@
             </div>
         </section>
 
-        <!-- STEP 4: Perfect Result Screen -->
+        <!-- STEP 5: Perfect Result Screen -->
         <section id="screen-result" class="hidden text-center space-y-6 my-auto py-8 w-full max-w-md">
             <div class="text-7xl mb-2 animate-bounce">👑</div>
             <div class="space-y-1">
@@ -311,7 +350,7 @@
     </main>
 
     <footer class="text-center py-4 text-xs font-medium text-slate-400">
-        Colin T의 영어 공부 • 5과 학습 Interactive Quest
+        Colin T의 영어 공부 • 2학기 중간 English Interactive Quest
     </footer>
 
     <!-- Answer Feedback Modal -->
@@ -399,8 +438,9 @@
                     <div class="flex items-center space-x-2">
                         <input type="date" id="filter-date" onchange="renderRecords()" class="border-2 border-slate-200 rounded-xl px-3 py-1.5 font-bold text-slate-700 text-xs focus:outline-none focus:border-lime-500">
                         <select id="filter-mode" onchange="renderRecords()" class="border-2 border-slate-200 rounded-xl px-3 py-1.5 font-bold text-slate-700 text-xs focus:outline-none focus:border-lime-500">
-                            <option value="전체">전체 파트</option>
-                            <option value="단어">🔤 단어</option>
+                            <option value="전체">전체 탭</option>
+                            <option value="Word">🔤 Word</option>
+                            <option value="단어 문제">✏️ 단어 문제</option>
                             <option value="연습문제">📝 연습문제</option>
                         </select>
                     </div>
@@ -418,12 +458,19 @@
                     </div>
                 </div>
 
+                <!-- 학습 완료 횟수 요약 카드 -->
+                <div id="records-summary-card" class="bg-lime-50 border border-lime-200 rounded-2xl p-3 text-xs text-lime-900 font-bold flex flex-wrap justify-between gap-2">
+                    <div>📊 선택 날짜 학습 현황 Summary</div>
+                    <div id="summary-text-detail" class="text-lime-700">로딩 중...</div>
+                </div>
+
                 <div class="border-2 border-slate-100 rounded-2xl overflow-hidden">
                     <table class="w-full text-left border-collapse">
                         <thead class="bg-slate-50 text-slate-500 text-xs uppercase font-extrabold">
                             <tr>
                                 <th class="p-3 border-b">시간</th>
-                                <th class="p-3 border-b">모드</th>
+                                <th class="p-3 border-b">단원</th>
+                                <th class="p-3 border-b">탭</th>
                                 <th class="p-3 border-b">이름</th>
                                 <th class="p-3 border-b">점수</th>
                             </tr>
@@ -514,6 +561,7 @@
     <!-- JavaScript Logic -->
     <script>
         let isTeacherAuthenticated = false;
+        let currentChapter = "5과";
 
         function getCloudDbUrl() {
             const saved = localStorage.getItem('cloud_db_url');
@@ -590,531 +638,215 @@
             }
         }
 
-        // 1. 대화문 (Dialogue) 파트 문제 은행
+        // --- NEW QUESTIONS ADDED (Requirement 8) ---
+        // 1. WORD_QUESTIONS (For 'Word' Tab)
+        const WORD_QUESTIONS = [
+            { id: 'w1', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nstadium", answer: ["경기장"] },
+            { id: 'w2', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nline", answer: ["노선", "선"] },
+            { id: 'w3', type: 'text', title: "다음 단어의 뜻을 쓰시오.\ndot", answer: ["점"] },
+            { id: 'w4', type: 'text', title: "다음 단어의 뜻을 쓰시오.\naccording to", answer: ["~에 따르면", "~에 따라", "따라", "따르면"] },
+            { id: 'w5', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nfigure", answer: ["인물", "모습"] },
+            { id: 'w6', type: 'text', title: "다음 단어의 뜻을 쓰시오.\npast", answer: ["과거"] },
+            { id: 'w7', type: 'text', title: "다음 단어의 뜻을 쓰시오.\npresent", answer: ["현재"] },
+            { id: 'w8', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nfuture", answer: ["미래"] },
+            { id: 'w9', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nclosely", answer: ["가까이", "자세히"] },
+            { id: 'w10', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nclue", answer: ["단서", "실마리"] },
+            { id: 'w11', type: 'text', title: "다음 단어의 뜻을 쓰시오.\ncarry", answer: ["나르다", "담다", "지니다"] },
+            { id: 'w12', type: 'text', title: "다음 단어의 뜻을 쓰시오.\ninternationally", answer: ["국제적으로"] },
+            { id: 'w13', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nsocial", answer: ["사회적인", "사회의"] },
+            { id: 'w14', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nmessage", answer: ["메시지"] },
+            { id: 'w15', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nexample", answer: ["예", "예시"] },
+            { id: 'w16', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nspray", answer: ["분무하다", "뿌리다"] },
+            { id: 'w17', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nleafless", answer: ["잎이 없는"] },
+            { id: 'w18', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nhold", answer: ["들다", "쥐다", "잡다"] },
+            { id: 'w19', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nsprayer", answer: ["분무기", "살포기"] },
+            { id: 'w20', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nthrough", answer: ["~을 통해", "통해", "통해서", "~을 통하여", "통하여"] },
+            { id: 'w21', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nopinion", answer: ["의견", "견해"] },
+            { id: 'w22', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nfinal", answer: ["최종적인", "마지막의", "최종의"] },
+            { id: 'w23', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nnature", answer: ["자연"] },
+            { id: 'w24', type: 'text', title: "다음 단어의 뜻을 쓰시오.\ntake care of", answer: ["~을 돌보다", "돌보다"] },
+            { id: 'w25', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nstop", answer: ["방문지", "들르는 곳"] },
+            { id: 'w26', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nchew", answer: ["씹다"] },
+            { id: 'w27', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nbe known for", answer: ["~로 알려져 있다"] },
+            { id: 'w28', type: 'text', title: "다음 단어의 뜻을 쓰시오.\ndrop", answer: ["떨어뜨리다"] },
+            { id: 'w29', type: 'text', title: "다음 단어의 뜻을 쓰시오.\npersonal", answer: ["개인의", "개인적인"] },
+            { id: 'w30', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nfor example", answer: ["예를 들면", "예를 들어"] },
+            { id: 'w31', type: 'text', title: "다음 단어의 뜻을 쓰시오.\ntiny", answer: ["아주 작은", "매우 작은"] },
+            { id: 'w32', type: 'text', title: "다음 단어의 뜻을 쓰시오.\npleasure", answer: ["즐거움", "기쁨"] },
+            { id: 'w33', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nsubway", answer: ["지하철"] },
+            { id: 'w34', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nget off", answer: ["내리다"] },
+            { id: 'w35', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nfar", answer: ["먼", "멀리"] },
+            { id: 'w36', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nabout", answer: ["약", "대략"] },
+            { id: 'w37', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nnational", answer: ["국가의", "국가적인"] },
+            { id: 'w38', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nway", answer: ["방법"] },
+            { id: 'w39', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nstraight", answer: ["똑바로", "곧장", "직진으로"] },
+            { id: 'w40', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nanyway", answer: ["그런데", "어쨌든"] },
+            { id: 'w41', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nfair", answer: ["박람회", "공정한"] },
+            { id: 'w42', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nfree", answer: ["한가한", "시간이 있는"] },
+            { id: 'w43', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nperfect", answer: ["완벽한", "완전한"] },
+            { id: 'w44', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nstreet", answer: ["거리", "도로"] },
+            { id: 'w45', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nmodern", answer: ["현대적인", "현대의", "근대의"] },
+            { id: 'w46', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nform", answer: ["모양", "형태", "방식"] },
+            { id: 'w47', type: 'text', title: "다음 단어의 뜻을 쓰시오.\ncolorful", answer: ["다채로운", "화려한", "형형색색의"] },
+            { id: 48, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nlively", answer: ["활기찬", "생기 넘치는"] },
+            { id: 49, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nwell-known", answer: ["유명한", "잘 알려진"] },
+            { id: 50, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nartwork", answer: ["예술 작품", "미술품", "예술품"] },
+            { id: 51, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nprivate", answer: ["개인의", "개인적인"] },
+            { id: 52, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nget", answer: ["도착하다"] },
+            { id: 53, type: 'text', title: "다음 단어의 뜻을 쓰시오.\npoor", answer: ["가난한", "빈곤한"] },
+            { id: 54, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nrepresent", answer: ["대표하다", "상징하다", "나타내다"] },
+            { id: 55, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nworker", answer: ["노동자", "근로자"] },
+            { id: 56, type: 'text', title: "다음 단어의 뜻을 쓰시오.\narea", answer: ["지역", "구역"] },
+            { id: 57, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nhip", answer: ["세련된", "최신 유행의", "유행에 밝은", "최신 유행에 밝은"] },
+            { id: 58, type: 'text', title: "다음 단어의 뜻을 쓰시오.\ngreat", answer: ["멋진", "큰", "상당한"] },
+            { id: 59, type: 'text', title: "다음 단어의 뜻을 쓰시오.\npiece", answer: ["작품", "조각", "한 점"] },
+            { id: 60, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nancient", answer: ["고대의", "옛날의", "오래된"] },
+            { id: 61, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nartist", answer: ["예술가", "화가", "작가"] },
+            { id: 62, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nbe famous for", answer: ["~로 유명하다", "유명하다"] },
+            { id: 63, type: 'text', title: "다음 단어의 뜻을 쓰시오.\npoverty", answer: ["빈곤", "가난"] },
+
+            // 추가 단어 객관식 묶음 문제들
+            { id: 'w64', type: 'multi_choice', title: "다음 단어의 뜻을 고르시오.", groups: [
+                { label: "tiny", options: ["큰", "작은"], answer: "작은" },
+                { label: "stadium", options: ["운동장", "경기장"], answer: "경기장" },
+                { label: "for example", options: ["실제로", "예를 들면"], answer: "예를 들면" },
+                { label: "personal", options: ["개인적인", "사회적인"], answer: "개인적인" },
+                { label: "fair", options: ["박람회", "미술관"], answer: "박람회" }
+            ]},
+            { id: 'w65', type: 'multi_choice', title: "다음 단어의 뜻을 고르시오.", groups: [
+                { label: "private", options: ["개인적인", "사회적인"], answer: "개인적인" },
+                { label: "worker", options: ["노동", "노동자"], answer: "노동자" },
+                { label: "clue", options: ["주장", "실마리"], answer: "실마리" },
+                { label: "past", options: ["현재", "과거"], answer: "과거" },
+                { label: "lively", options: ["활기찬", "활기차게"], answer: "활기찬" }
+            ]},
+            { id: 'w66', type: 'multi_choice', title: "다음 단어의 뜻을 고르시오.", groups: [
+                { label: "straight", options: ["똑바로", "완전한"], answer: "똑바로" },
+                { label: "street", options: ["길", "골목"], answer: "길" },
+                { label: "represent", options: ["상징하다", "추천하다"], answer: "상징하다" },
+                { label: "social", options: ["개인적인", "사회적인"], answer: "사회적인" },
+                { label: "great", options: ["상당한", "완벽한"], answer: "상당한" }
+            ]},
+            { id: 'w67', type: 'multi_choice', title: "다음 단어의 뜻을 고르시오.", groups: [
+                { label: "modern", options: ["현대의", "고대의"], answer: "현대의" },
+                { label: "dot", options: ["점", "선"], answer: "점" },
+                { label: "future", options: ["과거", "미래"], answer: "미래" },
+                { label: "far", options: ["먼", "긴"], answer: "먼" },
+                { label: "about", options: ["대략", "통하여"], answer: "대략" }
+            ]},
+            { id: 'w68', type: 'multi_choice', title: "다음 단어의 뜻을 고르시오.", groups: [
+                { label: "pleasure", options: ["즐거움", "즐거운"], answer: "즐거움" },
+                { label: "drop", options: ["떨어뜨리다", "줍다"], answer: "떨어뜨리다" },
+                { label: "free", options: ["자유롭게", "한가한"], answer: "한가한" },
+                { label: "represent", options: ["나타내다", "연구하다"], answer: "나타내다" },
+                { label: "poverty", options: ["빈곤", "가난한"], answer: "빈곤" }
+            ]},
+            { id: 'w69', type: 'multi_choice', title: "다음 단어의 뜻을 고르시오.", groups: [
+                { label: "personal", options: ["개인적인", "사회적인"], answer: "개인적인" },
+                { label: "leafless", options: ["잎이 있는", "잎이 없는"], answer: "잎이 없는" },
+                { label: "closely", options: ["가까운", "자세히"], answer: "자세히" },
+                { label: "get off", options: ["끄다", "내리다"], answer: "내리다" },
+                { label: "form", options: ["형태", "예술품"], answer: "형태" }
+            ]},
+            { id: 'w70', type: 'multi_choice', title: "다음 단어의 뜻을 고르시오.", groups: [
+                { label: "spray", options: ["뿌리다", "분무기"], answer: "뿌리다" },
+                { label: "through", options: ["통해서", "대하여"], answer: "통해서" },
+                { label: "national", options: ["국가의", "국제의"], answer: "국가의" },
+                { label: "carry", options: ["담다", "쥐다"], answer: "담다" },
+                { label: "artist", options: ["예술가", "예술품"], answer: "예술가" }
+            ]},
+            { id: 'w71', type: 'multi_choice', title: "다음 단어의 뜻을 고르시오.", groups: [
+                { label: "internationally", options: ["국제적으로", "국가적으로"], answer: "국제적으로" },
+                { label: "present", options: ["과거", "현재"], answer: "현재" },
+                { label: "according to", options: ["~에 따르면", "~함으로써"], answer: "~에 따르면" },
+                { label: "for example", options: ["실제로", "예로"], answer: "예로" },
+                { label: "way", options: ["방법", "형태"], answer: "방법" }
+            ]},
+            { id: 'w72', type: 'multi_choice', title: "다음 단어의 뜻을 고르시오.", groups: [
+                { label: "way", options: ["형태", "방법"], answer: "방법" },
+                { label: "final", options: ["최종의", "단순한"], answer: "최종의" },
+                { label: "spray", options: ["분무기", "뿌리다"], answer: "뿌리다" },
+                { label: "past", options: ["미래", "과거"], answer: "과거" },
+                { label: "colorful", options: ["다채로운", "단조로운"], answer: "다채로운" }
+            ]}
+        ];
+
+        // 2. VOCAB_TEST_QUESTIONS (For '단어 문제' Tab)
+        const VOCAB_TEST_QUESTIONS = [
+            { id: 'vt1', type: 'multi_choice', title: "[ ] 속 단어의 뜻을 고르시오.\n- It will take [about] twelve minutes.\n- We saw a [great] painting in the school hall.", groups: [
+                { label: "about", options: ["대략", "대하여"], answer: "대략" },
+                { label: "great", options: ["상당한", "멋진"], answer: "멋진" }
+            ]},
+            { id: 'vt2', type: 'multi_choice', title: "[ ] 속 단어의 뜻을 고르시오.\n- The [present] is more importart than yesterday's mistake.\n- James ate the last [piece] of bread.", groups: [
+                { label: "present", options: ["선물", "현재"], answer: "현재" },
+                { label: "piece", options: ["작품", "조각"], answer: "조각" }
+            ]},
+            { id: 'vt3', type: 'multi_choice', title: "[ ] 속 단어의 뜻을 고르시오.\n- I think it caused [great] damage to the small village.\n- Mina read the note [closely] to find the name.", groups: [
+                { label: "great", options: ["멋진", "상당한"], answer: "상당한" },
+                { label: "closely", options: ["자세히", "가까이"], answer: "자세히" }
+            ]},
+            { id: 'vt4', type: 'multi_choice', title: "[ ] 속 단어의 뜻을 고르시오.\n- I will [take] a taxi to get there.\n- The blue flags [represent] freedom.", groups: [
+                { label: "take", options: ["타고 가다", "가지고 가다"], answer: "타고 가다" },
+                { label: "represent", options: ["대표하다", "상징하다"], answer: "상징하다" }
+            ]},
+            { id: 'vt5', type: 'choice', title: "represent의 유의어는?", options: ["show", "drop", "stop", "hold"], answer: 0 },
+            { id: 'vt6', type: 'choice', title: "final의 유의어는?", options: ["best", "last", "huge", "wealthy"], answer: 1 },
+            { id: 'vt7', type: 'choice', title: "pleasure의 유의어는?", options: ["delight", "public", "serious", "secret"], answer: 0 },
+            { id: 'vt8', type: 'choice', title: "lively의 반의어는?", options: ["active", "private", "energetic", "lifeless"], answer: 3 },
+            { id: 'vt9', type: 'choice', title: "far의 반의어는?", options: ["near", "through", "into", "point"], answer: 0 },
+            { id: 'vt10', type: 'choice', title: "internationally의 유의어는?", options: ["view", "globally", "nationally", "well-known"], answer: 1 },
+            { id: 'vt11', type: 'choice', title: "internationally의 유의어는?", options: ["worldwide", "finally", "colorful", "represent"], answer: 0 },
+            
+            // 기존 단어 문맥 문제 추가
+            { id: 84, type: 'arrange', title: "'나는 오늘 오후에 한가해서 멀리 걸어갈 거야.'에 알맞게 말을 배열하시오.", words: ['I', 'am', 'free', 'this', 'afternoon', 'so', "I'll", 'walk', 'far'], answer: ['I', 'am', 'free', 'this', 'afternoon', 'so', "I'll", 'walk', 'far'] },
+            { id: 85, type: 'arrange', title: "'그 공장 노동자는 국가적 박물관을 자세히 보았다.'에 알맞게 말을 배열하시오.", words: ['The factory', 'worker', 'looked', 'a', 'national', 'museum', 'closely'], answer: ['The factory', 'worker', 'looked', 'a', 'national', 'museum', 'closely'] },
+            { id: 1, type: 'choice', title: "'자세히'에 해당하는 영단어는?", options: ['closely', 'national', 'lively', 'poor'], answer: 0 },
+            { id: 3, type: 'choice', title: "빈칸에 들어갈 말은?\nYou should take (    ) 2 to get to the museum faster.", options: ['Anyway', 'Line', 'Way', 'Great'], answer: 1 },
+            { id: 78, type: 'arrange', title: "'곧장' 영단어에 맞게 철자를 배열하시오.", words: ['s', 't', 'r', 'a', 'i', 'g', 'h', 't'], answer: ['s', 't', 'r', 'a', 'i', 'g', 'h', 't'] }
+        ];
+
+        // 3. 대화문 (Dialogue) 파트 문제 은행
         const PRACTICE_DIALOGUE = [
             { id: 101, type: 'arrange', title: "'~에 어떻게 가나요?'에 알맞게 말을 배열하시오.", words: ['how', 'can', 'I', 'get', 'to'], answer: ['how', 'can', 'I', 'get', 'to'] },
-            { id: 102, type: 'choice', title: "빈칸에 들어갈 응답으로 가장 알맞은 것은?", dialogue: "A: What is the best way to get to the museum?\nB: (                                   )", options: ["About one hour by subway.", "It's a little difficult, James.", "You can walk there."], answer: 2 },
+            { id: 102, type: 'choice', title: "빈칸에 들어갈 응답으로 가장 알맞은 것은?", dialogue: "A: What is the best way to get to the museum?\nB: (                                    )", options: ["About one hour by subway.", "It's a little difficult, James.", "You can walk there."], answer: 2 },
             { id: 103, type: 'text', title: "빈칸에 들어갈 알맞은 의문사를 쓰시오.", dialogue: "(        ) can I get to the bank?", answer: ["How", "how"] },
             { id: 104, type: 'choice', title: "대화의 내용과 일치하는 것은?", dialogue: "B: Excuse me, how can I get to the Star Stadium?\nG: You can get there by subway. Take line 4, the green line, and get off at Hangang Station.\nB: Line 4 and Hangang Station. Got it. How long will it take?\nG: A little more than 30 minutes.", options: ["The boy should leave the subway at City Hall Station.", "The trip to the Star Stadium takes a little more than 30 minutes.", "To get to the Star Stadium, the boy should use bus."], answer: 1 },
             { id: 105, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Excuse me. I’m going to the National Art Museum. What’s the best way to get there?\nG: You can walk. Go straight for about 500 meters and turn left. It’ll be on your right.\nB: I see. How long will it take?\nG: (                      )\nB: Really? Thanks.", options: ["Only about 15 minutes.", "You can get to the museum.", "I know it took one hour to get there."], answer: 0 },
-            { id: 106, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Excuse me, how can I get to the Star Stadium?\nG: (                       ) Take line 4, the green line, and get off at Hangang Station.\nB: Line 4 and Hangang Station. Got it. How long will it take?\nG: A little more than 30 minutes.", options: ["You can get there on foot.", "Why don't you take the subway?", "About 30 minutes."], answer: 1 },
+            { id: 106, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Excuse me, how can I get to the Star Stadium?\nG: (                        ) Take line 4, the green line, and get off at Hangang Station.\nB: Line 4 and Hangang Station. Got it. How long will it take?\nG: A little more than 30 minutes.", options: ["You can get there on foot.", "Why don't you take the subway?", "About 30 minutes."], answer: 1 },
             { id: 107, type: 'arrange', title: "'10분 이하로 걸릴 거예요'에 알맞게 말을 배열하시오.", words: ['It\'ll', 'take', 'less', 'than', '10 minutes'], answer: ['It\'ll', 'take', 'less', 'than', '10 minutes'] },
             { id: 108, type: 'multi_choice', title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.", dialogue: "B: Somi, I need help. What’s the best way [getting / to get] to Sebit Park from here?\nG: Sebit Park? Well, you can get there [on / by] bus or by subway, but the [bus / subway] is better.\nB: OK. Which line [I should / should I] take?\nG: Take line 3, and get [on / off] at Sebit Station.", groups: [{ label: "1번째 선택", options: ["getting", "to get"], answer: "to get" }, { label: "2번째 선택", options: ["on", "by"], answer: "by" }, { label: "3번째 선택", options: ["bus", "subway"], answer: "subway" }, { label: "4번째 선택", options: ["I should", "should I"], answer: "should I" }, { label: "5번째 선택", options: ["on", "off"], answer: "off" }] },
-            { id: 109, type: 'text', title: "주어진 단어를 모두 사용하여 빈칸에 들어갈 질문을 쓰시오.\n(What's / best / way / get)", dialogue: "B: Excuse me. I’m going to the National Art Museum. (                           )\nG: You can walk. Go straight for about 500 meters and turn left. It’ll be on your right.\nB: I see. How long will it take?\nG: Only about 15 minutes.\nB: Really? Thanks.", answer: ["What's the best way to get there?", "What's the best way to get there", "what's the best way to get there?"] },
-            { id: 110, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: (                           )\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I'm free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.", options: ["About 40 minutes.", "You can take the subway.", "Why don't you buy the tickets?"], answer: 0 },
-            { id: 111, type: 'arrange', title: "'한 시간 조금 넘게 걸릴 거예요.'에 알맞게 말을 배열하시오.", words: ['It\'ll take', 'a', 'little', 'more', 'than', 'one', 'hour'], answer: ['It\'ll take', 'a', 'little', 'more', 'than', 'one', 'hour'] },
-            { id: 112, type: 'arrange', title: "'500미터 정도 곧장 가서 왼쪽으로 도세요.'에 알맞게 말을 배열하시오.", words: ['go', 'straight', 'for', 'about', '500 meters', 'and', 'turn', 'left'], answer: ['go', 'straight', 'for', 'about', '500 meters', 'and', 'turn', 'left'] },
-            { id: 113, type: 'choice', title: "대화의 내용과 일치하는 것은?", dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I’m free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.", options: ["The subway is the best way to get to Sebit Park.", "On the day of the art fair, the girl will be not busy.", "By getting off at Sebit Station before taking line 3, the boy can get to Sebit Park."], answer: 0 },
-            { id: 114, type: 'choice', title: "빈칸에 들어갈 알맞은 말은?", dialogue: "G: Do you need help?\nB: Yes. How can I get to the Dream Shopping Mall from here? Can I walk?\nG: You can, but it’s a little far. (                           ) Take No. 12.\nB: OK. How long will it take by bus?\nG: Not very long. It’ll take less than 10 minutes.", options: ["You are able to go by subway.", "Why don't you take the bus?", "It will take 10 minutes."], answer: 1 },
-            { id: 115, type: 'text', title: "'조금 멀어요.'에 알맞게 주어진 단어를 사용하여 영문장을 쓰시오.\n(is / little)", answer: ["It is a little far.", "It's a little far.", "It is a little far", "It's a little far"] },
-            { id: 116, type: 'arrange', title: "'은행에 가는 길을 알려 주실 수 있나요?'에 알맞게 말을 배열하시오.", words: ['Can', 'you', 'tell', 'me', 'how', 'to', 'get', 'to', 'the', 'bank?'], answer: ['Can', 'you', 'tell', 'me', 'how', 'to', 'get', 'to', 'the', 'bank?'] },
-            { id: 117, type: 'arrange', title: "대화를 순서대로 알맞게 배열하시오.", words: ["I'm sorry, but how can I get to the Sky Cinema?", "It's not far, but it's a little difficult to find. Why don't you take a taxi?", "OK. How long will it take?", "About 20 minutes."], answer: ["I'm sorry, but how can I get to the Sky Cinema?", "It's not far, but it's a little difficult to find. Why don't you take a taxi?", "OK. How long will it take?", "About 20 minutes."] },
-            { id: 118, type: 'arrange', title: "대화를 순서대로 알맞게 배열하시오.", words: ["Do you need help?", "Yes. How can I get to the Dream Shopping Mall from here? Can I walk?", "You can, but it's a little far. Why don't you go by bus? Take bus No. 12", "OK. How long will it take by bus?", "Not very long. It'll take less than 10 minutes."], answer: ["Do you need help?", "Yes. How can I get to the Dream Shopping Mall from here? Can I walk?", "You can, but it's a little far. Why don't you go by bus? Take bus No. 12", "OK. How long will it take by bus?", "Not very long. It'll take less than 10 minutes."] },
-            { id: 119, type: 'text', title: "'가까운'에 해당하는 영단어를 쓰시오.", answer: ["close", "Close"] },
-            { id: 120, type: 'text', title: "'나는 이번 주 토요일에 한가해.'에 알맞게 주어진 단어를 사용하여 영문장을 쓰시오.\n(I'm / this)", answer: ["I'm free this Saturday.", "I'm free this Saturday", "i'm free this saturday.", "I am free this Saturday."] },
-            { id: 121, type: 'text', title: "대화의 흐름상 빈칸에 들어갈 질문을 쓰시오.", dialogue: "B: Line 3 and get off at Sebit Station. (                           )\nG: It’ll take about 40 minutes.\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?", answer: ["How long will it take?", "How long will it take", "how long will it take?"] },
-            { id: 123, type: 'text', title: "'그 경기장에 어떻게 가나요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(get / can)", answer: ["How can I get to the stadium?", "How can I get to the stadium", "How can I get to the Star Stadium?"] },
-            { id: 124, type: 'text', title: "'택시를 타는 게 어때요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(a taxi / take)", answer: ["Why don't you take a taxi?", "Why don't you take a taxi", "why don't you take a taxi?"] },
-            { id: 125, type: 'arrange', title: "'찾는 데 조금 어려울 거야.'에 알맞게 말을 배열하시오.", words: ["It's", "a", "little", "difficult", "to", "find"], answer: ["It's", "a", "little", "difficult", "to", "find"] },
-            { id: 126, type: 'text', title: "'그 공원에 가는 가장 좋은 방법이 무엇인가요?'에 알맞게 주어진 단어를 사용하여 문장을 쓰시오.\n(way / is / park / go)", answer: ["What's the best way to go to the park?", "What is the best way to go to the park?", "What's the best way to go to the park?"] },
-            { id: 222, type: 'choice', title: "대화의 빈칸에 들어갈 질문은?", dialogue: "A: (                                                )\nB: About 3 hours.", options: ["How long will it take there?", "How can I get to the library?", "How did I go to Star Cinema?"], answer: 0 }
+            { id: 109, type: 'text', title: "주어진 단어를 모두 사용하여 빈칸에 들어갈 질문을 쓰시오.\n(What's / best / way / get)", dialogue: "B: Excuse me. I’m going to the National Art Museum. (                            )\nG: You can walk. Go straight for about 500 meters and turn left. It’ll be on your right.\nB: I see. How long will it take?\nG: Only about 15 minutes.\nB: Really? Thanks.", answer: ["What's the best way to get there?", "What's the best way to get there", "what's the best way to get there?"] },
+            { id: 110, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: (                            )\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I'm free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.", options: ["About 40 minutes.", "You can take the subway.", "Why don't you buy the tickets?"], answer: 0 }
         ];
 
-        // 2. 문법 (Grammar) 파트 문제 은행
+        // 4. 문법 (Grammar) 파트 문제 은행
         const PRACTICE_GRAMMAR = [
-            { id: 201, type: 'choice', title: "빈칸에 들어갈 관계대명사로 옳은 것은?", dialogue: "She has the dog (   ) we love so much.", options: ["whom", "what", "which", "where"], answer: 2 },
-            { id: 202, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "James used to use the smartphone.", answer: ["James did not use to use the smartphone.", "James didn't use to use the smartphone.", "James didn't use to use the smartphone"] },
+            { id: 201, type: 'choice', title: "빈칸에 들어갈 관계대명사로 옳은 것은?", dialogue: "She has the dog (    ) we love so much.", options: ["whom", "what", "which", "where"], answer: 2 },
+            { id: 202, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "James used to use the smartphone.", answer: ["James did not use to use the smartphone.", "James didn't use to use the smartphone."] },
             { id: 203, type: 'text', title: "다음 문장을 의문문으로 바꾸시오.", dialogue: "Sophia used to watch the horror movie.", answer: ["Did Sophia use to watch the horror movie?", "Did Sophia use to watch the horror movie"] },
-            { id: 204, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "We used to make a difference.", answer: ["We did not use to make a difference.", "We didn't use to make a difference."] },
             { id: 205, type: 'choice', title: "다음 문장을 의문문으로 바꾼 것은?", dialogue: "They used to dance happily.", options: ["Are they used to dance happily?", "Do they use to dance happily?", "Do they used to dance happily?", "Did they use to dance happily?", "Did they used to dance happily?"], answer: 3 },
-            { id: 206, type: 'multi_choice', title: "문장의 괄호에서 어법상 옳은 것을 고르시오.", groups: [
-                { label: "My memory [used / is used] to memorize the event.", options: ["used", "is used"], answer: "is used" },
-                { label: "Their science project in the computers which [was / were] finished can be better.", options: ["was", "were"], answer: "was" },
-                { label: "I see the boy and a small cat which [is / are] running fast.", options: ["is", "are"], answer: "are" }
-            ]},
-            { id: 207, type: 'choice', title: "[that]의 쓰임이 나머지와 다른 하나는?", options: [
-                "We are thinking [that] the butter is good for our health.",
-                "Henry plays with a toy [that] his uncle gave to him.",
-                "Yesterday, I bought small bread [that] the small woman would made.",
-                "My teacher [that] everyone really likes finds my notebook."
-            ], answer: 0 },
-            { id: 208, type: 'multi_choice', title: "문장의 괄호에서 어법상 옳은 것을 고르시오.", groups: [
-                { label: "I live in the house around [that / which] a painter was walking.", options: ["that", "which"], answer: "which" },
-                { label: "No one caught garbages and used [to protect / pretecting] green trees.", options: ["to protect", "pretecting"], answer: "to protect" },
-                { label: "The gorvernment told people [who / that] the cost of food could increase.", options: ["who", "that"], answer: "that" }
-            ]},
-            { id: 209, type: 'choice', title: "다음 문장을 영어로 바꾼 것은?\n박테리아는 사람의 몸에 나쁜 영향을 미치게 사용되기도 했다.", options: [
-                "Bacteria used to use to give the human body harmful effects.",
-                "Bacteria used to be used to give the human body harmful effects.",
-                "Bacteria are used to give the human body harmful effects.",
-                "Bacteria are used to use to give the human body harmful effects.",
-                "Bacteria are used to be used to give the human body harmful effects."
-            ], answer: 1 },
-            { id: 210, type: 'choice', title: "다음 문장을 영어로 바꾼 것은?\n예술가가 자세히 보던 국가적인 책을 읽는 것은 그의 취미이다.", options: [
-                "Reading a national book an artist looked at closely is his hobby.",
-                "Reading a national book that an artist looked closely is his hobby.",
-                "Reading a national book which an artist looked at it closely is his hobby.",
-                "Reading a national book whom an artist looked at closely is his hobby."
-            ], answer: 0 },
-            { id: 211, type: 'choice', title: "다음 문장을 영어로 바꾼 것은?\n그 농부가 기른 보라색 가지는 시장에 팔렸다.", options: [
-                "The farmer grew the purple eggplant that was sold at the market.",
-                "The farmer who grew the purple eggplant was sold at the market.",
-                "The farmer grew the purple eggplant which sold at the market.",
-                "The purple eggplant that the farmer grew sold at the market.",
-                "The purple eggplant which the farmer grew was sold at the market."
-            ], answer: 4 },
             { id: 212, type: 'arrange', title: "'그 남자는 수영장에서 수영을 하곤 했다.'에 알맞게 말을 배열하시오.", words: ['the', 'man', 'used', 'to', 'swim', 'in', 'the', 'swimming', 'pool'], answer: ['the', 'man', 'used', 'to', 'swim', 'in', 'the', 'swimming', 'pool'] },
-            { id: 213, type: 'arrange', title: "'은행 옆에 병원이 있곤 했다.'에 알맞게 말을 배열하시오.", words: ['there', 'used', 'to', 'be', 'a hospital', 'next to', 'the bank'], answer: ['there', 'used', 'to', 'be', 'a hospital', 'next to', 'the bank'] },
-            { id: 214, type: 'text', title: "빈칸에 들어갈 말을 쓰시오.", dialogue: "There (     ) a swing in this park. There is none now.", answer: ["used to be", "Used to be"] },
-            { id: 215, type: 'arrange', title: "'그가 듣던 한 음악은 내가 가장 좋아하는 음악이다.'에 알맞게 말을 배열하시오.", words: ['A music', 'that', 'he', 'listened', 'to', 'is', 'my favorite', 'music'], answer: ['A music', 'that', 'he', 'listened', 'to', 'is', 'my favorite', 'music'] },
-            { id: 216, type: 'multi_choice', title: "[that]의 쓰임이 같은 두 문장을 고르시오.", groups: [
-                { label: "My backpack [that] my brother bought for me was too big.", options: ["관계대명사", "접속사"], answer: "관계대명사" },
-                { label: "The manager told her workers [that] they needed to work harder.", options: ["관계대명사", "접속사"], answer: "접속사" },
-                { label: "Tigers may be similar to some rabbits [that] they continued to hunt.", options: ["관계대명사", "접속사"], answer: "관계대명사" }
-            ]},
-            { id: 217, type: 'choice', title: "어법상 옳은 문장은?", options: [
-                "The women whom I saw was in the restaurant.",
-                "My mom who my sister looked at sing was cooking soup.",
-                "The truth which I did not know it must be really shocking.",
-                "I went seeing the doctor whom sat on the chair yesterday."
-            ], answer: 1 },
-            { id: 218, type: 'choice', title: "다음 문장의 동사는?\nAccording to online reviews, his bakery many cooks wanted to join started getting famous.", options: ["reviews", "cooks", "wanted", "join", "started"], answer: 4 },
-            { id: 219, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "Kate used to make sweet cake together.", answer: ["Kate did not use to make sweet cake together.", "Kate didn't use to make sweet cake together."] },
-            { id: 220, type: 'choice', title: "다음 두 문장을 결합한 것은?\n- I go to the fun fair.\n- My family liked it so much.", options: [
-                "I go to the fun fair my family liked so much.",
-                "I go to the fun fair that my family liked it so much.",
-                "The fun fair my family liked so much I go to.",
-                "My family liked the fun fair which I go so much.",
-                "My family liked the fun fair to that I go so much."
-            ], answer: 0 },
-            { id: 221, type: 'choice', title: "빈칸에 들어갈 관계대명사로 옳은 것은?", dialogue: "The kid in the museum (    ) called his friend a hero was my brother.", options: ["who", "which", "whom", "what"], answer: 0 },
-            { id: 223, type: 'arrange', title: "'너는 내가 들었던 노래를 아니?'에 알맞게 말을 배열하시오.", words: ['Do', 'you', 'know', 'the music', 'that', 'I', 'listened', 'to'], answer: ['Do', 'you', 'know', 'the music', 'that', 'I', 'listened', 'to'] },
-            { id: 224, type: 'arrange', title: "'Jane이 물을 주었던 그 큰 꽃이 어디 있니?'에 알맞게 말을 배열하시오.", words: ['Where', 'is', 'the', 'big', 'flower', 'which', 'Jane', 'watered.'], answer: ['Where', 'is', 'the', 'big', 'flower', 'which', 'Jane', 'watered.'] },
-            { id: 225, type: 'choice', title: "관계대명사가 들어갈 곳은?\nThe (A) old (B) doctors (C) made upset (D) can be better.", options: ["(A)", "(B)", "(C)", "(D)"], answer: 1 },
-            { id: 226, type: 'choice', title: "관계대명사가 들어갈 곳은?\n(A) The woman (B) you (C) were talking to (D) is my aunt.", options: ["(A)", "(B)", "(C)", "(D)"], answer: 1 },
-            { id: 227, type: 'arrange', title: "'이것은 내가 보고 싶었던 영화이다.'에 알맞게 말을 배열하시오.", words: ['This', 'is', 'the', 'movie', 'that', 'I', 'wanted', 'to', 'see.'], answer: ['This', 'is', 'the', 'movie', 'that', 'I', 'wanted', 'to', 'see.'] },
-            { id: 228, type: 'multi_choice', title: "어법상 옳은 문장을 모두 고르시오.", groups: [
-                { label: "The topic about which they talked was very interesting.", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "Where is the key that I left on the table?", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "The book which they bought yesterday were so nice.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "Everyone likes the teacher whom got an award.", options: ["옳음", "틀림"], answer: "틀림" }
-            ]},
-            { id: 229, type: 'arrange', title: "'나는 네가 추천했던 영화를 좋아한다.'에 알맞게 말을 배열하시오.", words: ['I', 'like', 'the', 'movie', 'you', 'recommended'], answer: ['I', 'like', 'the', 'movie', 'you', 'recommended'] },
-            { id: 230, type: 'arrange', title: "'이것은 내 남동생이 사용하던 컴퓨터이다.'에 알맞게 말을 배열하시오.", words: ['this', 'is', 'the computer', 'my', 'brother', 'used'], answer: ['this', 'is', 'the computer', 'my', 'brother', 'used'] },
-            { id: 231, type: 'choice', title: "빈칸에 들어갈 말은?\nThe cake which my mother made last month (    ) delicious.", options: ["was", "were", "be", "are"], answer: 0 },
-            { id: 232, type: 'arrange', title: "'선생님이 칭찬했던 학생은 매우 행복했다.'에 알맞게 말을 배열하시오.", words: ['the student', 'whom', 'the', 'teacher', 'praised', 'was', 'very', 'happy'], answer: ['the student', 'whom', 'the', 'teacher', 'praised', 'was', 'very', 'happy'] },
-            { id: 233, type: 'arrange', title: "'나는 우리가 처음 만난 날을 기억한다.'에 알맞게 말을 배열하시오.", words: ['I', 'remembered', 'the day', 'that', 'we', 'first', 'met'], answer: ['I', 'remembered', 'the day', 'that', 'we', 'first', 'met'] },
-            { id: 234, type: 'multi_choice', title: "어법상 옳은 문장을 모두 고르시오.", groups: [
-                { label: "My family loved the house that my grandmother built it.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "I watched the video which you sent me.", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "The actor whom many people admire appeared on TV.", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "This is the restaurant which my friends recommended.", options: ["옳음", "틀림"], answer: "옳음" }
-            ]},
-            { id: 235, type: 'choice', title: "[that]의 쓰임이 나머지와 다른 하나는?", options: [
-                "They heard [that] the store was closed.",
-                "I am sure [that] she is right.",
-                "She met a man [that] works at the bank.",
-                "The girl knows [that] you read many books."
-            ], answer: 2 },
-            { id: 236, type: 'choice', title: "문장의 [that]의 의미는?\nThey said [that] they needed more time.", options: ["~것", "~하는", "저것", "~이라는"], answer: 0 },
-            { id: 237, type: 'choice', title: "문장의 [that]의 의미는?\nHe found the wallet [that] I lost.", options: ["~것", "~하는", "저것", "~이라는"], answer: 1 },
-            { id: 238, type: 'choice', title: "문장의 [that]의 의미는?\nThe restaurant [that] we visited was perfect.", options: ["~것", "~하는", "저것", "~이라는"], answer: 1 },
-            { id: 239, type: 'choice', title: "[that]의 쓰임이 같은 것은?\nShe showed me the picture [that] she took in Paris.", options: [
-                "Sally met a man [that] can draw pictures.",
-                "They said [that] the test was so easy.",
-                "The book [that] I borrowed from the library was interesting."
-            ], answer: 2 },
-            { id: 240, type: 'choice', title: "[that]의 쓰임이 같은 것은?\nI did not know [that] he lived here.", options: [
-                "Henry ate the cookies [that] his aunt made for him.",
-                "The fact is [that] we don't have enough money.",
-                "The man [that] I looked at yesterday was very kind."
-            ], answer: 1 },
-            { id: 301, type: 'arrange', title: "'그는 그의 친구가 추천했던 영화를 보았다.'에 알맞게 말을 배열하시오.", words: ['he', 'watched', 'the', 'movie', 'which', 'his', 'friend', 'recommended'], answer: ['he', 'watched', 'the', 'movie', 'which', 'his', 'friend', 'recommended'] },
-            { id: 302, type: 'arrange', title: "'저것은 Jessica가 내게 빌려 주었던 재킷이다.'에 알맞게 말을 배열하시오.", words: ['that', 'is', 'the', 'jacket', 'Jessica', 'lent', 'to', 'me'], answer: ['that', 'is', 'the', 'jacket', 'Jessica', 'lent', 'to', 'me'] },
-            { id: 303, type: 'arrange', title: "'저 사람은 우리가 연필을 주었던 여자이다.'에 알맞게 말을 배열하시오.", words: ['that', 'is', 'the', 'woman', 'whom', 'we', 'gave', 'pencil', 'to'], answer: ['that', 'is', 'the', 'woman', 'whom', 'we', 'gave', 'pencil', 'to'] },
-            { id: 304, type: 'choice', title: "[that]의 쓰임이 같은 것은?\nShe kept the gift [that] I gave her.", options: ["Yesterday, He ate the soup [that] his wife cooked.", "I don't think [that] he is a doctor.", "National zoos [that] are famous for various animals are great."], answer: 0 },
-            { id: 305, type: 'multi_choice', title: "[that]의 쓰임이 같은 것을 모두 고르시오.\n원문: They visited the city [that] I recommended.", groups: [
-                { label: "He explained [that] the train was delayed.", options: ["같음", "다름"], answer: "다름" },
-                { label: "They decided [that] they would stay here.", options: ["같음", "다름"], answer: "다름" },
-                { label: "Please move [that] over there.", options: ["같음", "다름"], answer: "다름" }
-            ]},
-            { id: 306, type: 'arrange', title: "'그는 그의 프로젝트를 설명하곤 했다.'에 알맞게 말을 배열하시오.", words: ['he', 'used', 'to', 'explain', 'his', 'project.'], answer: ['he', 'used', 'to', 'explain', 'his', 'project.'] },
-            { id: 307, type: 'choice', title: "우리말에 맞게 빈칸에 들어갈 말을 고르시오.\n그는 저 상자를 바닥에 놓곤 했다.\n→ He (                      ) that box on the floor.", options: ["did put", "used to put", "was putting", "used for put"], answer: 1 },
-            { id: 308, type: 'choice', title: "[that]의 쓰임이 같은 것끼리 연결된 것은?", options: [
-                "I think [that] she should sleep more. - I believe [that] seems better than mine.",
-                "This is the skirt [that] she gave you. - We hope [that] the weather will improve.",
-                "I noticed [that] he looked nervous. - International Airport said [that] one airplane No. 10 was delayed.",
-                "The school teaches the language [that] all the people use. - We heard [that] Mina got a new job."
-            ], answer: 2 },
-            { id: 309, type: 'arrange', title: "'나는 지난 주말에 찍은 사진들을 삭제했다.'에 알맞게 말을 배열하시오.", words: ['I', 'deleted', 'photos', 'which', 'I', 'took', 'last', 'weekend'], answer: ['I', 'deleted', 'photos', 'which', 'I', 'took', 'last', 'weekend'] },
-            { id: 310, type: 'choice', title: "어법상 알맞은 것은?", options: [
-                "I didn't using to compete in any sports during high school.",
-                "She used to be baked fresh bread at dawn every morning.",
-                "My grandfather used to repair television sets as a side job.",
-                "She didn't use to having any interest in painting or drawing."
-            ], answer: 2 },
-            { id: 311, type: 'choice', title: "빈칸에 들어갈 말은?\nMy father (    ) long hair, but she has short hair now.", options: ["have", "was having", "would have", "used to have"], answer: 3 },
-            { id: 312, type: 'choice', title: "[used to]를 [would]로 바꿀 수 있는 문장은?", options: ["I [used to] believe in ghosts.", "He [used to] live alone.", "They [used to] ride bikes."], answer: 2 },
-            { id: 313, type: 'choice', title: "[used to]를 [would]로 바꿀 수 있는 문장은?", options: ["Lucy [used to] be very shy.", "The boy [used to] eat pizza a lot.", "We [used to] know each other well."], answer: 1 },
-            { id: 314, type: 'multi_choice', title: "[used to]를 [would]로 바꿀 수 있는 문장을 모두 고르시오.", groups: [
-                { label: "I [used to] walk here.", options: ["가능", "불가능"], answer: "가능" },
-                { label: "He [used to] have a big house.", options: ["가능", "불가능"], answer: "불가능" },
-                { label: "My father [used to] work at a bank.", options: ["가능", "불가능"], answer: "불가능" },
-                { label: "They [used to] play basketball together.", options: ["가능", "불가능"], answer: "가능" }
-            ]},
-            { id: 315, type: 'multi_choice', title: "[used to]를 [would]로 바꿀 수 있는 문장을 모두 고르시오.", groups: [
-                { label: "There [used to] be a big museum.", options: ["가능", "불가능"], answer: "불가능" },
-                { label: "My sister [used to] like chocolate.", options: ["가능", "불가능"], answer: "불가능" },
-                { label: "She [used to] drink coffee every morning.", options: ["가능", "불가능"], answer: "가능" },
-                { label: "I [used to] meet my friends at the library.", options: ["가능", "불가능"], answer: "가능" }
-            ]},
-            { id: 316, type: 'choice', title: "빈칸에 알맞은 말을 고르시오.\nWhen I was young, I (    ) play soccer after school.", options: ["would / used to", "have to / had better", "would / have to", "used to / had better"], answer: 0 },
-            { id: 317, type: 'multi_choice', title: "[used to]를 [would]로 바꿀 수 있는 문장을 모두 고르시오.", groups: [
-                { label: "My family [used to] live in Seoul.", options: ["가능", "불가능"], answer: "불가능" },
-                { label: "There [used to] be a small park next to the bank.", options: ["가능", "불가능"], answer: "불가능" },
-                { label: "We [used to] build a snowman.", options: ["가능", "불가능"], answer: "가능" },
-                { label: "He [used to] read lots of comic books.", options: ["가능", "불가능"], answer: "가능" }
-            ]},
-            { id: 318, type: 'multi_choice', title: "[used to]를 [would]로 바꿀 수 있는 문장을 모두 고르시오.", groups: [
-                { label: "My dog [used to] have dark brown fur.", options: ["가능", "불가능"], answer: "불가능" },
-                { label: "She [used to] sing in the school choir.", options: ["가능", "불가능"], answer: "가능" },
-                { label: "My brother [used to] write in my diary every night.", options: ["가능", "불가능"], answer: "가능" },
-                { label: "I [used to] study history because it was amazing.", options: ["가능", "불가능"], answer: "가능" }
-            ]},
-            { id: 319, type: 'multi_choice', title: "문장의 괄호에서 어법상 옳은 것을 고르시오.", groups: [
-                { label: "Many eggs [used / are used] to create the protein.", options: ["used", "are used"], answer: "are used" },
-                { label: "I am used to [wake / waking] up before sunrise for morning exercise.", options: ["wake", "waking"], answer: "waking" },
-                { label: "Susan used to [study / studying] Spanish.", options: ["study", "studying"], answer: "study" }
-            ]},
-            { id: 320, type: 'multi_choice', title: "문장의 괄호에서 어법상 옳은 것을 고르시오.", groups: [
-                { label: "I know the best cook [who / that] was on TV yesterday.", options: ["who", "that"], answer: "that" },
-                { label: "Hot water and soap [used / are used] to wash dishes effectively.", options: ["used", "are used"], answer: "are used" },
-                { label: "She is my sister who [broke / break] the window.", options: ["broke", "break"], answer: "broke" }
-            ]},
-            { id: 321, type: 'multi_choice', title: "어법상 옳은 문장을 모두 고르시오.", groups: [
-                { label: "That is the boy whom you are looking for.", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "The girl who has wears glasses are my sister.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "There is the set of keys that I lost yesterday.", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "The novel which I bought it last week isn't good.", options: ["옳음", "틀림"], answer: "틀림" }
-            ]},
-            { id: 322, type: 'multi_choice', title: "[ ] 속 말을 생략할 수 있는 문장을 모두 고르시오.", groups: [
-                { label: "The movie [that] I saw last weekend is exciting.", options: ["가능", "불가능"], answer: "가능" },
-                { label: "Jinho is singing a song [which] Yuna likes.", options: ["가능", "불가능"], answer: "가능" },
-                { label: "The car [which] he is driving is not his.", options: ["가능", "불가능"], answer: "가능" },
-                { label: "I met my brother [who] lives in Japan.", options: ["가능", "불가능"], answer: "불가능" }
-            ]},
-            { id: 323, type: 'choice', title: "[ ] 속 말을 생략할 수 있는 문장은?", options: [
-                "She is the rude girl about [whom] I talked.",
-                "Who us the man [that] is standing at the gate?",
-                "You can't cancel the meeting [which] you arranged.",
-                "The girl [who] is seeting on the chair is my cousin."
-            ], answer: 2 },
-            { id: 324, type: 'multi_choice', title: "[ ] 속 말을 생략할 수 있는 문장을 모두 고르시오.", groups: [
-                { label: "She is the girl [that] I like most.", options: ["가능", "불가능"], answer: "가능" },
-                { label: "I think [that] she is very angry.", options: ["가능", "불가능"], answer: "가능" },
-                { label: "Can you see the bird [that] is on the roof?", options: ["가능", "불가능"], answer: "불가능" },
-                { label: "They like the cake [that] I bake.", options: ["가능", "불가능"], answer: "가능" }
-            ]},
-            { id: 325, type: 'choice', title: "[that]의 쓰임이 같은 것은?\nPicasso is the painter [that] I like most.", options: [
-                "Is [this] your umbrella?",
-                "I know [that] he is honest.",
-                "Look at [that] boy in the living room.",
-                "Those are my toys [that] my brother broke."
-            ], answer: 3 },
-            { id: 326, type: 'choice', title: "다음 두 문장을 결합한 것을 모두 고르시오.\n- Did you eat the cake?\n- I made it for you.", options: [
-                "Did you eat the cake I made for you?",
-                "Did you eat the cake which I made it for you?",
-                "Did you eat the cake who I made for you?",
-                "Did you eat the cake for which I made you?"
-            ], answer: 0 },
-            { id: 327, type: 'choice', title: "문장의 괄호에서 어법상 옳은 것끼리 연결된 것은?\n- The women who I met yesterday [want / wants] to see me again.\n- I gave her just money [that / which] she needed.\n- The person [who / which] I visited gave me tea.", options: [
-                "want - that - which",
-                "want - which - who",
-                "wants - that - who",
-                "wants - which - which"
-            ], answer: 2 },
-            { id: 328, type: 'arrange', title: "'이것은 Minsu가 어제 내게 사 주었던 책이다.'에 알맞게 말을 배열하시오.", words: ['this', 'is', 'the book', 'which', 'Minsu', 'bought', 'me', 'yesterday'], answer: ['this', 'is', 'the book', 'which', 'Minsu', 'bought', 'me', 'yesterday'] },
-            { id: 329, type: 'arrange', title: "'Jake는 클래식 음악을 듣곤 했니?'에 알맞게 말을 배열하시오.", words: ['did', 'Jake', 'use', 'to listen', 'to', 'classical', 'music'], answer: ['did', 'Jake', 'use', 'to listen', 'to', 'classical', 'music'] },
-            { id: 330, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nWhen I was young, I (    ) play soccer every weekend.", options: ["would / used to", "have to / need to", "used to / had better", "would / had better"], answer: 0 },
-            { id: 331, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nThe town (    ) have a large market at that time.", options: ["used to", "would", "have to", "had better"], answer: 0 },
-            { id: 332, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nHenry (    ) live there for many years.", options: ["used to", "would", "need to", "had better"], answer: 0 },
-            { id: 333, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nWe (    ) watch the drama when we are young.", options: ["would / used to", "have to / need to", "would / have to", "used to / had better"], answer: 0 },
-            { id: 334, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nWe (    ) like playing basketball at that time.", options: ["used to", "would", "have to", "had better"], answer: 0 },
-            { id: 335, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nThere (    ) be a school in my childhood.", options: ["used to", "would", "have to", "need to"], answer: 0 },
-            { id: 336, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nWe (    ) visit our grandparents every summer in the past.", options: ["would / used to", "have to / need to", "would / have to", "used to / had better"], answer: 0 },
-            { id: 337, type: 'arrange', title: "'나는 어린 시절에 그 아이스크림을 먹곤 했다.'에 알맞게 말을 배열하시오.", words: ['I', 'used', 'to', 'eat', 'the', 'ice cream', 'in', 'my', 'childhood'], answer: ['I', 'used', 'to', 'eat', 'the', 'ice cream', 'in', 'my', 'childhood'] },
-            { id: 338, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nWe (    ) know him well in those days.", options: ["used to", "would", "have to", "had better"], answer: 0 },
-            { id: 339, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nShe (    ) seem very excited in those days.", options: ["used to", "would", "have to", "had better"], answer: 0 },
-            { id: 340, type: 'choice', title: "빈칸에 들어갈 말을 모두 고르시오.\nShe (    ) take photos in those days.", options: ["would / used to", "have to / need to", "would / have to", "used to / had better"], answer: 0 },
-            { id: 341, type: 'arrange', title: "'나는 수학이 어렵다고 생각하곤 했다.'에 알맞게 말을 배열하시오.", words: ['I', 'used', 'to', 'think', 'that', 'math', 'was', 'difficult'], answer: ['I', 'used', 'to', 'think', 'that', 'math', 'was', 'difficult'] }
+            { id: 213, type: 'arrange', title: "'은행 옆에 병원이 있곤 했다.'에 알맞게 말을 배열하시오.", words: ['there', 'used', 'to', 'be', 'a hospital', 'next to', 'the bank'], answer: ['there', 'used', 'to', 'be', 'a hospital', 'next to', 'the bank'] }
         ];
 
-        // 3. 독해 (Reading) 파트 문제 은행
+        // 5. 독해 (Reading) 파트 문제 은행
         const PRACTICE_READING = [
             { id: 401, type: 'choice', title: "5과 본문의 주제로 가장 적절한 것은?", options: ["The history of street arts", "Popular places to draw pictures", "The examples of the street art", "A famous artist who makes street arts"], answer: 2 },
             { id: 402, type: 'choice', title: "5과 본문의 제목으로 가장 적절한 것은?", options: ["Street Art in London", "Modern Artists in Shoreditch", "What Is the Most Popular Art?", "Lively and Colorful Artists"], answer: 0 },
             { id: 403, type: 'arrange', title: "'오늘, 우리는 런던에 있는 몇몇 유명한 거리 예술 작품들을 살펴보겠습니다.'에 알맞게 말을 배열하시오.", words: ['today', 'we', 'are', 'going', 'to', 'see', 'well-known', 'street', 'artworks', 'in', 'London'], answer: ['today', 'we', 'are', 'going', 'to', 'see', 'well-known', 'street', 'artworks', 'in', 'London'] },
-            { id: 404, type: 'multi_choice', title: "다음 글에서 (A)~(D) 중 어법상 옳은 것을 모두 고르시오.", dialogue: "Modern street art comes (A)[in] many different forms, and it makes cities colorful and (B)[lively]. Today, we are going to see some well-known (C)[street artworks] (D)[in] London.", groups: [
-                { label: "(A) in", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "(B) lively", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "(C) street artworks", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "(D) in", options: ["옳음", "틀림"], answer: "옳음" }
-            ]},
-            { id: 405, type: 'multi_choice', title: "다음 글에서 (A)~(D) 중 어법상 옳은 것을 모두 고르시오.", dialogue: "The place that we are going to visit (A)[is] Shoreditch. Poor workers (B)[were used to live] in this area, but now it is (C)[one of the hippest area] in London. We can find so many great pieces of street art here. Do you see the painting (D)[over there]? It is by the artist STIK.", groups: [
-                { label: "(A) is", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "(B) were used to live", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "(C) one of the hippest area", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "(D) over there", options: ["옳음", "틀림"], answer: "옳음" }
-            ]},
-            { id: 406, type: 'multi_choice', title: "5과 본문에 언급된 Shoreditch에 관한 설명으로 옳은 것을 모두 고르시오.", groups: [
-                { label: "STIK의 작품으로 Shoreditch의 세 시점을 확인할 수 있다.", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "런던의 가난한 노동자들이 현재 주로 거주하는 지역이다.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "런던에서 가장 세련된 곳 중 하나이다.", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "초록색 나무와 관련된 거리 예술 작품이 존재하는 곳이다.", options: ["옳음", "틀림"], answer: "틀림" }
-            ]},
-            { id: 407, type: 'choice', title: "5과 본문에서 언급된 지역을 순서대로 배열하시오.", options: ["Shoreditch - Finsbury Park - Muswell Hill", "Finsbury Park - Shoreditch - Muswell Hill", "Muswell Hill - Shoreditch - Finsbury Park"], answer: 0 },
-            { id: 408, type: 'choice', title: "[using]과 쓰임이 같은 것은?", dialogue: "He is famous for [using] only lines and dots in his paintings of human bodies. According to STIK, the three figures represent the past, present, and future of Shoreditch. Which figure represents which? Well, look closely at the eyes of the three figures. They are just dots, but they will give you a clue.", options: ["[Using] smartphones is very comfortable.", "She is [using] her own brush to draw pictures.", "Many people liked the person [using] computers."], answer: 0 },
-            { id: 409, type: 'choice', title: "[using]과 쓰임이 같은 것은?", dialogue: "He is famous for [using] only lines and dots in his paintings of human bodies. According to STIK, the three figures represent the past, present, and future of Shoreditch. Which figure represents which? Well, look closely at the eyes of the three figures. They are just dots, but they will give you a clue.", options: ["They finished [doing] their homework.", "Jenny was [taking] care of her babies.", "My brother [making] cake can make the cookies."], answer: 0 },
             { id: 410, type: 'choice', title: "선과 점으로만 세 인물을 그린 예술가는?", options: ["STIK", "Banksy", "Ben Wilson", "Edison"], answer: 0 },
             { id: 411, type: 'choice', title: "Ben Wilson의 예술 작품은?", options: ["여러 창의적 생각을 표현한 사진", "스프레이로 잎을 칠한 초록색 나무", "선과 점으로 사람의 몸을 나타낸 그림", "사람들이 씹고 버린 껌으로 만든 작품"], answer: 3 },
-            { id: 412, type: 'choice', title: "Banksy의 예술 작품에 대한 설명으로 옳은 것은?", options: ["Muswell Hill에 있다.", "자연이 힘든 시간을 겪었다는 생각이 담겨 있다.", "스프레이를 사용하여 나뭇가지를 표현한 작품이다.", "나뭇가지에 잎을 단 초록색 나무 작품이다."], answer: 1 },
-            { id: 413, type: 'text', title: "빈칸에 들어갈 말을 영어 단어 하나로 쓰시오.", dialogue: "Banksy’s artworks often carry social messages, and the green tree you see over there is a good example. As you can see, he created a green tree by (   ) green paint on a wall behind a leafless tree.", answer: ["spraying", "Spraying"] },
-            { id: 414, type: 'text', title: "빈칸에 들어갈 말을 영어 단어 하나로 쓰시오.", dialogue: "The final (   ) of our tour today is Muswell Hill. Can’t see any street artworks?", answer: ["stop", "Stop"] },
-            { id: 415, type: 'choice', title: "Banksy의 예술 작품에 대한 설명으로 옳은 것은?", options: ["선과 점으로 사람의 몸을 표현하였다.", "사람들이 씹고 버린 껌으로 만들어졌다.", "London의 가장 세련된 장소 중 하나에 있다.", "자연에 관해 사회에 전하는 메시지를 담고 있다."], answer: 3 },
-            { id: 416, type: 'choice', title: "다음 문장이 들어갈 곳은?", dialogue: "[Next to the tree, there is a person who is holding a sprayer.]\n\nWe are now in Finsbury Park to see a painting by Banksy, an internationally famous street artist. (A) Banksy’s artworks often carry social messages, and the green tree you see over there is a good example. (B) As you can see, he created a green tree by spraying green paint on a wall behind a leafless tree. (C) What message does Banksy want to give us through this painting? (D) In many people’s opinion, he is telling us that nature is having a hard time. (E) They think he wants us to take better care of it.", options: ["(A)", "(B)", "(C)", "(D)", "(E)"], answer: 2 },
-            { id: 417, type: 'choice', title: "초록색 나무를 Finsbury Park의 거리 예술 작품으로 만든 예술가는?", options: ["STIK", "Banksy", "Ben Wilson", "Edison"], answer: 1 },
-            { id: 418, type: 'choice', title: "Wilson의 껌 그림이 담고 있는 메시지의 예시로 가장 적절한 것은?", options: ["사람들이 생일 축하를 하고 있다.", "지구의 자연을 소중하게 다루어야 한다.", "일상의 과잉 소비를 지양하는 것이 좋다.", "국회의원들이 정책 회의를 했었다."], answer: 0 },
-            { id: 419, type: 'choice', title: "Wilson의 껌 그림이 담고 있는 메시지의 예시로 가장 적절한 것은?", options: ["한 여자가 발표 전 긴장을 풀고 있다.", "다른 사람의 사생활을 침해하면 안 된다.", "전국민이 참여한 대통령 투표가 어제 있었다.", "국내산 생산품을 사용하는 것이 경제를 증진한다."], answer: 0 },
-            { id: 420, type: 'choice', title: "[They]가 가리키는 것은?", dialogue: "The final stop of our tour today is Muswell Hill. Can’t see any street artworks? Well, look down and look closely. Do you see the little chewing gum paintings? [They] are by the artist Ben Wilson.", options: ["Muswell Hill", "the final stop", "Ben Wilson", "chewing gum paintings"], answer: 3 },
-            { id: 421, type: 'multi_choice', title: "Ben Wilson의 예술 작품에 대한 설명으로 옳은 것을 모두 고르시오.", groups: [
-                { label: "사람들에게 교훈을 전하기 위해 껌을 활용하였다.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "사회적이거나 환경 보호적인 메시지를 담고 있다.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "사람의 몸을 선과 점으로만 표현하였다.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "Muswell Hill에 존재한다.", options: ["옳음", "틀림"], answer: "옳음" }
-            ]},
-            { id: 422, type: 'choice', title: "다음 (A)~(C)를 순서대로 배열하시오.", dialogue: "The final stop of our tour today is Muswell Hill. Can’t see any street artworks? Well, look down and look closely. Do you see the little chewing gum paintings? They are by the artist Ben Wilson.\n(A) Wilson is well known for painting pictures on gum that people drop on the street.\n(B) His gum paintings often carry personal messages from people he meets on the street.\n(C) For example, the one over here is a happy birthday wish for a loved one.\nWilson’s gum paintings are tiny, but they give great pleasure to many people.", options: ["(A)-(B)-(C)", "(B)-(A)-(C)", "(C)-(A)-(B)"], answer: 0 },
-            { id: 423, type: 'text', title: "빈칸에 들어갈 말을 영어 단어 하나로 쓰시오.", dialogue: "The place that we are going to visit is Shoreditch... They are just dots, but they will give you a (   ).", answer: ["clue", "Clue"] },
-            { id: 424, type: 'multi_choice', title: "다음 글의 (A)~(D) 중 문맥상 옳은 것을 모두 고르시오.", dialogue: "We are now in Finsbury Park to see a painting by Banksy, an (A)[internationally] famous street artist. Banksy’s artworks often (B)[carry] social messages, and the green tree you see over there is a good example. As you can see, he created a green tree by spraying green paint on a wall behind a leafless tree. Next to the tree, there is a person who is holding a sprayer. What message does Banksy want to give us through this painting? In many people’s opinion, he is telling us that nature is having a (C)[positive] time. They think he wants us to take (D)[better] care of it.", groups: [
-                { label: "(A) internationally", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "(B) carry", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "(C) positive time", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "(D) better care", options: ["옳음", "틀림"], answer: "옳음" }
-            ]},
-            { id: 425, type: 'choice', title: "다음 (A)~(C)를 순서대로 배열하시오.", dialogue: "We are now in Finsbury Park to see a painting by Banksy, an internationally famous street artist.\n(A) As you can see, he created a green tree by spraying green paint on a wall behind a leafless tree.\n(B) Banksy’s artworks often carry social messages, and the green tree you see over there is a good example.\n(C) Next to the tree, there is a person who is holding a sprayer.\nWhat message does Banksy want to give us through this painting? In many people’s opinion, he is telling us that nature is having a hard time. They think he wants us to take better care of it.", options: ["(B)-(A)-(C)", "(A)-(B)-(C)", "(C)-(A)-(B)"], answer: 0 },
-            { id: 426, type: 'multi_choice', title: "Banksy의 예술 작품에 대한 설명으로 옳은 것을 모두 고르시오.", groups: [
-                { label: "잎이 없는 나무의 앞에 있는 벽에 초록색 스프레이를 분무했다.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "Shoreditch의 과거, 현재, 미래를 나타냈다.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "나무 옆에 스프레이를 들고 있는 사람이 있다.", options: ["옳음", "틀림"], answer: "옳음" },
-                { label: "작품으로 보는 이들에게 개인적 일화를 전한다.", options: ["옳음", "틀림"], answer: "틀림" }
-            ]},
-            { id: 427, type: 'multi_choice', title: "STIK의 예술 작품에 대한 설명으로 옳은 것을 모두 고르시오.", groups: [
-                { label: "Shoreditch의 과거, 현재, 미래를 점 하나로 표현했다.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "사람들이 길거리에 버린 껌으로 작품을 만들었다.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "사회적 교훈을 나타내는 작품이다.", options: ["옳음", "틀림"], answer: "틀림" },
-                { label: "가장 세련된 장소에 있는 그림이다.", options: ["옳음", "틀림"], answer: "옳음" }
-            ]},
-            { id: 428, type: 'arrange', title: "'그들은 우리가 자연을 더 잘 보살피기를 Banksy가 원한다고 생각한다.'에 알맞게 말을 배열하시오.", words: ['They', 'think', 'Banksy', 'wants', 'us', 'to', 'take', 'better', 'care', 'of', 'nature.'], answer: ['They', 'think', 'Banksy', 'wants', 'us', 'to', 'take', 'better', 'care', 'of', 'nature.'] },
-            { id: 429, type: 'choice', title: "[it]이 가리키는 것은?", dialogue: "We are now in Finsbury Park to see a painting by Banksy, an internationally famous street artist. Banksy’s artworks often carry social messages, and the green tree you see over there is a good example. As you can see, he created a green tree by spraying green paint on a wall behind a leafless tree. Next to the tree, there is a person who is holding a sprayer. What message does Banksy want to give us through this painting? In many people’s opinion, he is telling us that nature is having a hard time. They think he wants us to take better care of [it].", options: ["a painting", "famous street artist", "the green tree", "nature", "a sprayer"], answer: 3 },
-            { id: 430, type: 'choice', title: "다음 문장이 들어갈 곳은?", dialogue: "[Do you see the little chewing gum paintings?]\nThe final stop of our tour today is Muswell Hill. (A) Can’t see any street artworks? Well, look down and look closely. (B) They are by the artist Ben Wilson. (C) Wilson is well known for painting pictures on gum that people drop on the street. (D) His gum paintings often carry personal messages from people he meets on the street. (E) For example, the one over here is a happy birthday wish for a loved one. Wilson’s gum paintings are tiny, but they give great pleasure to many people.", options: ["(A)", "(B)", "(C)", "(D)", "(E)"], answer: 1 },
-            { id: 431, type: 'choice', title: "다음 문장이 들어갈 곳은?", dialogue: "[It is by the artist STIK.]\nThe place that we are going to visit is Shoreditch. Poor workers used to live in this area, but now it is one of the hippest areas in London. (A) We can find so many great pieces of street art here. (B) Do you see the painting over there? (C) He is famous for using only lines and dots in his paintings of human bodies. (D) According to STIK, the three figures represent the past, present, and future of Shoreditch. (E) Which figure represents which? Well, look closely at the eyes of the three figures. They are just dots, but they will give you a clue.", options: ["(A)", "(B)", "(C)", "(D)", "(E)"], answer: 2 },
-            { id: 432, type: 'choice', title: "빈칸에 들어갈 말은?", dialogue: "We are now in Finsbury Park to see a painting by Banksy, an internationally famous street artist. Banksy’s artworks often (                           ), and the green tree you see over there is a good example. As you can see, he created a green tree by spraying green paint on a wall behind a leafless tree. Next to the tree, there is a person who is holding a sprayer. What message does Banksy want to give us through this painting? In many people’s opinion, he is telling us that nature is having a hard time. They think he wants us to take better care of it.", options: ["include dark colors", "carry social messages", "share his own feelings", "show beautiful landscapes", "deliver the joy from nature"], answer: 1 },
-            { id: 433, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
-                { label: "쇼어디치는 과거에 가난한 노동자들이 살았던 지역이다.", options: ["일치", "불일치"], answer: "일치" },
-                { label: "현재 쇼어디치 거리에서는 멋진 길거리 예술 작품들을 볼 수 있다.", options: ["일치", "불일치"], answer: "일치" },
-                { label: "STIK은 점만을 사용해 인체를 그리는 예술가이다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "STIK은 자신의 과거, 현재, 미래를 세 인물로 나타냈다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "STIK이 그린 세 인물들의 눈은 점으로 되어 있다.", options: ["일치", "불일치"], answer: "일치" }
-            ]},
-            { id: 434, type: 'multi_choice', title: "(A)~(E) 중 문맥상 적절한 것만을 모두 고르시오.", dialogue: "The final stop of our tour today is Muswell Hill. Can’t see any street artworks? Well, (A)[look down] and look closely. Do you see the (B)[little] chewing gum paintings? They are by the artist Ben Wilson. Wilson is well (C)[known] for painting pictures on gum that people drop on the street. His gum paintings often carry (D)[social] messages from people he meets on the street. For example, the one over here is a happy birthday wish for a loved one. Wilson’s gum paintings are tiny, but they give great (E)[pleasure] to many people.", groups: [
-                { label: "(A) look down", options: ["적절", "부적절"], answer: "적절" },
-                { label: "(B) little", options: ["적절", "부적절"], answer: "적절" },
-                { label: "(C) known", options: ["적절", "부적절"], answer: "적절" },
-                { label: "(D) social", options: ["적절", "부적절"], answer: "부적절" },
-                { label: "(E) pleasure", options: ["적절", "부적절"], answer: "적절" }
-            ]},
-            { id: 435, type: 'choice', title: "빈칸에 알맞은 말은?", dialogue: "Wilson is well known for painting pictures on gum (   ) people drop on the street.", options: ["whom", "which", "where", "what"], answer: 1 },
-            { id: 436, type: 'choice', title: "빈칸에 알맞은 말은?", dialogue: "His gum paintings often carry personal messages from people he meets on the street. (   ), the one over here is a happy birthday wish for a loved one.", options: ["Instead", "Therefore", "For example", "However", "In fact"], answer: 2 },
-            { id: 437, type: 'choice', title: "빈칸에 알맞은 말은?", dialogue: "Wilson’s gum paintings are (   ), but they give great pleasure to many people.", options: ["huge", "tiny", "various", "traditional", "harmful"], answer: 1 },
-            { id: 438, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["쇼디치는 과거에 가장 부유한 사람들이 모여 살던 지역이었다.", "현대 스트리트 아트는 도시를 다채롭고 생동감 있게 만든다.", "오늘 투어의 첫 번째 방문 지역은 핀스버리 파크이다.", "STIK은 인간의 몸을 그릴 때 다양한 색채와 곡선을 주로 사용한다.", "쇼디치에는 현재 스트리트 아트 작품이 거의 남아있지 않다."], answer: 1 },
-            { id: 439, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["STIK의 그림에 등장하는 세 인물은 쇼디치의 과거, 현재, 미래를 나타낸다.", "STIK은 인물의 입모양을 통해 시대구분의 힌트를 제공한다.", "쇼디치는 예전부터 예술가들이 모여 살던 가난하지 않은 동네였다.", "뱅크시의 작품은 투어의 첫 번째 방문지인 쇼디치에서 감상하게 된다.", "STIK은 인간의 몸을 정교한 3D 입체 기법으로 그린다."], answer: 0 },
-            { id: 440, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["핀스버리 파크에서 만날 수 있는 작품은 벤 윌슨의 껌 그림이다.", "뱅크시는 국제적으로 잘 알려진 스트리트 아티스트이다.", "뱅크시는 주로 개인적인 축하 메시지를 담은 작품을 그린다.", "뱅크시의 그림에 나온 나무는 실제로 잎이 무성하게 자란 나무이다.", "뱅크시의 벽화 옆에는 카메라를 들고 있는 사람이 그려져 있다."], answer: 1 },
-            { id: 441, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["뱅크시는 잎이 없는 나무 옆에 또 다른 커다란 나무를 새로 심었다.", "사람들은 뱅크시의 나무 그림이 자연의 상처와 힘겨움을 보여 준다고 생각한다.", "뱅크시 작품 속 인물은 나무에 물을 주는 호스를 들고 서 있다.", "핀스버리 파크는 과거 가난한 노동자들이 모여 살던 대표적인 지역이다.", "뱅크시의 작품은 사회적 메시지보다 개인의 일상적 삶을 주로 다룬다."], answer: 1 },
-            { id: 442, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["머스웰 힐에서는 벽면에 그려진 거대한 크기의 벽화를 감상한다.", "벤 윌슨은 사람들이 길에 버린 껌 위에 그림을 그린다.", "벤 윌슨은 주로 국가 간의 정치적 갈등을 다루는 그림을 그린다.", "벤 윌슨의 작품은 크기가 매우 커서 멀리서도 한눈에 잘 보인다.", "오늘 투어의 첫 번째 방문 장소는 머스웰 힐이다."], answer: 1 },
-            { id: 443, type: 'choice', title: "5과 본문의 내용과 일치하는 것은?", options: ["머스웰 힐에서는 STIK의 점과 선으로 된 인물화를 감상할 수 있다.", "쇼디치는 전체 스트리트 아트 투어의 마지막 방문지이다.", "핀스버리 파크에서는 뱅크시의 작품을 볼 수 있다.", "뱅크시는 껌 위에 작은 그림을 그리는 작가로 유명하다.", "STIK은 스프레이로 벽에 녹색 물감을 칠해 나무 모양을 만들어낸다."], answer: 2 },
-            { id: 444, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
-                { label: "벤 윌슨은 자신이 직접 상점에서 구매한 새 껌에 그림을 그린다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "벤 윌슨이 길에서 만난 사람들의 개인적인 메시지가 그의 작품에 담기기도 한다.", options: ["일치", "불일치"], answer: "일치" },
-                { label: "글에 언급된 벤 윌슨의 작품 예시는 대학 합격을 축하하는 메시지이다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "머스웰 힐 방문객들은 벽을 높이 올려다보아야 벤 윌슨의 작품을 찾을 수 있다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "벤 윌슨의 껌 그림은 크기가 너무 작아 사람들에게 어떠한 즐거움도 주지 못한다.", options: ["일치", "불일치"], answer: "불일치" }
-            ]},
-            { id: 445, type: 'choice', title: "STIK에 대한 설명으로 옳은 것은?", options: ["STIK은 사람의 몸을 표현할 때 오직 선과 점만을 사용한다.", "STIK의 그림 속에 있는 세 인물은 모두 눈 모양이 선으로 그려져 있다.", "STIK은 쇼디치의 과거만을 기억하기 위해 작품을 제작했다.", "STIK의 인물화에는 세 명의 노동자가 실물과 똑같이 정교하게 그려져 있다.", "STIK은 핀스버리 파크를 대표하는 세계적인 스트리트 아티스트이다."], answer: 0 },
-            { id: 446, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
-                { label: "쇼디치는 옛날부터 런던에서 가장 유행에 민감하고 유흥가로 유명했던 곳이다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "쇼디치에서는 선과 점만으로 단순하게 그려진 인물 그림을 볼 수 있다.", options: ["일치", "불일치"], answer: "일치" },
-                { label: "쇼디치에 있는 STIK의 작품 속 세 인물은 각각 다른 세 가지 동물을 표현한다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "쇼디치는 런던 스트리트 아트 투어의 두 번째 방문 장소이다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "쇼디치의 노동자들은 모두 STIK의 그림 속에 실명으로 기록되어 있다.", options: ["일치", "불일치"], answer: "불일치" }
-            ]},
-            { id: 447, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
-                { label: "투어 이동 순서는 쇼어디치, 머스웰 힐, 핀스버리 파크 순이다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "오늘 투어에서는 런던에 위치한 유명 스트리트 아트 작품들을 둘러본다.", options: ["일치", "불일치"], answer: "일치" },
-                { label: "투어에서 만나보는 세 명의 작가는 모두 다른 재료와 기법을 사용한다.", options: ["일치", "불일치"], answer: "일치" },
-                { label: "필자는 스트리트 아트가 도시를 혼란스럽게 만든다고 생각한다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "투어에서 방문하는 장소는 모두 런던에서 멀리 떨어진 시골 마을들이다.", options: ["일치", "불일치"], answer: "불일치" }
-            ]},
-            { id: 448, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
-                { label: "뱅크시의 그림 앞에는 잎이 풍성하게 달린 진짜 나무가 서 있다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "뱅크시는 분무기로 초록색 물감을 뿌려 잎이 없는 나무 뒤에 풍성한 잎 모양을 만들었다.", options: ["일치", "불일치"], answer: "일치" },
-                { label: "뱅크시의 작품의 옆에 서 있는 한 인물은 미술용 붓과 팔레트를 손에 쥐고 있다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "뱅크시의 작품에 대해 사람들은 자연 환경이 매우 건강하게 보존되고 있음을 뜻한다고 본다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "뱅크시의 작품은 머스웰 힐 길거리에 버려진 물건 위에서 발견된다.", options: ["일치", "불일치"], answer: "불일치" }
-            ]},
-            { id: 449, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
-                { label: "벤 윌슨은 길거리에 버려진 껌 위에 그림을 그리는 것으로 잘 알려져 있다.", options: ["일치", "불일치"], answer: "일치" },
-                { label: "벤 윌슨의 껌 그림에는 사회 비판적인 정치적 메시지가 담긴다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "본문에 언급된 벤 윌슨의 작품은 지인의 빠른 쾌유를 비는 내용이다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "벤 윌슨은 런던시의 지원을 받아 세계 최대의 껌 아트 박물관을 설립했다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "벤 윌슨의 작품은 크기가 너무 커서 사람들이 통행하는 데 불편을 준다.", options: ["일치", "불일치"], answer: "불일치" }
-            ]},
-            { id: 450, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
-                { label: "STIK은 다양한 색상의 수채화 페인트를 사용해 인물의 표정을 세밀히 표현한다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "벤 윌슨의 작품은 매우 작지만 많은 사람들에게 커다란 즐거움을 준다.", options: ["일치", "불일치"], answer: "일치" },
-                { label: "뱅크시는 길거리에 버려진 껌을 모아 작고 세밀한 소형 조각품을 만든다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "STIK은 머스웰 힐에서 지나가는 사람들과 대화하며 그림의 소재를 얻는다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "벤 윌슨의 껌 그림은 핀스버리 파크 공원을 상징하는 대표적 예술품이다.", options: ["일치", "불일치"], answer: "불일치" }
-            ]},
-            { id: 451, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
-                { label: "첫 번째 방문 장소인 쇼디치는 과거 가난한 노동자들이 살던 곳이다.", options: ["일치", "불일치"], answer: "일치" },
-                { label: "두 번째 방문 장소인 머스웰 힐에서는 뱅크시의 작품을 감상하게 된다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "세 번째 방문 장소인 핀스버리 파크는 이번 투어의 최종 목적지이다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "쇼디치 방문 직후에 찾아가는 다음 장소는 머스웰 힐이다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "투어의 마지막 장소에서는 STIK의 인물화 작품을 볼 수 있다.", options: ["일치", "불일치"], answer: "불일치" }
-            ]},
-            { id: 452, type: 'multi_choice', title: "5과 본문의 내용과 일치하는 것을 모두 고르시오.", groups: [
-                { label: "뱅크시는 세계적으로 유명한 스트리트 아티스트로, 주로 개인적 메시지를 담아낸다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "STIK의 그림에 나오는 인물 세 명은 각각 노동자, 예술가, 관광객을 상징한다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "뱅크시의 작품은 잎이 많은 나무의 뒤편 벽에 녹색 물감을 칠해 만들었다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "벤 윌슨의 작품을 감상하려면 고개를 높이 들어 벽면 상단을 바라보아야 한다.", options: ["일치", "불일치"], answer: "불일치" },
-                { label: "STIK의 그림에서 인물의 눈은 모두 점으로 표현되어 있다.", options: ["일치", "불일치"], answer: "일치" }
-            ]},
-            { id: 453, type: 'arrange', title: "'그 나무 옆에는 분무기를 들고 있는 한 사람이 있다.'에 알맞게 말을 배열하시오.", words: ['next', 'to', 'the tree,', 'there', 'is', 'a person', 'who', 'is', 'holding', 'a sprayer'], answer: ['next', 'to', 'the tree,', 'there', 'is', 'a person', 'who', 'is', 'holding', 'a sprayer'] }
-        ];
-
-        // 4. 단어 파트 문제 은행
-        const VOCAB_QUESTIONS = [
-            { id: 84, type: 'arrange', title: "'나는 오늘 오후에 한가해서 멀리 걸어갈 거야.'에 알맞게 말을 배열하시오.", words: ['I', 'am', 'free', 'this', 'afternoon', 'so', "I'll", 'walk', 'far'], answer: ['I', 'am', 'free', 'this', 'afternoon', 'so', "I'll", 'walk', 'far'] },
-            { id: 85, type: 'arrange', title: "'그 공장 노동자는 국가적 박물관을 자세히 보았다.'에 알맞게 말을 배열하시오.", words: ['The factory', 'worker', 'looked', 'a', 'national', 'museum', 'closely'], answer: ['The factory', 'worker', 'looked', 'a', 'national', 'museum', 'closely'] },
-            { id: 86, type: 'multi_choice', title: "뜻이 알맞은 단어의 해설을 고르시오.", groups: [
-                { label: "area - 지역", options: ["맞음", "틀림"], answer: "맞음" },
-                { label: "social - 사회의", options: ["맞음", "틀림"], answer: "맞음" },
-                { label: "line - 점", options: ["맞음", "틀림"], answer: "틀림" },
-                { label: "artist - 작가", options: ["맞음", "틀림"], answer: "맞음" },
-                { label: "spray - 분무기", options: ["맞음", "틀림"], answer: "틀림" }
-            ]},
-            { id: 1, type: 'choice', title: "'자세히'에 해당하는 영단어는?", options: ['closely', 'national', 'lively', 'poor'], answer: 0 },
-            { id: 2, type: 'text', title: "worker의 뜻을 쓰시오.", answer: ["노동자", "근로자", "일하는 사람"] },
-            { id: 3, type: 'choice', title: "빈칸에 들어갈 말은?\nYou should take (    ) 2 to get to the museum faster.", options: ['Anyway', 'Line', 'Way', 'Great'], answer: 1 },
-            { id: 4, type: 'multi_choice', title: "뜻을 바르게 연결하시오.", groups: [
-                { label: "modern", options: ["근대의", "예술 작품", "곧장"], answer: "근대의" },
-                { label: "artwork", options: ["예술 작품", "단서", "근대의"], answer: "예술 작품" },
-                { label: "straight", options: ["곧장", "근대의", "단서"], answer: "곧장" },
-                { label: "clue", options: ["단서", "예술 작품", "곧장"], answer: "단서" }
-            ]},
-            { id: 5, type: 'choice', title: "빈칸에 들어갈 말은?\nShe was famous (    ) her volunteer.", options: ['to', 'in', 'for', 'with'], answer: 2 },
-            { id: 6, type: 'text', title: "national의 뜻을 쓰시오.", answer: ["국가의"] },
-            { id: 7, type: 'text', title: "internationally의 뜻을 쓰시오.", answer: ["국제적으로"] },
-            { id: 8, type: 'text', title: "ancient의 뜻을 쓰시오.", answer: ["고대의", "옛날의"] },
-            { id: 9, type: 'text', title: "opinion의 뜻을 쓰시오.", answer: ["의견", "견해"] },
-            { id: 10, type: 'multi_choice', title: "뜻이 알맞은 단어의 해설을 고르시오.", groups: [
-                { label: "drop", options: ["떨어뜨리다", "솟구치다"], answer: "떨어뜨리다" },
-                { label: "lively", options: ["활기찬", "어두운"], answer: "활기찬" },
-                { label: "opinion", options: ["견해", "실험"], answer: "견해" },
-                { label: "future", options: ["미래", "과거"], answer: "미래" }
-            ]},
-            { id: 11, type: 'text', title: "future의 뜻을 쓰시오.", answer: ["미래"] },
-            { id: 12, type: 'choice', title: "빈칸에 들어갈 말은?\nThe tall (    ) in the picture looks lonely.", options: ['clue', 'example', 'social', 'figure'], answer: 3 },
-            { id: 13, type: 'text', title: "carry의 뜻을 쓰시오.", answer: ["담다", "지니다", "나르다"] },
-            { id: 14, type: 'choice', title: "빈칸에 들어갈 말은?\nThe boy looked (    ) at the old coin.", options: ['closely', 'artist', 'opinion', 'final'], answer: 0 },
-            { id: 15, type: 'choice', title: "through의 뜻은?", options: ['~을 통해서', '~의 안으로', '~다시피', '~로써'], answer: 0 },
-            { id: 16, type: 'text', title: "leafless의 뜻을 쓰시오.", answer: ["잎이 없는", "잎이 떨어진"] },
-            { id: 17, type: 'text', title: "social의 뜻을 쓰시오.", answer: ["사회적인", "사회의"] },
-            { id: 18, type: 'text', title: "piece의 뜻을 쓰시오.", answer: ["작품", "조각", "한 점"] },
-            { id: 19, type: 'text', title: "pleasure의 뜻을 쓰시오.", answer: ["기쁨", "즐거움", "행복"] },
-            { id: 20, type: 'text', title: "modern의 뜻을 쓰시오.", answer: ["현대의", "근대의"] },
-            { id: 21, type: 'arrange', title: "'그 남자는 그의 능력으로 잘 알려져 있다.'에 알맞게 말을 배열하시오.", words: ['The man', 'is', 'known', 'for', 'his', 'skill'], answer: ['The man', 'is', 'known', 'for', 'his', 'skill'] },
-            { id: 22, type: 'text', title: "'한가한'에 해당하는 영단어를 쓰시오.", answer: ["free", "Free"] },
-            { id: 23, type: 'text', title: "represent의 뜻을 쓰시오.", answer: ["나타내다", "상징하다", "대표하다"] },
-            { id: 24, type: 'choice', title: "빈칸에 들어갈 말은?\nThe girl in the drawing (    ) peace.", options: ['dropped', 'turned', 'got off', 'represented'], answer: 3 },
-            { id: 25, type: 'text', title: "take care of의 뜻을 쓰시오.", answer: ["~을 돌보다", "돌보다"] },
-            { id: 26, type: 'choice', title: "[As]의 뜻은?\n[As] you can see, this fair is much bigger.", options: ['~듯이', '~로써', '~처럼', '~할 때'], answer: 0 },
-            { id: 27, type: 'choice', title: "[as]의 뜻은?\nI know my uncle is working [as] a superman.", options: ['~다시피', '~할 때', '~라면', '~처럼'], answer: 3 },
-            { id: 28, type: 'choice', title: "[As]의 뜻은?\n[As] I was tired, I went to the bed early.", options: ['~다시피', '~할 때', '~이므로', '~라면'], answer: 2 },
-            { id: 29, type: 'choice', title: "[As]의 뜻은?\n[As] you know, English is an international language.", options: ['~다시피', '~할 때', '~이므로', '~라면'], answer: 0 },
-            { id: 30, type: 'choice', title: "[As]의 뜻은?\n[As] I explained before, this rule may be so tight.", options: ['~듯이', '~일지라도', '~이므로', '~처럼'], answer: 0 },
-            { id: 31, type: 'choice', title: "[As]의 뜻은?\n[As] I told you, he does not live here anymore.", options: ['~듯이', '~이므로', '~함에 따라', '~라면'], answer: 0 },
-            { id: 32, type: 'choice', title: "[as]의 뜻은?\nI used the box [as] a table.", options: ['~듯이', '~처럼', '~이므로', '~만큼'], answer: 1 },
-            { id: 33, type: 'choice', title: "빈칸에 들어갈 말은?\nWe should protect (    ) for animals and plants.", options: ['spray', 'social', 'dot', 'nature'], answer: 3 },
-            { id: 34, type: 'text', title: "past의 뜻을 쓰시오.", answer: ["과거"] },
-            { id: 35, type: 'text', title: "present의 뜻을 쓰시오.", answer: ["현재"] },
-            { id: 36, type: 'text', title: "about의 뜻을 쓰시오.", answer: ["대략"] },
-            { id: 37, type: 'text', title: "personal의 뜻을 쓰시오.", answer: ["개인적인"] },
-            { id: 38, type: 'text', title: "private의 뜻을 쓰시오.", answer: ["개인적인"] },
-            { id: 39, type: 'choice', title: "about, hold의 뜻을 순서대로 짝지은 것은?", options: ['대하여, 씹다', '대략, 쥐다', '대하여, 담다', '대략, 담다'], answer: 3 },
-            { id: 40, type: 'text', title: "anyway의 뜻을 쓰시오.", answer: ["그런데", "어쨌든"] },
-            { id: 41, type: 'text', title: "hold의 과거형을 쓰시오.", answer: ["held", "Held"] },
-            { id: 42, type: 'text', title: "lively의 뜻을 쓰시오.", answer: ["활기찬", "생기 넘치는"] },
-            { id: 43, type: 'text', title: "area의 뜻을 쓰시오.", answer: ["구역", "지역"] },
-            { id: 44, type: 'choice', title: "빈칸에 들어갈 말은?\nOnline classes are a useful (    ) of learning.", options: ['message', 'national', 'form', 'artwork'], answer: 2 },
-            { id: 45, type: 'choice', title: "빈칸에 들어갈 말은?\nThe farmer (    ) water on the dry plants.", options: ['held', 'stopped', 'sprayed', 'carried'], answer: 2 },
-            { id: 46, type: 'choice', title: "빈칸에 들어갈 말은?\nSunlight came (    ) the curtains in the morning.", options: ['into', 'about', 'though', 'through'], answer: 3 },
-            { id: 47, type: 'choice', title: "빈칸에 들어갈 말은?\n(    ) the map, the library is next to the bank.", options: ['Internationally', 'For example', 'According to', 'Through'], answer: 2 },
-            { id: 48, type: 'choice', title: "[ ] 속 표현이 옳은 것은?", options: ['This diary has many [personal] stories.', 'A lion will be known [in] his hunger.', 'The children walked [far] to hide fast.', 'If you get [to] at the bank, you will find the library.', 'The concert will start in [through] ten minutes.'], answer: 0 },
-            { id: 49, type: 'choice', title: "'국가의'에 해당하는 영단어는?", options: ['subway', 'famous', 'national', 'nature', 'pleasure'], answer: 2 },
-            { id: 50, type: 'text', title: "poor의 뜻을 쓰시오.", answer: ["가난한"] },
-            { id: 51, type: 'choice', title: "빈칸에 들어갈 말은?\nThis picture is a good (    ) of modern street art.", options: ['example', 'opinion', 'leafless', 'nature', 'private'], answer: 0 },
-            { id: 52, type: 'text', title: "well-known의 뜻을 쓰시오.", answer: ["잘 알려진", "유명한"] },
-            { id: 53, type: 'text', title: "popular의 뜻을 쓰시오.", answer: ["인기 있는"] },
-            { id: 54, type: 'text', title: "free의 뜻을 쓰시오.", answer: ["한가한", "시간이 있는"] },
-            { id: 55, type: 'text', title: "hip의 뜻을 쓰시오.", answer: ["세련된", "최신 유행의", "유행에 밝은", "최신 유행에 밝은"] },
-            { id: 56, type: 'choice', title: "빈칸에 들어갈 말은?\nThe new shop is (    ) among young people.", options: ['area', 'fair', 'hip', 'poor'], answer: 2 },
-            { id: 57, type: 'choice', title: "빈칸에 들어갈 말은?\nThe old castle was the second (    ).", options: ['stop', 'drop', 'lively', 'far'], answer: 0 },
-            { id: 58, type: 'arrange', title: "'서점에서 왼쪽으로 돌면 우체국이 보일 것이다.'에 알맞게 말을 배열하시오.", words: ['Turn', 'left', 'at', 'the bookstore', 'and', 'you', 'will', 'see', 'the post office'], answer: ['Turn', 'left', 'at', 'the bookstore', 'and', 'you', 'will', 'see', 'the post office'] },
-            { id: 59, type: 'arrange', title: "'공원에서 오른쪽으로 돌면 은행이 보일 것이다.'에 알맞게 말을 배열하시오.", words: ['Turn', 'right', 'at', 'the park', 'and', 'you', 'will', 'see', 'the bank.'], answer: ['Turn', 'right', 'at', 'the park', 'and', 'you', 'will', 'see', 'the bank.'] },
-            { id: 60, type: 'arrange', title: "'왼쪽으로 돌다'에 알맞게 말을 배열하시오.", words: ['turn', 'left'], answer: ['turn', 'left'] },
-            { id: 61, type: 'arrange', title: "'우리 할아버지는 자주 과거에 대하여 이야기하신다.'에 알맞게 말을 배열하시오.", words: ['My', 'grandfather', 'often', 'talks about', 'the', 'past.'], answer: ['My', 'grandfather', 'often', 'talks about', 'the', 'past.'] },
-            { id: 62, type: 'arrange', title: "'어쨌든, 우리는 점심 전에 포스터를 끝내야 한다.'에 알맞게 말을 배열하시오.", words: ['anyway', 'we', 'should', 'finish', 'the poster', 'before', 'lunch'], answer: ['anyway', 'we', 'should', 'finish', 'the poster', 'before', 'lunch'] },
-            { id: 63, type: 'text', title: "a little의 뜻을 쓰시오.", answer: ["조금", "약간"] },
-            { id: 64, type: 'arrange', title: "'우리는 그들을 위해 자연을 보호해야 한다.'에 알맞게 말을 배열하시오.", words: ['We', 'should', 'protect', 'nature', 'for', 'them'], answer: ['We', 'should', 'protect', 'nature', 'for', 'them'] },
-            { id: 65, type: 'arrange', title: "'중요한 단어 아래에 곧은 선을 그어라.'에 알맞게 말을 배열하시오.", words: ['Draw', 'a', 'straight', 'word', 'under', 'the important', 'word'], answer: ['Draw', 'a', 'straight', 'word', 'under', 'the important', 'word'] },
-            { id: 66, type: 'arrange', title: "'예시' 영단어에 맞게 철자를 배열하시오.", words: ['e', 'x', 'a', 'm', 'p', 'l', 'e'], answer: ['e', 'x', 'a', 'm', 'p', 'l', 'e'] },
-            { id: 67, type: 'arrange', title: "'나타내다' 영단어에 맞게 철자를 배열하시오.", words: ['r', 'e', 'p', 'r', 'e', 's', 'e', 'n', 't'], answer: ['r', 'e', 'p', 'r', 'e', 's', 'e', 'n', 't'] },
-            { id: 68, type: 'arrange', title: "'그 왕은 강력한 인물임에 틀림없다.'에 알맞게 말을 배열하시오.", words: ['The king', 'must', 'be', 'a', 'powerful', 'figure'], answer: ['The king', 'must', 'be', 'a', 'powerful', 'figure'] },
-            { id: 69, type: 'arrange', title: "'이 식당은 훌륭한 서비스로 알려져 있다.'에 알맞게 말을 배열하시오.", words: ['this', 'restaurant', 'is', 'known', 'for', 'its', 'excellent', 'service'], answer: ['this', 'restaurant', 'is', 'known', 'for', 'its', 'excellent', 'service'] },
-            { id: 70, type: 'arrange', title: "'그는 커피 한 잔을 들고 있다'에 알맞게 말을 배열하시오.", words: ['he', 'holds', 'a cup', 'of', 'coffee'], answer: ['he', 'holds', 'a cup', 'of', 'coffee'] },
-            { id: 71, type: 'choice', title: "빈칸에 들어갈 말은?\nShe (    ) her baby in her arms.", options: ['held', 'sprayed', 'great', 'took'], answer: 0 },
-            { id: 72, type: 'arrange', title: "'그 회사는 국제적으로 인정받고 있다.'에 알맞게 말을 배열하시오.", words: ['the', 'company', 'is', 'recognized', 'internationally'], answer: ['the', 'company', 'is', 'recognized', 'internationally'] },
-            { id: 73, type: 'arrange', title: "'박물관에는 단순하고 현대적인 의자들이 있다.'에 알맞게 말을 배열하시오.", words: ['The museum', 'has', 'simple', 'and', 'modern', 'chairs'], answer: ['The museum', 'has', 'simple', 'and', 'modern', 'chairs'] },
-            { id: 74, type: 'text', title: "simple의 뜻을 쓰시오.", answer: ["간단한"] },
-            { id: 75, type: 'arrange', title: "'그 오래된 다리는 사진 찍기에 잘 알려져 있는 장소였다.'에 알맞게 말을 배열하시오.", words: ['the old', 'bridge', 'was', 'a', 'well-known', 'place', 'for taking', 'photos'], answer: ['the old', 'bridge', 'was', 'a', 'well-known', 'place', 'for taking', 'photos'] },
-            { id: 76, type: 'choice', title: "다음 관계와 같은 관계의 단어 짝은? private : personal", options: ['tiny : big', 'nature : world', 'drop : hold', 'great : huge'], answer: 3 },
-            { id: 77, type: 'choice', title: "다음 관계와 같은 관계의 단어 짝은? drop : hold", options: ['way : form', 'area : worker', 'lively : modern', 'social : straight'], answer: 0 },
-            { id: 78, type: 'arrange', title: "'곧장' 영단어에 철자를 배열하시오.", words: ['s', 't', 'r', 'a', 'i', 'g', 'h', 't'], answer: ['s', 't', 'r', 'a', 'i', 'g', 'h', 't'] },
-            { id: 79, type: 'text', title: "street의 뜻을 쓰시오.", answer: ["거리", "도로"] },
-            { id: 80, type: 'choice', title: "뜻이 알맞은 것은?", options: ['artwork - 거리 예술', 'national - 국제적인', 'ancient - 고대의', 'carry - 쥐다'], answer: 2 },
-            { id: 81, type: 'choice', title: "뜻이 알맞은 것은?", options: ['personal - 공공연한', 'stop - 들르는 곳', 'take care of - 수리하다', 'example - 단서'], answer: 1 },
-            { id: 82, type: 'choice', title: "뜻이 알맞은 것은?", options: ['get off - 끄다', 'about - 대략', 'drop - 올리다', 'present - 과거'], answer: 1 },
-            { id: 83, type: 'choice', title: "뜻이 알맞은 것은?", options: ['anyway - 그럼에도', 'chew - 씹는', 'piece - 방법', 'social - 사회의'], answer: 3 }
+            { id: 412, type: 'choice', title: "Banksy의 예술 작품에 대한 설명으로 옳은 것은?", options: ["Muswell Hill에 있다.", "자연이 힘든 시간을 겪었다는 생각이 담겨 있다.", "스프레이를 사용하여 나뭇가지를 표현한 작품이다.", "나뭇가지에 잎을 단 초록색 나무 작품이다."], answer: 1 }
         ];
 
         let currentStudent = "";
-        let currentMode = "단어";
+        let currentMode = "Word";
         let cumPoints = 0;
         let quizList = [];
         let currentIndex = 0;
         let score = 0;
         let streak = 0;
-        let userArrangeState = [];
+        let userArrangeState = []; // [{ id, word }] 객체 배열로 관리하여 중복 단어/철자 버그 해결!
         let selectedOption = null;
         let multiChoiceState = {};
         let isAnswerChecked = false;
@@ -1176,6 +908,12 @@
             await loadStudentPoints();
 
             document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('screen-chapter-select').classList.remove('hidden');
+        }
+
+        function selectChapter(chap) {
+            currentChapter = chap;
+            document.getElementById('screen-chapter-select').classList.add('hidden');
             document.getElementById('screen-mode-select').classList.remove('hidden');
             document.getElementById('mode-user-name').innerText = currentStudent;
 
@@ -1211,13 +949,17 @@
         function startMode(mode) {
             currentMode = mode;
 
-            if (mode === '단어') {
-                quizList = shuffleArray(VOCAB_QUESTIONS).slice(0, 30);
+            if (mode === 'Word') {
+                // 'Word' 탭: 20개 문제 출제
+                quizList = shuffleArray(WORD_QUESTIONS).slice(0, 20);
+            } else if (mode === '단어 문제') {
+                // '단어 문제' 탭: 12개 문제 출제
+                quizList = shuffleArray(VOCAB_TEST_QUESTIONS).slice(0, 12);
             } else {
-                const sampledDialogue = shuffleArray(PRACTICE_DIALOGUE).slice(0, 9);
-                const sampledGrammar = shuffleArray(PRACTICE_GRAMMAR).slice(0, 14);
-                const sampledReading = shuffleArray(PRACTICE_READING).slice(0, 12);
-
+                // '연습문제' 탭: 기존 연습문제 출제
+                const sampledDialogue = shuffleArray(PRACTICE_DIALOGUE).slice(0, 6);
+                const sampledGrammar = shuffleArray(PRACTICE_GRAMMAR).slice(0, 6);
+                const sampledReading = shuffleArray(PRACTICE_READING).slice(0, 6);
                 quizList = shuffleArray([...sampledDialogue, ...sampledGrammar, ...sampledReading]);
             }
 
@@ -1259,7 +1001,7 @@
             document.getElementById('btn-submit').disabled = false;
 
             const badgeMap = {
-                'arrange': '🧩 배열 문제',
+                'arrange': '🧩 철자/배열 문제',
                 'choice': '선택형 객관식',
                 'text': '✏️ 쓰기 문제',
                 'multi_choice': '☑️ 매칭 선택'
@@ -1296,6 +1038,7 @@
                     container.appendChild(btn);
                 });
             } else if (q.type === 'arrange') {
+                // 배열 문제 버그 해결 logic (각 칩에 고유 식별 id 부여)
                 const dropArea = document.createElement('div');
                 dropArea.id = 'drop-area';
                 dropArea.className = 'drop-area mb-5';
@@ -1304,14 +1047,16 @@
                 poolArea.id = 'pool-area';
                 poolArea.className = 'flex flex-wrap gap-2.5 justify-center py-2';
 
-                const shuffledWords = shuffleArray(q.words);
+                // 고유 id를 포함한 객체 배열로 변환 후 셔플
+                const chipObjects = shuffleArray(q.words.map((w, idx) => ({ id: idx, word: w })));
 
-                shuffledWords.forEach((word) => {
+                chipObjects.forEach((item) => {
                     const chip = document.createElement('button');
                     chip.className = 'word-chip';
-                    chip.innerText = word;
+                    chip.innerText = item.word;
+                    chip.setAttribute('data-chip-id', item.id);
                     chip.onclick = () => {
-                        if (!isAnswerChecked) handleWordClick(chip, word);
+                        if (!isAnswerChecked) handleWordClick(chip, item);
                     };
                     poolArea.appendChild(chip);
                 });
@@ -1340,13 +1085,7 @@
                     const optWrapper = document.createElement('div');
                     optWrapper.className = 'flex gap-2';
 
-                    // 적절 / 부적절 선지인 경우 순서를 ['적절', '부적절']로 완전 고정
-                    let optsToRender;
-                    if (group.options.includes('적절') || group.options.includes('부적절')) {
-                        optsToRender = ['적절', '부적절'];
-                    } else {
-                        optsToRender = shuffleArray(group.options);
-                    }
+                    let optsToRender = shuffleArray(group.options);
 
                     optsToRender.forEach((opt) => {
                         const btn = document.createElement('button');
@@ -1369,16 +1108,17 @@
             }
         }
 
-        function handleWordClick(chip, word) {
+        // 배열 문제 클릭 핸들러 (중복 단어/철자 버그 고유 ID 판별로 완벽 수정)
+        function handleWordClick(chip, item) {
             const dropArea = document.getElementById('drop-area');
             const poolArea = document.getElementById('pool-area');
 
             if (chip.parentElement.id === 'pool-area') {
                 dropArea.appendChild(chip);
-                userArrangeState.push(word);
+                userArrangeState.push(item);
             } else {
                 poolArea.appendChild(chip);
-                const idx = userArrangeState.indexOf(word);
+                const idx = userArrangeState.findIndex(x => x.id === item.id);
                 if (idx > -1) userArrangeState.splice(idx, 1);
             }
         }
@@ -1398,10 +1138,16 @@
                 isCorrect = (selectedOption === q.answer);
                 detailMessage = q.options[q.answer];
             } else if (q.type === 'arrange') {
-                const userSentence = userArrangeState.join(' ');
-                const targetSentence = q.answer.join(' ');
-                isCorrect = (cleanPunctuation(userSentence) === cleanPunctuation(targetSentence));
-                detailMessage = targetSentence;
+                const userWordsArr = userArrangeState.map(x => x.word);
+                // 단어 사이 띄어쓰기 결합 및 붙여쓰기 둘 다 비교하여 'straight' 등 철자/단어 문제 모두 호환
+                const userStrSpaced = userWordsArr.join(' ');
+                const userStrJoined = userWordsArr.join('');
+                const targetStrSpaced = q.answer.join(' ');
+                const targetStrJoined = q.answer.join('');
+
+                isCorrect = (cleanPunctuation(userStrSpaced) === cleanPunctuation(targetStrSpaced)) || 
+                            (cleanPunctuation(userStrJoined) === cleanPunctuation(targetStrJoined));
+                detailMessage = targetStrSpaced;
             } else if (q.type === 'text') {
                 const inputEl = document.getElementById('text-answer-input');
                 const val = inputEl ? inputEl.value.trim() : "";
@@ -1418,18 +1164,32 @@
                     return;
                 }
                 isCorrect = q.groups.every((group, idx) => multiChoiceState[idx] === group.answer);
-                detailMessage = q.groups.map(g => g.answer).join(', ');
+                detailMessage = q.groups.map(g => `${g.label}: ${g.answer}`).join(', ');
             }
 
             isAnswerChecked = true;
             document.getElementById('btn-submit').disabled = true;
             currentFeedbackDetailText = detailMessage;
 
+            // --- 점수 계산 규칙 (Requirement 5) ---
+            let ptsEarned = 0;
+            if (currentMode === 'Word') {
+                // Word 탭: 하나당 1점 (복습도 1점)
+                ptsEarned = 1;
+                if (isCorrect) score += 1;
+            } else if (currentMode === '단어 문제') {
+                // 단어 문제 탭: 하나당 2점 (복습 1점)
+                ptsEarned = isReviewMode ? 1 : 2;
+                if (isCorrect) score += 2;
+            } else {
+                // 연습문제 탭: 기존 점수 유지 (하나당 5점, 누적 3pt/복습 2pt)
+                ptsEarned = isReviewMode ? 2 : 3;
+                if (isCorrect) score += 5;
+            }
+
             if (isCorrect) {
-                score += 5;
                 streak++;
-                const pointsEarned = isReviewMode ? 2 : 3;
-                cumPoints += pointsEarned;
+                cumPoints += ptsEarned;
                 updatePointDisplay();
                 savePointsToStorageAndCloud();
             } else {
@@ -1439,7 +1199,7 @@
                 }
             }
 
-            showFeedback(isCorrect, `정답: ${detailMessage}`);
+            showFeedback(isCorrect, `정답: ${detailMessage}`, ptsEarned);
         }
 
         function savePointsToStorageAndCloud() {
@@ -1455,20 +1215,18 @@
             }
         }
 
-        function showFeedback(isCorrect, detail) {
+        function showFeedback(isCorrect, detail, ptsEarned) {
             const modal = document.getElementById('feedback-modal');
             const icon = document.getElementById('feedback-icon');
             const title = document.getElementById('feedback-title');
             const detailEl = document.getElementById('feedback-detail');
 
-            const earnedPts = isReviewMode ? 2 : 3;
-
             if (isCorrect) {
                 modal.className = modal.className.replace(/border-[\w-]+/, 'border-lime-500 bg-lime-50');
                 icon.innerText = '✅';
-                title.innerText = streak > 1 ? `정답입니다! (+${earnedPts}pt) 🔥 ${streak}연속!` : `정답입니다! (+${earnedPts}pt)`;
+                title.innerText = streak > 1 ? `정답입니다! (+${ptsEarned}pt) 🔥 ${streak}연속!` : `정답입니다! (+${ptsEarned}pt)`;
                 title.className = 'font-black text-xl text-lime-700';
-                detailEl.innerText = `포인트 ${earnedPts}점이 누적되었습니다!`;
+                detailEl.innerText = `포인트 ${ptsEarned}점이 누적되었습니다!`;
                 confetti({ particleCount: 30 + Math.min(streak * 5, 30), spread: 50, origin: { y: 0.85 } });
             } else {
                 modal.className = modal.className.replace(/border-[\w-]+/, 'border-rose-500 bg-rose-50');
@@ -1492,11 +1250,12 @@
             }
         }
 
+        // 학습 완수 후 점수 창이 떠야 1회 완료로 인정 (Requirement 4)
         function completeQuizRound() {
-            saveRecord(currentStudent, score, currentMode, isReviewMode);
+            saveRecord(currentStudent, score, currentChapter, currentMode, isReviewMode);
 
             if (incorrectQuestions.length > 0) {
-                alert(`📝 ${incorrectQuestions.length}개 문제를 틀렸습니다. 바로 오답 노트 복습을 시작합니다! (맞히면 2pt)`);
+                alert(`📝 ${incorrectQuestions.length}개 문제를 틀렸습니다. 바로 오답 노트 복습을 시작합니다!`);
                 quizList = [...incorrectQuestions];
                 incorrectQuestions = [];
                 currentIndex = 0;
@@ -1514,7 +1273,7 @@
             }
         }
 
-        async function saveRecord(studentName, finalScore, modeName, isReview) {
+        async function saveRecord(studentName, finalScore, chapter, modeName, isReview) {
             const today = new Date().toISOString().split('T')[0];
             const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
 
@@ -1523,15 +1282,16 @@
             const newRecord = {
                 date: today,
                 time: timeStr,
+                chapter: chapter,
                 mode: modeLabel,
                 name: studentName,
                 score: finalScore,
                 timestamp: Date.now()
             };
 
-            const localRecords = JSON.parse(localStorage.getItem('eng_quest_records_v3') || '[]');
+            const localRecords = JSON.parse(localStorage.getItem('eng_quest_records_v4') || '[]');
             localRecords.push(newRecord);
-            localStorage.setItem('eng_quest_records_v3', JSON.stringify(localRecords));
+            localStorage.setItem('eng_quest_records_v4', JSON.stringify(localRecords));
 
             const dbUrl = getCloudDbUrl();
             if (dbUrl) {
@@ -1557,9 +1317,7 @@
                     const res = await fetch(`${dbUrl}/leaderboard.json`);
                     if (res.ok) {
                         const data = await res.json();
-                        if (data) {
-                            leaderboardArr = Object.values(data);
-                        }
+                        if (data) leaderboardArr = Object.values(data);
                     }
                 } catch (e) {}
             }
@@ -1595,12 +1353,12 @@
         }
 
         function goHome() {
-            if (confirm('메인 화면 모드 선택으로 돌아갈까요?')) {
+            if (confirm('메인 화면으로 돌아갈까요?')) {
                 document.getElementById('feedback-modal').classList.add('translate-y-full');
                 document.getElementById('screen-quiz').classList.add('hidden');
                 document.getElementById('screen-result').classList.add('hidden');
-                document.getElementById('screen-mode-select').classList.remove('hidden');
-                loadLeaderboard();
+                document.getElementById('screen-mode-select').classList.add('hidden');
+                document.getElementById('screen-chapter-select').classList.remove('hidden');
             }
         }
 
@@ -1702,11 +1460,12 @@
             else if (tab === 'cloud') secCloud.classList.remove('hidden');
         }
 
+        // --- 학습 기록 및 각 탭별 완료 횟수 집계 표시 기능 (Requirement 4) ---
         async function renderRecords() {
             const selectedDate = document.getElementById('filter-date').value;
             const selectedMode = document.getElementById('filter-mode').value;
             const tbody = document.getElementById('records-table-body');
-            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 text-xs">불러오는 중...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 text-xs">불러오는 중...</td></tr>`;
 
             let records = [];
             const dbUrl = getCloudDbUrl();
@@ -1719,10 +1478,10 @@
                         if (data) records = Object.values(data);
                     }
                 } catch (e) {
-                    records = JSON.parse(localStorage.getItem('eng_quest_records_v3') || '[]');
+                    records = JSON.parse(localStorage.getItem('eng_quest_records_v4') || '[]');
                 }
             } else {
-                records = JSON.parse(localStorage.getItem('eng_quest_records_v3') || '[]');
+                records = JSON.parse(localStorage.getItem('eng_quest_records_v4') || '[]');
             }
 
             records.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
@@ -1732,21 +1491,39 @@
                 filtered = filtered.filter(r => (r.mode || '').includes(selectedMode));
             }
 
+            // 각 탭별 완수 횟수 집계
+            const countsByTab = {};
+            filtered.forEach(r => {
+                const chap = r.chapter || "5과";
+                const m = r.mode || "Word";
+                const key = `${chap} [${m}]`;
+                countsByTab[key] = (countsByTab[key] || 0) + 1;
+            });
+
+            const summaryEl = document.getElementById('summary-text-detail');
+            if (Object.keys(countsByTab).length > 0) {
+                summaryEl.innerText = Object.entries(countsByTab).map(([k, v]) => `${k}: 총 ${v}회 완수`).join(' | ');
+            } else {
+                summaryEl.innerText = '학습 기록 없음';
+            }
+
             tbody.innerHTML = '';
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 text-xs">기록이 없습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 text-xs">기록이 없습니다.</td></tr>`;
                 return;
             }
 
             filtered.forEach(r => {
                 const tr = document.createElement('tr');
                 const isReview = (r.mode || '').includes('복습');
-                const modeText = r.mode || '연습문제';
+                const modeText = r.mode || 'Word';
+                const chapterText = r.chapter || '5과';
 
                 tr.innerHTML = `
                     <td class="p-3 text-slate-500">${r.time}</td>
+                    <td class="p-3 font-bold text-slate-700">${chapterText}</td>
                     <td class="p-3 font-bold">
-                        <span class="${modeText.includes('단어') ? 'text-blue-600' : 'text-emerald-600'}">${modeText}</span>
+                        <span class="${modeText.includes('Word') ? 'text-blue-600' : modeText.includes('단어') ? 'text-amber-600' : 'text-emerald-600'}">${modeText}</span>
                     </td>
                     <td class="p-3 font-bold text-slate-800">${r.name}</td>
                     <td class="p-3 font-black text-lime-600">
@@ -1759,7 +1536,7 @@
         }
 
         async function exportRecordsCSV() {
-            let records = JSON.parse(localStorage.getItem('eng_quest_records_v3') || '[]');
+            let records = JSON.parse(localStorage.getItem('eng_quest_records_v4') || '[]');
             const dbUrl = getCloudDbUrl();
 
             if (dbUrl) {
@@ -1777,16 +1554,16 @@
                 return;
             }
 
-            let csv = "\uFEFF날짜,시간,모드,학생 이름,점수\n";
+            let csv = "\uFEFF날짜,시간,단원,탭,학생 이름,점수\n";
             records.forEach(r => {
-                csv += `"${r.date}","${r.time}","${r.mode || '연습문제'}","${r.name}","${r.score}점"\n`;
+                csv += `"${r.date}","${r.time}","${r.chapter || '5과'}","${r.mode || 'Word'}","${r.name}","${r.score}점"\n`;
             });
 
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `ColinT_5과학습_기록_${new Date().toISOString().split('T')[0]}.csv`);
+            link.setAttribute('download', `ColinT_English_학습기록_${new Date().toISOString().split('T')[0]}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -1794,7 +1571,7 @@
 
         function clearRecords() {
             if (confirm('모든 학습 기록을 삭제하시겠습니까?')) {
-                localStorage.removeItem('eng_quest_records_v3');
+                localStorage.removeItem('eng_quest_records_v4');
                 const dbUrl = getCloudDbUrl();
                 if (dbUrl) fetch(`${dbUrl}/records.json`, { method: 'DELETE' });
                 renderRecords();
@@ -1826,4 +1603,3 @@
     </script>
 </body>
 </html>
-
