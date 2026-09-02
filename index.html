@@ -110,6 +110,18 @@
         .animate-flame {
             animation: pulse-flame 0.8s ease-in-out infinite;
         }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col justify-between antialiased">
@@ -182,7 +194,7 @@
             </div>
         </section>
 
-        <!-- STEP 2: Lesson Chapter Selection (5과 / 6과 / 영영풀이) -->
+        <!-- STEP 2: Lesson Chapter Selection -->
         <section id="screen-chapter-select" class="hidden w-full max-w-md space-y-5 py-4 text-center">
             <div class="space-y-1">
                 <div class="text-xs font-bold text-lime-600 uppercase tracking-wider">Chapter Select</div>
@@ -216,11 +228,11 @@
             </div>
         </section>
 
-        <!-- STEP 3: Mode Selection & Realtime Leaderboard (5과) -->
+        <!-- STEP 3: Mode Selection & Realtime Leaderboard -->
         <section id="screen-mode-select" class="hidden w-full max-w-md space-y-5 py-4">
             <div class="bg-gradient-to-r from-lime-500 to-emerald-600 p-5 rounded-3xl text-white shadow-md flex justify-between items-center">
                 <div>
-                    <div class="text-xs font-bold opacity-80 uppercase tracking-wider">5과 학습 활동</div>
+                    <div class="text-xs font-bold opacity-80 uppercase tracking-wider"><span id="mode-chapter-title">5과</span> 학습 활동</div>
                     <div class="text-2xl font-black mt-0.5"><span id="mode-user-name"></span> 학생</div>
                 </div>
                 <div class="text-right">
@@ -230,7 +242,7 @@
             </div>
 
             <div class="space-y-3">
-                <div class="text-xs font-extrabold text-slate-400 uppercase tracking-wider px-1">학습 파트 선택 (5과)</div>
+                <div class="text-xs font-extrabold text-slate-400 uppercase tracking-wider px-1">학습 파트 선택</div>
                 <div class="grid grid-cols-3 gap-2.5">
                     <button onclick="startMode('Word')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-4 rounded-2xl shadow-sm text-left transition-all duo-card group">
                         <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">🔤</div>
@@ -240,7 +252,7 @@
                     <button onclick="startMode('단어 문제')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-4 rounded-2xl shadow-sm text-left transition-all duo-card group">
                         <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">✏️</div>
                         <div class="font-black text-base text-slate-800">단어 문제</div>
-                        <div class="text-[11px] text-slate-400 font-medium mt-0.5">단어, 어휘 연습문제</div>
+                        <div class="text-[11px] text-slate-400 font-medium mt-0.5">단어, 어휘 연습</div>
                     </button>
                     <button onclick="startMode('연습문제')" class="bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-lime-500 p-4 rounded-2xl shadow-sm text-left transition-all duo-card group">
                         <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">📝</div>
@@ -298,9 +310,7 @@
                         </button>
                     </div>
 
-                    <h2 id="question-title" class="text-lg sm:text-xl font-bold text-slate-800 mb-4 whitespace-pre-line leading-relaxed">
-                        문제가 여기에 들어갑니다.
-                    </h2>
+                    <h2 id="question-title" class="text-lg sm:text-xl font-bold text-slate-800 mb-4 whitespace-pre-line leading-relaxed"></h2>
 
                     <div id="dialogue-box" class="hidden bg-slate-50 p-4 rounded-2xl border-2 border-slate-100 mb-4 text-sm font-medium text-slate-700 leading-relaxed relative">
                         <div class="flex justify-between items-center mb-2 pb-1.5 border-b border-slate-200">
@@ -458,12 +468,17 @@
                     </div>
                 </div>
 
-                <!-- 학습 완료 횟수 요약 카드 -->
-                <div id="records-summary-card" class="bg-lime-50 border border-lime-200 rounded-2xl p-3 text-xs text-lime-900 font-bold flex flex-wrap justify-between gap-2">
-                    <div>📊 선택 날짜 학습 현황 Summary</div>
-                    <div id="summary-text-detail" class="text-lime-700">로딩 중...</div>
+                <!-- 학생별 / 과별 / 탭별 학습 완수 현황 요약 Card UI -->
+                <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-sm mb-4">
+                    <h4 class="text-sm font-black text-slate-800 mb-3 flex items-center gap-1.5">
+                        📊 학생별·과별·탭별 학습 완수 현황 <span class="text-xs font-normal text-slate-400 ml-1">(선택 날짜 기준)</span>
+                    </h4>
+                    <div id="summary-text-detail" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-56 overflow-y-auto pr-1 custom-scrollbar">
+                        <div class="text-sm text-slate-400 w-full col-span-2 text-center py-4 font-bold">로딩 중...</div>
+                    </div>
                 </div>
 
+                <!-- 상세 시도 테이블 -->
                 <div class="border-2 border-slate-100 rounded-2xl overflow-hidden">
                     <table class="w-full text-left border-collapse">
                         <thead class="bg-slate-50 text-slate-500 text-xs uppercase font-extrabold">
@@ -482,10 +497,6 @@
 
             <!-- 탭 2: QR 코드 -->
             <div id="teacher-sec-qr" class="hidden flex-1 flex flex-col items-center justify-center space-y-4 py-4">
-                <div id="local-file-warning" class="hidden w-full bg-amber-50 border border-amber-200 rounded-2xl p-3 text-xs text-amber-800 text-left">
-                    ⚠️ <strong>안내:</strong> 로컬 파일(`file://`) 상태입니다. 실제 웹 주소를 입력하시면 QR 코드가 생성됩니다.
-                </div>
-
                 <div class="w-full max-w-sm space-y-1 text-left">
                     <label class="text-xs font-bold text-slate-500">웹 주소 (URL) 입력:</label>
                     <div class="flex gap-2">
@@ -638,8 +649,7 @@
             }
         }
 
-        // --- NEW QUESTIONS ADDED (Requirement 8) ---
-        // 1. WORD_QUESTIONS (For 'Word' Tab)
+        // 전체 문제 은행
         const WORD_QUESTIONS = [
             { id: 'w1', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nstadium", answer: ["경기장"] },
             { id: 'w2', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nline", answer: ["노선", "선"] },
@@ -704,8 +714,6 @@
             { id: 61, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nartist", answer: ["예술가", "화가", "작가"] },
             { id: 62, type: 'text', title: "다음 단어의 뜻을 쓰시오.\nbe famous for", answer: ["~로 유명하다", "유명하다"] },
             { id: 63, type: 'text', title: "다음 단어의 뜻을 쓰시오.\npoverty", answer: ["빈곤", "가난"] },
-
-            // 추가 단어 객관식 묶음 문제들
             { id: 'w64', type: 'multi_choice', title: "다음 단어의 뜻을 고르시오.", groups: [
                 { label: "tiny", options: ["큰", "작은"], answer: "작은" },
                 { label: "stadium", options: ["운동장", "경기장"], answer: "경기장" },
@@ -771,7 +779,6 @@
             ]}
         ];
 
-        // 2. VOCAB_TEST_QUESTIONS (For '단어 문제' Tab)
         const VOCAB_TEST_QUESTIONS = [
             { id: 'vt1', type: 'multi_choice', title: "[ ] 속 단어의 뜻을 고르시오.\n- It will take [about] twelve minutes.\n- We saw a [great] painting in the school hall.", groups: [
                 { label: "about", options: ["대략", "대하여"], answer: "대략" },
@@ -796,8 +803,6 @@
             { id: 'vt9', type: 'choice', title: "far의 반의어는?", options: ["near", "through", "into", "point"], answer: 0 },
             { id: 'vt10', type: 'choice', title: "internationally의 유의어는?", options: ["view", "globally", "nationally", "well-known"], answer: 1 },
             { id: 'vt11', type: 'choice', title: "internationally의 유의어는?", options: ["worldwide", "finally", "colorful", "represent"], answer: 0 },
-            
-            // 기존 단어 문맥 문제 추가
             { id: 84, type: 'arrange', title: "'나는 오늘 오후에 한가해서 멀리 걸어갈 거야.'에 알맞게 말을 배열하시오.", words: ['I', 'am', 'free', 'this', 'afternoon', 'so', "I'll", 'walk', 'far'], answer: ['I', 'am', 'free', 'this', 'afternoon', 'so', "I'll", 'walk', 'far'] },
             { id: 85, type: 'arrange', title: "'그 공장 노동자는 국가적 박물관을 자세히 보았다.'에 알맞게 말을 배열하시오.", words: ['The factory', 'worker', 'looked', 'a', 'national', 'museum', 'closely'], answer: ['The factory', 'worker', 'looked', 'a', 'national', 'museum', 'closely'] },
             { id: 1, type: 'choice', title: "'자세히'에 해당하는 영단어는?", options: ['closely', 'national', 'lively', 'poor'], answer: 0 },
@@ -805,7 +810,6 @@
             { id: 78, type: 'arrange', title: "'곧장' 영단어에 맞게 철자를 배열하시오.", words: ['s', 't', 'r', 'a', 'i', 'g', 'h', 't'], answer: ['s', 't', 'r', 'a', 'i', 'g', 'h', 't'] }
         ];
 
-        // 3. 대화문 (Dialogue) 파트 문제 은행
         const PRACTICE_DIALOGUE = [
             { id: 101, type: 'arrange', title: "'~에 어떻게 가나요?'에 알맞게 말을 배열하시오.", words: ['how', 'can', 'I', 'get', 'to'], answer: ['how', 'can', 'I', 'get', 'to'] },
             { id: 102, type: 'choice', title: "빈칸에 들어갈 응답으로 가장 알맞은 것은?", dialogue: "A: What is the best way to get to the museum?\nB: (                                    )", options: ["About one hour by subway.", "It's a little difficult, James.", "You can walk there."], answer: 2 },
@@ -819,7 +823,6 @@
             { id: 110, type: 'choice', title: "빈칸에 들어갈 알맞은 응답은?", dialogue: "B: Somi, I need help. What’s the best way to get to Sebit Park from here?\nG: Sebit Park? Well, you can get there by bus or by subway, but the subway is better.\nB: OK. Which line should I take?\nG: Take line 3, and get off at Sebit Station.\nB: Line 3 and get off at Sebit Station. How long will it take?\nG: (                            )\nB: Is it that far?\nG: Yes. Anyway, why are you going to Sebit Park, Liam?\nB: Oh, there is an art fair this Saturday. You can come with me if you want.\nG: Really? I'm free this Saturday. Let’s go together.\nB: Perfect. Let’s meet here at 10.", options: ["About 40 minutes.", "You can take the subway.", "Why don't you buy the tickets?"], answer: 0 }
         ];
 
-        // 4. 문법 (Grammar) 파트 문제 은행
         const PRACTICE_GRAMMAR = [
             { id: 201, type: 'choice', title: "빈칸에 들어갈 관계대명사로 옳은 것은?", dialogue: "She has the dog (    ) we love so much.", options: ["whom", "what", "which", "where"], answer: 2 },
             { id: 202, type: 'text', title: "다음 문장을 부정문으로 바꾸시오.", dialogue: "James used to use the smartphone.", answer: ["James did not use to use the smartphone.", "James didn't use to use the smartphone."] },
@@ -829,7 +832,6 @@
             { id: 213, type: 'arrange', title: "'은행 옆에 병원이 있곤 했다.'에 알맞게 말을 배열하시오.", words: ['there', 'used', 'to', 'be', 'a hospital', 'next to', 'the bank'], answer: ['there', 'used', 'to', 'be', 'a hospital', 'next to', 'the bank'] }
         ];
 
-        // 5. 독해 (Reading) 파트 문제 은행
         const PRACTICE_READING = [
             { id: 401, type: 'choice', title: "5과 본문의 주제로 가장 적절한 것은?", options: ["The history of street arts", "Popular places to draw pictures", "The examples of the street art", "A famous artist who makes street arts"], answer: 2 },
             { id: 402, type: 'choice', title: "5과 본문의 제목으로 가장 적절한 것은?", options: ["Street Art in London", "Modern Artists in Shoreditch", "What Is the Most Popular Art?", "Lively and Colorful Artists"], answer: 0 },
@@ -846,7 +848,7 @@
         let currentIndex = 0;
         let score = 0;
         let streak = 0;
-        let userArrangeState = []; // [{ id, word }] 객체 배열로 관리하여 중복 단어/철자 버그 해결!
+        let userArrangeState = [];
         let selectedOption = null;
         let multiChoiceState = {};
         let isAnswerChecked = false;
@@ -913,6 +915,7 @@
 
         function selectChapter(chap) {
             currentChapter = chap;
+            document.getElementById('mode-chapter-title').innerText = chap;
             document.getElementById('screen-chapter-select').classList.add('hidden');
             document.getElementById('screen-mode-select').classList.remove('hidden');
             document.getElementById('mode-user-name').innerText = currentStudent;
@@ -950,13 +953,10 @@
             currentMode = mode;
 
             if (mode === 'Word') {
-                // 'Word' 탭: 20개 문제 출제
                 quizList = shuffleArray(WORD_QUESTIONS).slice(0, 20);
             } else if (mode === '단어 문제') {
-                // '단어 문제' 탭: 12개 문제 출제
                 quizList = shuffleArray(VOCAB_TEST_QUESTIONS).slice(0, 12);
             } else {
-                // '연습문제' 탭: 기존 연습문제 출제
                 const sampledDialogue = shuffleArray(PRACTICE_DIALOGUE).slice(0, 6);
                 const sampledGrammar = shuffleArray(PRACTICE_GRAMMAR).slice(0, 6);
                 const sampledReading = shuffleArray(PRACTICE_READING).slice(0, 6);
@@ -1038,7 +1038,6 @@
                     container.appendChild(btn);
                 });
             } else if (q.type === 'arrange') {
-                // 배열 문제 버그 해결 logic (각 칩에 고유 식별 id 부여)
                 const dropArea = document.createElement('div');
                 dropArea.id = 'drop-area';
                 dropArea.className = 'drop-area mb-5';
@@ -1047,7 +1046,6 @@
                 poolArea.id = 'pool-area';
                 poolArea.className = 'flex flex-wrap gap-2.5 justify-center py-2';
 
-                // 고유 id를 포함한 객체 배열로 변환 후 셔플
                 const chipObjects = shuffleArray(q.words.map((w, idx) => ({ id: idx, word: w })));
 
                 chipObjects.forEach((item) => {
@@ -1108,7 +1106,6 @@
             }
         }
 
-        // 배열 문제 클릭 핸들러 (중복 단어/철자 버그 고유 ID 판별로 완벽 수정)
         function handleWordClick(chip, item) {
             const dropArea = document.getElementById('drop-area');
             const poolArea = document.getElementById('pool-area');
@@ -1139,7 +1136,6 @@
                 detailMessage = q.options[q.answer];
             } else if (q.type === 'arrange') {
                 const userWordsArr = userArrangeState.map(x => x.word);
-                // 단어 사이 띄어쓰기 결합 및 붙여쓰기 둘 다 비교하여 'straight' 등 철자/단어 문제 모두 호환
                 const userStrSpaced = userWordsArr.join(' ');
                 const userStrJoined = userWordsArr.join('');
                 const targetStrSpaced = q.answer.join(' ');
@@ -1171,18 +1167,14 @@
             document.getElementById('btn-submit').disabled = true;
             currentFeedbackDetailText = detailMessage;
 
-            // --- 점수 계산 규칙 (Requirement 5) ---
             let ptsEarned = 0;
             if (currentMode === 'Word') {
-                // Word 탭: 하나당 1점 (복습도 1점)
                 ptsEarned = 1;
                 if (isCorrect) score += 1;
             } else if (currentMode === '단어 문제') {
-                // 단어 문제 탭: 하나당 2점 (복습 1점)
                 ptsEarned = isReviewMode ? 1 : 2;
                 if (isCorrect) score += 2;
             } else {
-                // 연습문제 탭: 기존 점수 유지 (하나당 5점, 누적 3pt/복습 2pt)
                 ptsEarned = isReviewMode ? 2 : 3;
                 if (isCorrect) score += 5;
             }
@@ -1250,7 +1242,6 @@
             }
         }
 
-        // 학습 완수 후 점수 창이 떠야 1회 완료로 인정 (Requirement 4)
         function completeQuizRound() {
             saveRecord(currentStudent, score, currentChapter, currentMode, isReviewMode);
 
@@ -1447,6 +1438,10 @@
             const secPW = document.getElementById('teacher-sec-pw');
             const secCloud = document.getElementById('teacher-sec-cloud');
 
+            document.querySelectorAll('#teacher-modal .grid button').forEach(btn => {
+                btn.className = 'py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center text-slate-500 hover:text-slate-800';
+            });
+
             secRecords.classList.add('hidden');
             secQR.classList.add('hidden');
             secPW.classList.add('hidden');
@@ -1454,18 +1449,26 @@
 
             if (tab === 'records') {
                 secRecords.classList.remove('hidden');
+                document.getElementById('tab-records').className = 'py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center bg-white text-lime-600 shadow-sm border border-slate-200';
                 renderRecords();
-            } else if (tab === 'qr') secQR.classList.remove('hidden');
-            else if (tab === 'pw') secPW.classList.remove('hidden');
-            else if (tab === 'cloud') secCloud.classList.remove('hidden');
+            } else if (tab === 'qr') {
+                secQR.classList.remove('hidden');
+                document.getElementById('tab-qr').className = 'py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center bg-white text-lime-600 shadow-sm border border-slate-200';
+            } else if (tab === 'pw') {
+                secPW.classList.remove('hidden');
+                document.getElementById('tab-pw').className = 'py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center bg-white text-lime-600 shadow-sm border border-slate-200';
+            } else if (tab === 'cloud') {
+                secCloud.classList.remove('hidden');
+                document.getElementById('tab-cloud').className = 'py-2.5 px-2 font-black rounded-xl text-xs sm:text-sm transition-all text-center bg-white text-lime-600 shadow-sm border border-slate-200';
+            }
         }
 
-        // --- 학습 기록 및 각 탭별 완료 횟수 집계 표시 기능 (Requirement 4) ---
+        // 학생별 -> 과별(5과/6과/영영풀이) -> 탭별 완수 횟수 가독성 향상 집계 표시
         async function renderRecords() {
             const selectedDate = document.getElementById('filter-date').value;
             const selectedMode = document.getElementById('filter-mode').value;
             const tbody = document.getElementById('records-table-body');
-            tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 text-xs">불러오는 중...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 text-xs font-bold">불러오는 중...</td></tr>`;
 
             let records = [];
             const dbUrl = getCloudDbUrl();
@@ -1491,25 +1494,62 @@
                 filtered = filtered.filter(r => (r.mode || '').includes(selectedMode));
             }
 
-            // 각 탭별 완수 횟수 집계
-            const countsByTab = {};
+            // 계층 구조 데이터 생성: studentStats[학생이름][과이름][탭이름] = 완수횟수
+            const studentStats = {};
             filtered.forEach(r => {
-                const chap = r.chapter || "5과";
-                const m = r.mode || "Word";
-                const key = `${chap} [${m}]`;
-                countsByTab[key] = (countsByTab[key] || 0) + 1;
+                const student = r.name || "알 수 없음";
+                const chapter = r.chapter || "5과";
+                const rawMode = (r.mode || "Word").replace(" (복습)", "");
+
+                if (!studentStats[student]) studentStats[student] = {};
+                if (!studentStats[student][chapter]) studentStats[student][chapter] = {};
+                if (!studentStats[student][chapter][rawMode]) studentStats[student][chapter][rawMode] = 0;
+
+                studentStats[student][chapter][rawMode]++;
             });
 
             const summaryEl = document.getElementById('summary-text-detail');
-            if (Object.keys(countsByTab).length > 0) {
-                summaryEl.innerText = Object.entries(countsByTab).map(([k, v]) => `${k}: 총 ${v}회 완수`).join(' | ');
+            let summaryHTML = '';
+
+            if (Object.keys(studentStats).length > 0) {
+                for (const [student, chapters] of Object.entries(studentStats)) {
+                    summaryHTML += `
+                    <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl shadow-sm space-y-2">
+                        <div class="font-black text-slate-800 text-sm border-b border-slate-200 pb-2 flex items-center justify-between">
+                            <span class="flex items-center gap-1.5">
+                                <span class="bg-lime-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">👤</span> 
+                                ${student}
+                            </span>
+                        </div>
+                        <div class="space-y-2">
+                    `;
+                    for (const [chapter, modes] of Object.entries(chapters)) {
+                        summaryHTML += `
+                            <div class="text-xs">
+                                <div class="font-bold text-slate-600 mb-1 flex items-center gap-1">📘 ${chapter}</div>
+                                <div class="flex flex-wrap gap-1.5 pl-2">
+                        `;
+                        for (const [m, count] of Object.entries(modes)) {
+                            summaryHTML += `
+                                <span class="bg-white border border-slate-200 px-2.5 py-1 rounded-xl font-bold shadow-sm flex items-center gap-1.5 text-slate-700">
+                                    ${m} 
+                                    <span class="bg-lime-100 text-lime-800 px-1.5 py-0.5 rounded-md text-[11px] font-black">${count}회 완료</span>
+                                </span>
+                            `;
+                        }
+                        summaryHTML += `</div></div>`;
+                    }
+                    summaryHTML += `</div></div>`;
+                }
             } else {
-                summaryEl.innerText = '학습 기록 없음';
+                summaryHTML = '<div class="text-xs text-slate-400 w-full col-span-2 text-center py-4 font-bold">해당 날짜에 기록된 학습이 없습니다.</div>';
             }
+            
+            summaryEl.innerHTML = summaryHTML;
 
             tbody.innerHTML = '';
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 text-xs">기록이 없습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 text-xs font-bold">기록이 없습니다.</td></tr>`;
                 return;
             }
 
