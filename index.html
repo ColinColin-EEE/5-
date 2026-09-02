@@ -1075,7 +1075,7 @@
             return arr;
         }
 
-        async function enterStudentName() {
+       async function enterStudentName() {
             const nameInput = document.getElementById('student-name').value.trim();
             if (!nameInput) {
                 alert('학생 이름을 입력해 주세요!');
@@ -1085,10 +1085,12 @@
             document.getElementById('display-student-name').innerText = currentStudent;
             document.getElementById('student-info-bar').classList.remove('hidden');
 
-            await loadStudentPoints();
-
+            // 1. 화면 전환을 먼저 처리
             document.getElementById('screen-welcome').classList.add('hidden');
             document.getElementById('screen-chapter-select').classList.remove('hidden');
+
+            // 2. await를 제거하여 포인트 로드를 백그라운드에서 비동기로 실행
+            loadStudentPoints();
         }
 
         function selectChapter(chap) {
