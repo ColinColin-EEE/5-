@@ -196,20 +196,27 @@ function startMode(mode) {
     currentMode = mode;
     const data = getQuestionData(currentChapter);
 
+    // key 이름이 WORD/WORD_QUESTIONS 상관없이 모두 호환되도록 처리
+    const wordList = data.WORD || data.WORD_QUESTIONS || [];
+    const vocabList = data.VOCAB || data.VOCAB_TEST_QUESTIONS || [];
+    const dialogueList = data.DIALOGUE || data.PRACTICE_DIALOGUE || [];
+    const grammarList = data.GRAMMAR || data.PRACTICE_GRAMMAR || [];
+    const readingList = data.READING || data.PRACTICE_READING || [];
+
     if (mode === 'Word') {
-        quizList = shuffleArray(data.WORD).slice(0, 20);
+        quizList = shuffleArray(wordList).slice(0, 20);
     } else if (mode === '단어 문제') {
-        quizList = shuffleArray(data.VOCAB).slice(0, 12);
+        quizList = shuffleArray(vocabList).slice(0, 12);
     } else {
-        const sampledDialogue = shuffleArray(data.DIALOGUE).slice(0, 6);
-        const sampledGrammar = shuffleArray(data.GRAMMAR).slice(0, 11);
-        const sampledReading = shuffleArray(data.READING).slice(0, 8);
+        const sampledDialogue = shuffleArray(dialogueList).slice(0, 6);
+        const sampledGrammar = shuffleArray(grammarList).slice(0, 11);
+        const sampledReading = shuffleArray(readingList).slice(0, 8);
         
         let combined = [...sampledDialogue, ...sampledGrammar, ...sampledReading];
         
         if (combined.length < 25) {
             const selectedIds = new Set(combined.map(q => q.id));
-            const allPractice = [...(data.DIALOGUE || []), ...(data.GRAMMAR || []), ...(data.READING || [])];
+            const allPractice = [...dialogueList, ...grammarList, ...readingList];
             const remaining = shuffleArray(allPractice.filter(q => !selectedIds.has(q.id)));
             combined = [...combined, ...remaining.slice(0, 25 - combined.length)];
         }
