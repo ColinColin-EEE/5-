@@ -188,8 +188,11 @@ function updatePointDisplay() {
 
 // 선택된 단원에 맞게 데이터 객체 반환하는 함수
 function getQuestionData(chapter) {
-    if (chapter === '6과') return typeof UNIT6_DATA !== 'undefined' ? UNIT6_DATA : UNIT5_DATA;
-    return UNIT5_DATA;
+    if (chapter === '6과') {
+        // 6과 데이터가 있으면 6과 데이터 반환, 없으면 빈 데이터 반환 (5과로 안 넘어감)
+        return typeof UNIT6_DATA !== 'undefined' ? UNIT6_DATA : {};
+    }
+    return typeof UNIT5_DATA !== 'undefined' ? UNIT5_DATA : {};
 }
 
 function startMode(mode) {
