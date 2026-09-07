@@ -1,6 +1,6 @@
 // 6과 문제 데이터
 const UNIT6_DATA = {
-    WORD: [
+   WORD_QUESTIONS: [
         { id: 'w6_1', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nkind", answer: ["종류"] },
         { id: 'w6_2', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nusually", answer: ["보통", "대개", "주로"] },
         { id: 'w6_3', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nsci-fi", answer: ["공상 과학의", "과학 소설적인"] },
