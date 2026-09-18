@@ -1,4 +1,4 @@
-// 6과 문제 데이터 (오류 수정 완료)
+// 6과 문제 데이터 (인터페이스 모드 완전 적용)
 const UNIT6_DATA = {
     WORD: [
         { id: 'w6_1', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nkind", answer: ["종류"] },
@@ -96,9 +96,10 @@ const UNIT6_DATA = {
         },
         {
             id: 'd6_2',
-            type: 'text',
-            title: "'좋은 영화 하나 추천해 줄 수 있니?'에 알맞게 말을 배열하시오.\ncan / you / suggest / a / good / movie",
-            answer: ["Can you suggest a good movie?", "can you suggest a good movie"]
+            type: 'arrange',
+            title: "'좋은 영화 하나 추천해 줄 수 있니?'에 알맞게 말을 배열하시오.",
+            words: ["Can", "you", "suggest", "a", "good", "movie?"],
+            answer: ["Can", "you", "suggest", "a", "good", "movie?"]
         },
         {
             id: 'd6_3',
@@ -149,9 +150,14 @@ const UNIT6_DATA = {
         },
         {
             id: 'g6_4',
-            type: 'text',
-            title: "상자에서 알맞은 말을 고르시오.\n- We watched him [crossed / cross] the street.\n- I feel something [to touch / touching] my hand.\n- This is so heavy [which / that] we can't carry it.",
-            answer: ["cross, touching, that", "cross / touching / that"]
+            type: 'multi_choice',
+            title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.",
+            dialogue: "- We watched him [crossed / cross] the street.\n- I feel something [to touch / touching] my hand.\n- This is so heavy [which / that] we can't carry it.",
+            groups: [
+                { label: "1번째 선택", options: ["crossed", "cross"], answer: "cross" },
+                { label: "2번째 선택", options: ["to touch", "touching"], answer: "touching" },
+                { label: "3번째 선택", options: ["which", "that"], answer: "that" }
+            ]
         },
         {
             id: 'g6_5',
@@ -162,9 +168,13 @@ const UNIT6_DATA = {
         },
         {
             id: 'g6_6',
-            type: 'text',
-            title: "상자에서 알맞은 말을 고르시오.\n- I noticed my best friend [stand / standed] at the door.\n- The two bears saw hundreds of bees [to fly / flying] at them.",
-            answer: ["stand, flying", "stand / flying"]
+            type: 'multi_choice',
+            title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.",
+            dialogue: "- I noticed my best friend [stand / standed] at the door.\n- The two bears saw hundreds of bees [to fly / flying] at them.",
+            groups: [
+                { label: "1번째 선택", options: ["stand", "standed"], answer: "stand" },
+                { label: "2번째 선택", options: ["to fly", "flying"], answer: "flying" }
+            ]
         },
         {
             id: 'g6_7',
@@ -255,39 +265,45 @@ const UNIT6_DATA = {
         },
         {
             id: 'g6_18',
-            type: 'text',
-            title: "'이 컴퓨터는 매우 작아서 나는 들 수 있다.'에 알맞게 말을 배열하시오.\nthis computer / is / so / small / that / I / can / carry / it",
-            answer: ["This computer is so small that I can carry it.", "this computer is so small that I can carry it"]
+            type: 'arrange',
+            title: "'이 컴퓨터는 매우 작아서 나는 들 수 있다.'에 알맞게 말을 배열하시오.",
+            words: ["This computer", "is", "so", "small", "that", "I", "can", "carry", "it."],
+            answer: ["This computer", "is", "so", "small", "that", "I", "can", "carry", "it."]
         },
         {
             id: 'g6_19',
-            type: 'text',
-            title: "'그 영화는 너무 지루해서 나는 잠에 빠졌다.'에 알맞게 말을 배열하시오.\nthe / movie / was / so / boring / that / I / fell / asleep",
-            answer: ["The movie was so boring that I fell asleep.", "the movie was so boring that I fell asleep"]
+            type: 'arrange',
+            title: "'그 영화는 너무 지루해서 나는 잠에 빠졌다.'에 알맞게 말을 배열하시오.",
+            words: ["The movie", "was", "so", "boring", "that", "I", "fell", "asleep."],
+            answer: ["The movie", "was", "so", "boring", "that", "I", "fell", "asleep."]
         },
         {
             id: 'g6_20',
-            type: 'text',
-            title: "'그 테이블은 매우 무거워서 그들은 움직일 수 없었다.'에 알맞게 말을 배열하시오.\nthe / table / was / so / heavy / that / they / could / not / move / it",
-            answer: ["The table was so heavy that they could not move it.", "the table was so heavy that they could not move it"]
+            type: 'arrange',
+            title: "'그 테이블은 매우 무거워서 그들은 움직일 수 없었다.'에 알맞게 말을 배열하시오.",
+            words: ["The table", "was", "so", "heavy", "that", "they", "could", "not", "move", "it."],
+            answer: ["The table", "was", "so", "heavy", "that", "they", "could", "not", "move", "it."]
         },
         {
             id: 'g6_21',
-            type: 'text',
-            title: "'그는 너무 긴장해서 무대에서 잘 공연할 수 없었다.'에 알맞게 말을 배열하시오.\nhe / was / too / nervous / to / perform / well / on stage",
-            answer: ["He was too nervous to perform well on stage.", "he was too nervous to perform well on stage"]
+            type: 'arrange',
+            title: "'그는 너무 긴장해서 무대에서 잘 공연할 수 없었다.'에 알맞게 말을 배열하시오.",
+            words: ["He", "was", "too", "nervous", "to", "perform", "well", "on stage."],
+            answer: ["He", "was", "too", "nervous", "to", "perform", "well", "on stage."]
         },
         {
             id: 'g6_22',
-            type: 'text',
-            title: "'나는 그것을 사기에 너무 가난하다'에 알맞게 말을 배열하시오.\nI / am / too / poor / to / buy / it",
-            answer: ["I am too poor to buy it.", "I am too poor to buy it"]
+            type: 'arrange',
+            title: "'나는 그것을 사기에 너무 가난하다'에 알맞게 말을 배열하시오.",
+            words: ["I", "am", "too", "poor", "to", "buy", "it."],
+            answer: ["I", "am", "too", "poor", "to", "buy", "it."]
         },
         {
             id: 'g6_23',
-            type: 'text',
-            title: "'그는 경주를 이기기에 너무 느리게 달렸다.'에 알맞게 말을 배열하시오.\nhe / ran / too / slowly / to / win / the / race",
-            answer: ["He ran too slowly to win the race.", "he ran too slowly to win the race"]
+            type: 'arrange',
+            title: "'그는 경주를 이기기에 너무 느리게 달렸다.'에 알맞게 말을 배열하시오.",
+            words: ["He", "ran", "too", "slowly", "to", "win", "the", "race."],
+            answer: ["He", "ran", "too", "slowly", "to", "win", "the", "race."]
         },
         {
             id: 'g6_24',
@@ -402,15 +418,17 @@ const UNIT6_DATA = {
         },
         {
             id: 'r6_5',
-            type: 'text',
-            title: "'그는 매우 열심히 공부해서 몇 년 만에 한국어로 가르칠 수 있게 되었다.'에 알맞게 말을 배열하시오.\nhe / studied / so / hard / that / he / was able to / teach / in Korean / after only / a few / years",
-            answer: ["He studied so hard that he was able to teach in Korean after only a few years.", "he studied so hard that he was able to teach in Korean after only a few years"]
+            type: 'arrange',
+            title: "'그는 매우 열심히 공부해서 몇 년 만에 한국어로 가르칠 수 있게 되었다.'에 알맞게 말을 배열하시오.",
+            words: ["He", "studied", "so", "hard", "that", "he", "was able to", "teach", "in Korean", "after only", "a few", "years."],
+            answer: ["He", "studied", "so", "hard", "that", "he", "was able to", "teach", "in Korean", "after only", "a few", "years."]
         },
         {
             id: 'r6_6',
-            type: 'text',
-            title: "'그의 여생 동안'에 알맞게 말을 배열하시오.\nfor / the / rest / of / his / life",
-            answer: ["for the rest of his life", "For the rest of his life"]
+            type: 'arrange',
+            title: "'그의 여생 동안'에 알맞게 말을 배열하시오.",
+            words: ["for", "the", "rest", "of", "his", "life"],
+            answer: ["for", "the", "rest", "of", "his", "life"]
         },
         {
             id: 'r6_7',
@@ -462,11 +480,17 @@ const UNIT6_DATA = {
         },
         {
             id: 'r6_11',
-            type: 'text',
-            title: "6과 본문의 내용으로 보아, 다음 사건들을 일어난 순서대로 배열하시오.\nSchofield 박사가 탑골공원에서 독립을 외치는 소리를 들음.\nSchofield 박사가 한국의 독립에 대한 기사를 신문사에 보냄.\nSchofield 박사가 캐나다로 돌아감.",
+            type: 'arrange',
+            title: "6과 본문의 내용으로 보아, 다음 사건들을 일어난 순서대로 배열하시오.",
+            words: [
+                "Schofield 박사가 탑골공원에서 독립을 외치는 소리를 들음.",
+                "Schofield 박사가 한국의 독립에 대한 기사를 신문사에 보냄.",
+                "Schofield 박사가 캐나다로 돌아감."
+            ],
             answer: [
-                "Schofield 박사가 탑골공원에서 독립을 외치는 소리를 들음. - Schofield 박사가 한국의 독립에 대한 기사를 신문사에 보냄. - Schofield 박사가 캐나다로 돌아감.",
-                "Schofield 박사가 탑골공원에서 독립을 외치는 소리를 들음. -> Schofield 박사가 한국의 독립에 대한 기사를 신문사에 보냄. -> Schofield 박사가 캐나다로 돌아감."
+                "Schofield 박사가 탑골공원에서 독립을 외치는 소리를 들음.",
+                "Schofield 박사가 한국의 독립에 대한 기사를 신문사에 보냄.",
+                "Schofield 박사가 캐나다로 돌아감."
             ]
         },
         {
@@ -477,15 +501,17 @@ const UNIT6_DATA = {
         },
         {
             id: 'r6_13',
-            type: 'text',
-            title: "'그는 한국 정부의 초대로 한국에 돌아왔다.'에 알맞게 말을 배열하시오.\nhe / returned / to Korea / at / the invitation / of / the Korean / government",
-            answer: ["He returned to Korea at the invitation of the Korean government.", "he returned to Korea at the invitation of the Korean government"]
+            type: 'arrange',
+            title: "'그는 한국 정부의 초대로 한국에 돌아왔다.'에 알맞게 말을 배열하시오.",
+            words: ["He", "returned", "to Korea", "at", "the invitation", "of", "the Korean", "government."],
+            answer: ["He", "returned", "to Korea", "at", "the invitation", "of", "the Korean", "government."]
         },
         {
             id: 'r6_14',
-            type: 'text',
-            title: "'그는 일본 경찰의 감시를 받았다.'에 알맞게 말을 배열하시오.\nhe / was / under / the / watchful / eye / of / Japanese / police",
-            answer: ["He was under the watchful eye of Japanese police.", "he was under the watchful eye of Japanese police"]
+            type: 'arrange',
+            title: "'그는 일본 경찰의 감시를 받았다.'에 알맞게 말을 배열하시오.",
+            words: ["He", "was", "under", "the", "watchful", "eye", "of", "Japanese", "police."],
+            answer: ["He", "was", "under", "the", "watchful", "eye", "of", "Japanese", "police."]
         },
         {
             id: 'r6_15',
@@ -537,27 +563,53 @@ const UNIT6_DATA = {
         },
         {
             id: 'r6_20',
-            type: 'text',
-            title: "괄호에서 알맞은 말을 선택하시오.\n[In / On] February 28, 1919, a man came to Dr. Schofield's house.\nMan: Dr. Schofield, I have a special favor [asking / to ask] you.\nDr. Schofield: What can I do [with / for] you?\nMan: Many people are going [gathering / to gather] tomorrow for the [independent / independence] of Korea.",
-            answer: ["On, to ask, for, to gather, independence", "On / to ask / for / to gather / independence"]
+            type: 'multi_choice',
+            title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.",
+            dialogue: "[In / On] February 28, 1919, a man came to Dr. Schofield's house.\nMan: Dr. Schofield, I have a special favor [asking / to ask] you.\nDr. Schofield: What can I do [with / for] you?\nMan: Many people are going [gathering / to gather] tomorrow for the [independent / independence] of Korea.",
+            groups: [
+                { label: "1번째 선택", options: ["In", "On"], answer: "On" },
+                { label: "2번째 선택", options: ["asking", "to ask"], answer: "to ask" },
+                { label: "3번째 선택", options: ["with", "for"], answer: "for" },
+                { label: "4번째 선택", options: ["gathering", "to gather"], answer: "to gather" },
+                { label: "5번째 선택", options: ["independent", "independence"], answer: "independence" }
+            ]
         },
         {
             id: 'r6_21',
-            type: 'text',
-            title: "괄호에서 알맞은 말을 선택하시오.\nCould you take pictures [of / for] the event and share them [for / with] the world? At 2 p.m. [in / on] March 1, Dr. Schofield was hiding in a building and saw a large group of people [gather / gathering] outside.",
-            answer: ["of, with, on, gathering", "of / with / on / gathering", "of, with, on, gather", "of / with / on / gather"]
+            type: 'multi_choice',
+            title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.",
+            dialogue: "Could you take pictures [of / for] the event and share them [for / with] the world? At 2 p.m. [in / on] March 1, Dr. Schofield was hiding in a building and saw a large group of people [gather / gathering] outside.",
+            groups: [
+                { label: "1번째 선택", options: ["of", "for"], answer: "of" },
+                { label: "2번째 선택", options: ["for", "with"], answer: "with" },
+                { label: "3번째 선택", options: ["in", "on"], answer: "on" },
+                { label: "4번째 선택", options: ["gather", "gathering"], answer: "gathering" }
+            ]
         },
         {
             id: 'r6_22',
-            type: 'text',
-            title: "괄호에서 알맞은 말을 선택하시오.\n[On / At] March 1, 1919, Dr. Schofield heard people [to shout / shouting] for Korean independence [in / on] Tapgol Park. He took pictures of the event [for / with] his camera.",
-            answer: ["On, shouting, in, with", "On / shouting / in / with"]
+            type: 'multi_choice',
+            title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.",
+            dialogue: "[On / At] March 1, 1919, Dr. Schofield heard people [to shout / shouting] for Korean independence [in / on] Tapgol Park. He took pictures of the event [for / with] his camera.",
+            groups: [
+                { label: "1번째 선택", options: ["On", "At"], answer: "On" },
+                { label: "2번째 선택", options: ["to shout", "shouting"], answer: "shouting" },
+                { label: "3번째 선택", options: ["in", "on"], answer: "in" },
+                { label: "4번째 선택", options: ["for", "with"], answer: "with" }
+            ]
         },
         {
             id: 'r6_23',
-            type: 'text',
-            title: "괄호에서 알맞은 말을 선택하시오.\nHe took pictures of the event [with / on] his camera. He then wrote an article about the [history / historic] event and sent it [to / for] foreign newpapers [for / with] his pictures. Dr. Schofield's fight for Korean independence didn't stop [even / evenly] after the March 1st Movement.",
-            answer: ["with, historic, to, with, even", "with / historic / to / with / even"]
+            type: 'multi_choice',
+            title: "각 괄호 안에서 알맞은 말을 각각 선택하시오.",
+            dialogue: "He took pictures of the event [with / on] his camera. He then wrote an article about the [history / historic] event and sent it [to / for] foreign newspapers [for / with] his pictures. Dr. Schofield's fight for Korean independence didn't stop [even / evenly] after the March 1st Movement.",
+            groups: [
+                { label: "1번째 선택", options: ["with", "on"], answer: "with" },
+                { label: "2번째 선택", options: ["history", "historic"], answer: "historic" },
+                { label: "3번째 선택", options: ["to", "for"], answer: "to" },
+                { label: "4번째 선택", options: ["for", "with"], answer: "with" },
+                { label: "5번째 선택", options: ["even", "evenly"], answer: "even" }
+            ]
         },
         {
             id: 'r6_24',
