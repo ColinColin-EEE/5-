@@ -248,6 +248,9 @@ function startMode(mode) {
 function renderQuestion() {
     const q = quizList[currentIndex];
 
+    // 'checkbox' 타입이 들어와도 'choice'(객관식)로 자동 변환 처리
+    const qType = (q.type === 'checkbox') ? 'choice' : q.type;
+
     const progressPct = (currentIndex / quizList.length) * 100;
     document.getElementById('quiz-progress-bar').style.width = `${progressPct}%`;
     document.getElementById('quiz-progress-text').innerText = `${currentIndex + 1} / ${quizList.length}`;
@@ -271,10 +274,11 @@ function renderQuestion() {
     const badgeMap = {
         'arrange': '🧩 철자/배열 문제',
         'choice': '선택형 객관식',
+        'checkbox': '선택형 객관식',
         'text': '✏️ 쓰기 문제',
         'multi_choice': '☑️ 매칭 선택'
     };
-    document.getElementById('question-type-badge').innerText = badgeMap[q.type] || '문제';
+    document.getElementById('question-type-badge').innerText = badgeMap[q.type] || '선택형 객관식';
     document.getElementById('question-title').innerText = q.title;
 
     const dialogueBox = document.getElementById('dialogue-box');
@@ -289,13 +293,13 @@ function renderQuestion() {
     const container = document.getElementById('interactive-area');
     container.innerHTML = '';
 
-    if (q.type === 'choice') {
+    if (qType === 'choice') {
         const isMultiSelect = Array.isArray(q.answer);
         selectedOption = isMultiSelect ? [] : null;
 
-        const mappedOptions = q.options.map((opt, originalIdx) => ({ opt, originalIdx }));
+        const mappedOptions = (q.options || []).map((opt, originalIdx) => ({ opt, originalIdx }));
 
-        const isAlphabetOrdered = q.options.some(opt => 
+        const isAlphabetOrdered = (q.options || []).some(opt => 
             /^\s*\([A-Ea-e1-5]\)/.test(opt) || 
             /\([A-Ea-e]\)/.test(opt) ||
             /^\s*\(A\)/i.test(opt) ||
@@ -329,7 +333,7 @@ function renderQuestion() {
             };
             container.appendChild(btn);
         });
-    } else if (q.type === 'arrange') {
+    } else if (qType === 'arrange') {
         const dropArea = document.createElement('div');
         dropArea.id = 'drop-area';
         dropArea.className = 'drop-area mb-5';
@@ -338,7 +342,7 @@ function renderQuestion() {
         poolArea.id = 'pool-area';
         poolArea.className = 'flex flex-wrap gap-2.5 justify-center py-2';
 
-        const chipObjects = shuffleArray(q.words.map((w, idx) => ({ id: idx, word: w })));
+        const chipObjects = shuffleArray((q.words || []).map((w, idx) => ({ id: idx, word: w })));
 
         chipObjects.forEach((item) => {
             const chip = document.createElement('button');
@@ -354,7 +358,7 @@ function renderQuestion() {
         container.appendChild(dropArea);
         container.appendChild(poolArea);
 
-    } else if (q.type === 'text') {
+    } else if (qType === 'text') {
         const input = document.createElement('input');
         input.type = 'text';
         input.id = 'text-answer-input';
@@ -366,8 +370,8 @@ function renderQuestion() {
         container.appendChild(input);
         setTimeout(() => input.focus(), 100);
 
-    } else if (q.type === 'multi_choice') {
-        q.groups.forEach((group, gIdx) => {
+    } else if (qType === 'multi_choice') {
+        (q.groups || []).forEach((group, gIdx) => {
             const groupDiv = document.createElement('div');
             groupDiv.className = 'mb-3.5 p-3.5 bg-slate-50 rounded-2xl border border-slate-100';
             groupDiv.innerHTML = `<div class="text-xs font-bold text-slate-500 mb-2">${group.label}</div>`;
