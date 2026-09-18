@@ -1,6 +1,6 @@
 // 6과 문제 데이터
 const UNIT6_DATA = {
-   WORD_QUESTIONS: [
+    WORD_QUESTIONS: [
         { id: 'w6_1', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nkind", answer: ["종류"] },
         { id: 'w6_2', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nusually", answer: ["보통", "대개", "주로"] },
         { id: 'w6_3', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nsci-fi", answer: ["공상 과학의", "과학 소설적인"] },
@@ -81,7 +81,538 @@ const UNIT6_DATA = {
         { id: 'w6_78', type: 'text', title: "다음 단어의 뜻을 쓰시오.\narticle", answer: ["기사"] }
     ],
     VOCAB: [],
-    DIALOGUE: [],
-    GRAMMAR: [],
-    READING: []
+    DIALOGUE: [
+        {
+            id: 'd6_1',
+            type: 'choice',
+            title: "다음을 대화에 맞게 순서대로 배열하시오.",
+            options: [
+                "What kinds of movies do you like?\nI like sci-fi movies.\nMe, too. Can you recommend a good sci-fi movie for me?\nTry Travel to the Future. It's really good.",
+                "I like sci-fi movies.\nWhat kinds of movies do you like?\nTry Travel to the Future. It's really good.\nMe, too. Can you recommend a good sci-fi movie for me?",
+                "What kinds of movies do you like?\nMe, too. Can you recommend a good sci-fi movie for me?\nI like sci-fi movies.\nTry Travel to the Future. It's really good.",
+                "Try Travel to the Future. It's really good.\nWhat kinds of movies do you like?\nI like sci-fi movies.\nMe, too. Can you recommend a good sci-fi movie for me?"
+            ],
+            answer: "What kinds of movies do you like?\nI like sci-fi movies.\nMe, too. Can you recommend a good sci-fi movie for me?\nTry Travel to the Future. It's really good."
+        },
+        {
+            id: 'd6_2',
+            type: 'text',
+            title: "'좋은 영화 하나 추천해 줄 수 있니?'에 알맞게 말을 배열하시오.\ncan / you / suggest / a / good / movie",
+            answer: ["Can you suggest a good movie?", "can you suggest a good movie"]
+        },
+        {
+            id: 'd6_3',
+            type: 'choice',
+            title: "빈칸에 들어갈 말은?\nA: Can you recommend some food?\nB: (                  )",
+            options: [
+                "Try Time Machine.",
+                "I usually eat Italian food.",
+                "How about chocolate cookies?",
+                "I love a cherry soda."
+            ],
+            answer: "How about chocolate cookies?"
+        },
+        {
+            id: 'd6_4',
+            type: 'choice',
+            title: "빈칸에 들어갈 말은?\nA: Can you recommend a restaurant for me?\nB: How about Morning in Venice?\nA: (                                )\nB: They have Italian food. I strongly recommend their chess pizza. It's really good.",
+            options: [
+                "What kind of food do they have?",
+                "Why don't you try some pizza?",
+                "I love the restaurant for you.",
+                "What do you recommend?"
+            ],
+            answer: "What kind of food do they have?"
+        }
+    ],
+    GRAMMAR: [
+        {
+            id: 'g6_1',
+            type: 'choice',
+            title: "빈칸에 알맞은 말은?\nLast night, they felt the ground (    ).",
+            options: ["shake", "shaken", "to shake", "shakes"],
+            answer: "shake"
+        },
+        {
+            id: 'g6_2',
+            type: 'choice',
+            title: "빈칸에 알맞은 말은?\nI saw Angela (    ) the pizza.",
+            options: ["ate", "eating", "to eat", "eaten"],
+            answer: "eating"
+        },
+        {
+            id: 'g6_3',
+            type: 'choice',
+            title: "빈칸에 알맞은 말은?\nI saw the girl (    ) a song.",
+            options: ["sing", "to sing", "sings", "sang"],
+            answer: "sing"
+        },
+        {
+            id: 'g6_4',
+            type: 'text',
+            title: "상자에서 알맞은 말을 고르시오.\n- We watched him [crossed / cross] the street.\n- I feel something [to touch / touching] my hand.\n- This is so heavy [which / that] we can't carry it.",
+            answer: ["cross, touching, that", "cross / touching / that"]
+        },
+        {
+            id: 'g6_5',
+            type: 'choice',
+            title: "빈칸에 알맞은 말은?\nWe (    ) the storm coming.",
+            options: ["noticed", "kept", "washed", "made"],
+            answer: "noticed"
+        },
+        {
+            id: 'g6_6',
+            type: 'text',
+            title: "상자에서 알맞은 말을 고르시오.\n- I noticed my best friend [stand / standed] at the door.\n- The two bears saw hundreds of bees [to fly / flying] at them.",
+            answer: ["stand, flying", "stand / flying"]
+        },
+        {
+            id: 'g6_7',
+            type: 'choice',
+            title: "빈칸에 알맞은 말은?\nA boy watched people (    ) in tents.",
+            options: ["to live", "live", "lived", "lives"],
+            answer: "live"
+        },
+        {
+            id: 'g6_8',
+            type: 'choice',
+            title: "빈칸에 알맞은 말은?\nA boy watches me (    ) football every weekend.",
+            options: ["playing", "plays", "played", "to play"],
+            answer: "playing"
+        },
+        {
+            id: 'g6_9',
+            type: 'checkbox',
+            title: "어법상 옳은 것을 모두 고르시오.",
+            options: [
+                "Did you see anyone came into this room?",
+                "He was so smart that he can solve it.",
+                "I felt my house shaken.",
+                "She heard John speaking English."
+            ],
+            answer: ["She heard John speaking English."]
+        },
+        {
+            id: 'g6_10',
+            type: 'checkbox',
+            title: "어법상 옳은 것을 모두 고르시오.",
+            options: [
+                "I saw a dog ran after a cat.",
+                "I'm too tired to move my legs.",
+                "This is so expensive that I can't buy.",
+                "I slept too late to get up early."
+            ],
+            answer: ["I'm too tired to move my legs.", "I slept too late to get up early."]
+        },
+        {
+            id: 'g6_11',
+            type: 'text',
+            title: "다음 문장을 'too ... to' 구문으로 바꾸시오.\nHe is so young that he can't go to school.",
+            answer: ["He is too young to go to school.", "He is too young to go to school"]
+        },
+        {
+            id: 'g6_12',
+            type: 'text',
+            title: "다음 문장을 'too ... to' 구문으로 바꾸시오.\nShe was so busy that she couldn't take a break.",
+            answer: ["She was too busy to take a break.", "She was too busy to take a break"]
+        },
+        {
+            id: 'g6_13',
+            type: 'text',
+            title: "다음 문장을 'too ... to' 구문으로 바꾸시오.\nI was very hungry. I couldn't say a word.",
+            answer: ["I was too hungry to say a word.", "I was too hungry to say a word"]
+        },
+        {
+            id: 'g6_14',
+            type: 'text',
+            title: "다음 문장을 'too ... to' 구문으로 바꾸시오.\nThe problem was very difficult. We couldn't solve it.",
+            answer: ["The problem was too difficult for us to solve.", "The problem was too difficult for us to solve"]
+        },
+        {
+            id: 'g6_15',
+            type: 'choice',
+            title: "빈칸에 알맞은 말은?\nThe rain was so heavy (    ) it made our picnic impossible.",
+            options: ["which", "that", "what", "whom", "who"],
+            answer: "that"
+        },
+        {
+            id: 'g6_16',
+            type: 'text',
+            title: "다음 문장을 'too ... to' 구문으로 바꾸시오.\nIt was so dark that I couldn't see his face.",
+            answer: ["It was too dark to see his face.", "It was too dark for me to see his face.", "It was too dark to see his face", "It was too dark for me to see his face"]
+        },
+        {
+            id: 'g6_17',
+            type: 'choice',
+            title: "다음 문장과 같은 의미인 것은?\nWe studied so hard that we could pass the exam.",
+            options: [
+                "We studied too hard to pass the exam.",
+                "We didn't study too hard to pass the exam.",
+                "We can study hard to pass the exam.",
+                "We studied hard enough to pass the exam."
+            ],
+            answer: "We studied hard enough to pass the exam."
+        },
+        {
+            id: 'g6_18',
+            type: 'text',
+            title: "'이 컴퓨터는 매우 작아서 나는 들 수 있다.'에 알맞게 말을 배열하시오.\nthis computer / is / so / small / that / I / can / carry / it",
+            answer: ["This computer is so small that I can carry it.", "this computer is so small that I can carry it"]
+        },
+        {
+            id: 'g6_19',
+            type: 'text',
+            title: "'그 영화는 너무 지루해서 나는 잠에 빠졌다.'에 알맞게 말을 배열하시오.\nthe / movie / was / so / boring / that / I / fell / asleep",
+            answer: ["The movie was so boring that I fell asleep.", "the movie was so boring that I fell asleep"]
+        },
+        {
+            id: 'g6_20',
+            type: 'text',
+            title: "'그 테이블은 매우 무거워서 그들은 움직일 수 없었다.'에 알맞게 말을 배열하시오.\nthe / table / was / so / heavy / that / they / could / not / move / it",
+            answer: ["The table was so heavy that they could not move it.", "the table was so heavy that they could not move it"]
+        },
+        {
+            id: 'g6_21',
+            type: 'text',
+            title: "'그는 너무 긴장해서 무대에서 잘 공연할 수 없었다.'에 알맞게 말을 배열하시오.\nhe / was / too / nervous / to / perform / well / on stage",
+            answer: ["He was too nervous to perform well on stage.", "he was too nervous to perform well on stage"]
+        },
+        {
+            id: 'g6_22',
+            type: 'text',
+            title: "'나는 그것을 사기에 너무 가난하다'에 알맞게 말을 배열하시오.\nI / am / too / poor / to / buy / it",
+            answer: ["I am too poor to buy it.", "I am too poor to buy it"]
+        },
+        {
+            id: 'g6_23',
+            type: 'text',
+            title: "'그는 경주를 이기기에 너무 느리게 달렸다.'에 알맞게 말을 배열하시오.\nhe / ran / too / slowly / to / win / the / race",
+            answer: ["He ran too slowly to win the race.", "he ran too slowly to win the race"]
+        },
+        {
+            id: 'g6_24',
+            type: 'choice',
+            title: "다음 문장과 같은 의미인 것은?\nI am so tired that I can't walk any more.",
+            options: [
+                "I am very tired not to walk any more.",
+                "I am too tired to walk any more.",
+                "I am so tired enough to walk any more.",
+                "I am not very tired in order to walk any more."
+            ],
+            answer: "I am too tired to walk any more."
+        },
+        {
+            id: 'g6_25',
+            type: 'text',
+            title: "다음 문장을 'so ... that' 구문으로 바꾸시오.\nHe was too angry to speak.",
+            answer: ["He was so angry that he couldn't speak.", "He was so angry that he couldn't speak"]
+        },
+        {
+            id: 'g6_26',
+            type: 'text',
+            title: "다음 문장을 'so ... that' 구문으로 바꾸시오.\nHe is too shy to get along with his friends.",
+            answer: ["He is so shy that he can't get along with his friends.", "He is so shy that he cannot get along with his friends.", "He is so shy that he can't get along with his friends"]
+        },
+        {
+            id: 'g6_27',
+            type: 'text',
+            title: "다음 문장을 'so ... that' 구문으로 바꾸시오.\nShe is too poor to buy it.",
+            answer: ["She is so poor that she can't buy it.", "She is so poor that she cannot buy it.", "She is so poor that she can't buy it"]
+        },
+        {
+            id: 'g6_28',
+            type: 'text',
+            title: "다음 문장을 'so ... that' 구문으로 바꾸시오.\nShe was too old to walk fast.",
+            answer: ["She was so old that she couldn't walk fast.", "She was so old that she could not walk fast.", "She was so old that she couldn't walk fast"]
+        },
+        {
+            id: 'g6_29',
+            type: 'text',
+            title: "다음 문장을 'so ... that' 구문으로 바꾸시오.\nShe was too stupid to be a doctor.",
+            answer: ["She was so stupid that she couldn't be a doctor.", "She was so stupid that she could not be a doctor.", "She was so stupid that she couldn't be a doctor"]
+        },
+        {
+            id: 'g6_30',
+            type: 'choice',
+            title: "다음 문장과 같은 의미인 것은?\nHe cooked soup so well that it could taste great.",
+            options: [
+                "He cooked soup too well to taste great.",
+                "He cooked soup too well for it not to taste great.",
+                "He cooked soup well enough to taste great.",
+                "He cooked soup well enough for it to taste great."
+            ],
+            answer: "He cooked soup well enough for it to taste great."
+        },
+        {
+            id: 'g6_31',
+            type: 'choice',
+            title: "다음 세 문장에 따라 도출한 결론은?\n- The suit was so expensive that Tom couldn't buy it.\n- The suit is too expensive for Jerry to buy.\n- The suit is cheap enough for Spike to buy.",
+            options: [
+                "정장 가격을 기준으로 볼 때, 구매할 수 있는 경제적 여유가 가장 큰 사람은 Jerry이다.",
+                "정장 가격을 기준으로 볼 때, 구매할 수 있는 경제적 여유가 가장 작은 사람은 Tom이다.",
+                "정장 가격을 기준으로 볼 때, 구매할 수 있는 경제적 여유가 가장 큰 사람은 Jerry이다.",
+                "정장 가격을 기준으로 볼 때, 구매할 수 있는 경제적 여유가 가장 큰 사람은 Spike이다."
+            ],
+            answer: "정장 가격을 기준으로 볼 때, 구매할 수 있는 경제적 여유가 가장 큰 사람은 Spike이다."
+        },
+        {
+            id: 'g6_32',
+            type: 'choice',
+            title: "다음 세 문장에 따라 도출된 결론으로 보아, 빈칸에 들어갈 말은?\n- The box was so heavy that the boy couldn't lift it alone.\n- The box is too heavy for the girl to lift.\n- The box is (           ) to lift easily.\n결론: 이 상자를 혼자서 들 수 있는 사람은 'the man'뿐이다.",
+            options: [
+                "light enough for the man",
+                "too heavy for the man",
+                "too light for the man",
+                "heavy enough for the man"
+            ],
+            answer: "light enough for the man"
+        }
+    ],
+    READING: [
+        {
+            id: 'r6_1',
+            type: 'choice',
+            title: "6과 본문에서 한 남자가 Schofield 박사의 집에 찾아와 한국의 독립 운동 현장을 촬영해 달라고 부탁한 날의 일자는?",
+            options: ["1919년 2월 28일", "1919년 3월 1일", "1921년 2월 28일", "1921년 3월 1일"],
+            answer: "1919년 2월 28일"
+        },
+        {
+            id: 'r6_2',
+            type: 'choice',
+            title: "6과 본문의 내용과 일치하는 것은?",
+            options: [
+                "Schofield 박사는 1915년에 한국에 처음 왔다.",
+                "Schofield 박사는 캐나다의 사진 작가였다.",
+                "Schofield 박사는 1970년에 세상을 떠났다.",
+                "Schofield 박사는 한국의 독립 운동을 도모하였다."
+            ],
+            answer: "Schofield 박사는 1970년에 세상을 떠났다."
+        },
+        {
+            id: 'r6_3',
+            type: 'text',
+            title: "6과 본문의 내용으로 보아, 한국 정부의 초청으로 Schofield 박사가 한국으로 돌아왔던 해를 숫자로만 쓰시오.",
+            answer: ["1958"]
+        },
+        {
+            id: 'r6_4',
+            type: 'text',
+            title: "빈칸에 들어갈 말을 우리말로 쓰시오.\n1919년 3월 1일에 Schofield 박사는 (        )에서 시람들이 한국의 독립을 의치는 소리를 들었다.",
+            answer: ["탑골공원", "탑골 공원"]
+        },
+        {
+            id: 'r6_5',
+            type: 'text',
+            title: "'그는 매우 열심히 공부해서 몇 년 만에 한국어로 가르칠 수 있게 되었다.'에 알맞게 말을 배열하시오.\nhe / studied / so / hard / that / he / was able to / teach / in Korean / after only / a few / years",
+            answer: ["He studied so hard that he was able to teach in Korean after only a few years.", "he studied so hard that he was able to teach in Korean after only a few years"]
+        },
+        {
+            id: 'r6_6',
+            type: 'text',
+            title: "'그의 여생 동안'에 알맞게 말을 배열하시오.\nfor / the / rest / of / his / life",
+            answer: ["for the rest of his life", "For the rest of his life"]
+        },
+        {
+            id: 'r6_7',
+            type: 'checkbox',
+            title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
+            options: [
+                "Schofield 박사의 한국어 이름은 석호필이다.",
+                "Schofield 박사는 직접 외국 신문사에 보낼 기사를 썼다.",
+                "Schofield 박사가 캐나다로 돌아간 것은 일본 경찰의 감시 때문이다.",
+                "Schofield 박사는 1960년에 세상을 떠났다."
+            ],
+            answer: [
+                "Schofield 박사의 한국어 이름은 석호필이다.",
+                "Schofield 박사는 직접 외국 신문사에 보낼 기사를 썼다.",
+                "Schofield 박사가 캐나다로 돌아간 것은 일본 경찰의 감시 때문이다."
+            ]
+        },
+        {
+            id: 'r6_8',
+            type: 'checkbox',
+            title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
+            options: [
+                "Schofield 박사는 의학을 가르치러 한국에 처음 왔다.",
+                "Schofield 박사는 3월 1일 오후 2시에 공원 나무에 숨어 있었다.",
+                "Schofield 박사는 캐나다에서 사진 작가로 일했다.",
+                "Schofield 박사가 한국에 처음 온 것은 1916년이다."
+            ],
+            answer: [
+                "Schofield 박사는 의학을 가르치러 한국에 처음 왔다.",
+                "Schofield 박사가 한국에 처음 온 것은 1916년이다."
+            ]
+        },
+        {
+            id: 'r6_9',
+            type: 'checkbox',
+            title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
+            options: [
+                "Schofield 박사는 1920년에 캐나다로 돌아갔다.",
+                "Schofield 박사는 탑골공원의 독립 현장을 촬영하였다.",
+                "Schofield 박사는 1958년에 독립운동가의 초대로 한국에 돌아왔다.",
+                "Schofield 박사는 외국 신문에 전달할 기사를 직접 작성하였다."
+            ],
+            answer: [
+                "Schofield 박사는 1920년에 캐나다로 돌아갔다.",
+                "Schofield 박사는 탑골공원의 독립 현장을 촬영하였다.",
+                "Schofield 박사는 외국 신문에 전달할 기사를 직접 작성하였다."
+            ]
+        },
+        {
+            id: 'r6_10',
+            type: 'checkbox',
+            title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
+            options: [
+                "Schofield 박사는 한국 정부의 초청으로 돌아온 후 캐나다에서 세상을 떠났다.",
+                "Schofield 박사는 1919년에 한국의 독립 현장을 직접 촬영하였다.",
+                "Schofield 박사는 3월 1일 오후 2시에 건물 안에 숨어 있었다.",
+                "Schofield 박사는 한국어로 의학을 가르칠 수 있는 정도가 되었다."
+            ],
+            answer: [
+                "Schofield 박사는 1919년에 한국의 독립 현장을 직접 촬영하였다.",
+                "Schofield 박사는 3월 1일 오후 2시에 건물 안에 숨어 있었다.",
+                "Schofield 박사는 한국어로 의학을 가르칠 수 있는 정도가 되었다."
+            ]
+        },
+        {
+            id: 'r6_11',
+            type: 'text',
+            title: "6과 본문의 내용으로 보아, 다음 사건들을 일어난 순서대로 배열하시오.\nSchofield 박사가 탑골공원에서 독립을 외치는 소리를 들음.\nSchofield 박사가 한국의 독립에 대한 기사를 신문사에 보냄.\nSchofield 박사가 캐나다로 돌아감.",
+            answer: [
+                "Schofield 박사가 탑골공원에서 독립을 외치는 소리를 들음. - Schofield 박사가 한국의 독립에 대한 기사를 신문사에 보냄. - Schofield 박사가 캐나다로 돌아감.",
+                "Schofield 박사가 탑골공원에서 독립을 외치는 소리를 들음. -> Schofield 박사가 한국의 독립에 대한 기사를 신문사에 보냄. -> Schofield 박사가 캐나다로 돌아감."
+            ]
+        },
+        {
+            id: 'r6_12',
+            type: 'text',
+            title: "6과 본문의 내용으로 보아, Schofield 박사가 세상을 떠난 해의 년도를 숫자로만 쓰시오.",
+            answer: ["1970"]
+        },
+        {
+            id: 'r6_13',
+            type: 'text',
+            title: "'그는 한국 정부의 초대로 한국에 돌아왔다.'에 알맞게 말을 배열하시오.\nhe / returned / to Korea / at / the invitation / of / the Korean / government",
+            answer: ["He returned to Korea at the invitation of the Korean government.", "he returned to Korea at the invitation of the Korean government"]
+        },
+        {
+            id: 'r6_14',
+            type: 'text',
+            title: "'그는 일본 경찰의 감시를 받았다.'에 알맞게 말을 배열하시오.\nhe / was / under / the / watchful / eye / of / Japanese / police",
+            answer: ["He was under the watchful eye of Japanese police.", "he was under the watchful eye of Japanese police"]
+        },
+        {
+            id: 'r6_15',
+            type: 'checkbox',
+            title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
+            options: [
+                "Schofield 박사는 가난한 한국 학생들을 도왔다.",
+                "Schofield 박사는 한국어를 직접 공부하였다.",
+                "Schofield 박사는 자신의 한국 이름을 가지고 있다.",
+                "Schofield 박사는 의학을 가르치려고 1918년에 한국에 처음 왔다."
+            ],
+            answer: [
+                "Schofield 박사는 가난한 한국 학생들을 도왔다.",
+                "Schofield 박사는 한국어를 직접 공부하였다.",
+                "Schofield 박사는 자신의 한국 이름을 가지고 있다."
+            ]
+        },
+        {
+            id: 'r6_16',
+            type: 'checkbox',
+            title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
+            options: [
+                "Schofield 박사는 1920년에 캐나다로 돌아갔다.",
+                "Schofield 박사는 1958년에 정부의 초청으로 한국에 돌아왔다.",
+                "Schofield 박사는 국립서울현충원에 안장되었다.",
+                "Schofield 박사는 한국의 독립 소식을 신문사에서 전달받았다."
+            ],
+            answer: [
+                "Schofield 박사는 1920년에 캐나다로 돌아갔다.",
+                "Schofield 박사는 1958년에 정부의 초청으로 한국에 돌아왔다.",
+                "Schofield 박사는 국립서울현충원에 안장되었다."
+            ]
+        },
+        {
+            id: 'r6_17',
+            type: 'checkbox',
+            title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
+            options: [
+                "Schofield 박사는 정부의 초대로 1916년에 한국에 처음 왔다.",
+                "Schofield 박사는 오전 2시에 많은 사람이 모인 장면을 촬영하였다.",
+                "Schofield 박사는 2월 28일에 한 남자에게 특별한 부탁을 받았다.",
+                "Schofield 박사는 일본 경찰의 감시로 1919년에 캐나다로 돌아갔다."
+            ],
+            answer: ["Schofield 박사는 2월 28일에 한 남자에게 특별한 부탁을 받았다."]
+        },
+        {
+            id: 'r6_18',
+            type: 'text',
+            title: "6과 본문의 내용으로 보아, 빈칸에 들어갈 말을 영어 한 단어로 쓰시오.\nDr. Schofield was a Canadian doctor, and he first came to Korea in 1916 to teach (        ).",
+            answer: ["medicine"]
+        },
+        {
+            id: 'r6_19',
+            type: 'text',
+            title: "6과 본문의 내용으로 보아, 빈칸에 들어갈 전치사를 쓰시오.\nIt sounded similar (   ) his real name, and it also had a good meaning.",
+            answer: ["to"]
+        },
+        {
+            id: 'r6_20',
+            type: 'text',
+            title: "괄호에서 알맞은 말을 선택하시오.\n[In / On] February 28, 1919, a man came to Dr. Schofield's house.\nMan: Dr. Schofield, I have a special favor [asking / to ask] you.\nDr. Schofield: What can I do [with / for] you?\nMan: Many people are going [gathering / to gather] tomorrow for the [independent / independence] of Korea.",
+            answer: ["On, to ask, for, to gather, independence", "On / to ask / for / to gather / independence"]
+        },
+        {
+            id: 'r6_21',
+            type: 'text',
+            title: "괄호에서 알맞은 말을 선택하시오.\nCould you take pictures [of / for] the event and share them [for / with] the world? At 2 p.m. [in / on] March 1, Dr. Schofield was hiding in a building and saw a large group of people [gather / gathering] outside.",
+            answer: ["of, with, on, gathering", "of / with / on / gathering", "of, with, on, gather", "of / with / on / gather"]
+        },
+        {
+            id: 'r6_22',
+            type: 'text',
+            title: "괄호에서 알맞은 말을 선택하시오.\n[On / At] March 1, 1919, Dr. Schofield heard people [to shout / shouting] for Korean independence [in / on] Tapgol Park. He took pictures of the event [for / with] his camera.",
+            answer: ["On, shouting, in, with", "On / shouting / in / with"]
+        },
+        {
+            id: 'r6_23',
+            type: 'text',
+            title: "괄호에서 알맞은 말을 선택하시오.\nHe took pictures of the event [with / on] his camera. He then wrote an article about the [history / historic] event and sent it [to / for] foreign newpapers [for / with] his pictures. Dr. Schofield's fight for Korean independence didn't stop [even / evenly] after the March 1st Movement.",
+            answer: ["with, historic, to, with, even", "with / historic / to / with / even"]
+        },
+        {
+            id: 'r6_24',
+            type: 'checkbox',
+            title: "연도별로 Schofield 박사에게 일어난 일로 옳은 것을 모두 고르시오.",
+            options: [
+                "1916 - 의학을 가르치러 한국에 처음 왔다.",
+                "1919 - 3.1 운동의 장면을 촬영하였다.",
+                "1920 - 캐나다로 여행을 떠났다.",
+                "1958 - 일본 경찰의 감시를 받았다.",
+                "1970 - 국립서울현충원에 안장되었다."
+            ],
+            answer: [
+                "1916 - 의학을 가르치러 한국에 처음 왔다.",
+                "1919 - 3.1 운동의 장면을 촬영하였다.",
+                "1970 - 국립서울현충원에 안장되었다."
+            ]
+        },
+        {
+            id: 'r6_25',
+            type: 'checkbox',
+            title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
+            options: [
+                "1919년 2월 28일에 한 남자가 Schofield 박사를 찾아왔다.",
+                "Schofield 박사는 3월 1일 오후 2시에 건물 밖에서 현장을 촬영하였다.",
+                "Schofield 박사는 정부 초대로 한국에 온 후 캐나다로 돌아갔다.",
+                "Schofield 박사는 한국의 독립을 위한 행사의 사진을 찍어 달라는 부탁을 받았다."
+            ],
+            answer: [
+                "1919년 2월 28일에 한 남자가 Schofield 박사를 찾아왔다.",
+                "Schofield 박사는 한국의 독립을 위한 행사의 사진을 찍어 달라는 부탁을 받았다."
+            ]
+        }
+    ]
 };
