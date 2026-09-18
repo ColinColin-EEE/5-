@@ -1,4 +1,4 @@
-// 6과 문제 데이터 (인터페이스 모드 완전 적용)
+// 6과 문제 데이터 (인터페이스 및 UI 최적화 완료)
 const UNIT6_DATA = {
     WORD: [
         { id: 'w6_1', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nkind", answer: ["종류"] },
@@ -85,12 +85,13 @@ const UNIT6_DATA = {
         {
             id: 'd6_1',
             type: 'choice',
-            title: "다음을 대화에 맞게 순서대로 배열하시오.",
+            title: "다음 대화를 흐름에 맞게 알맞은 순서로 배열한 것을 고르시오.",
+            dialogue: "(A) Try Travel to the Future. It's really good.\n(B) What kinds of movies do you like?\n(C) I like sci-fi movies.\n(D) Me, too. Can you recommend a good sci-fi movie for me?",
             options: [
-                "What kinds of movies do you like?\nI like sci-fi movies.\nMe, too. Can you recommend a good sci-fi movie for me?\nTry Travel to the Future. It's really good.",
-                "I like sci-fi movies.\nWhat kinds of movies do you like?\nTry Travel to the Future. It's really good.\nMe, too. Can you recommend a good sci-fi movie for me?",
-                "What kinds of movies do you like?\nMe, too. Can you recommend a good sci-fi movie for me?\nI like sci-fi movies.\nTry Travel to the Future. It's really good.",
-                "Try Travel to the Future. It's really good.\nWhat kinds of movies do you like?\nI like sci-fi movies.\nMe, too. Can you recommend a good sci-fi movie for me?"
+                "(B) - (C) - (D) - (A)",
+                "(C) - (B) - (A) - (D)",
+                "(B) - (D) - (C) - (A)",
+                "(A) - (B) - (C) - (D)"
             ],
             answer: 0
         },
@@ -481,16 +482,16 @@ const UNIT6_DATA = {
         {
             id: 'r6_11',
             type: 'arrange',
-            title: "6과 본문의 내용으로 보아, 다음 사건들을 일어난 순서대로 배열하시오.",
+            title: "6과 본문의 내용으로 보아, 다음 사건들을 일어난 순서대로 클릭하여 배열하시오.",
             words: [
-                "Schofield 박사가 탑골공원에서 독립을 외치는 소리를 들음.",
-                "Schofield 박사가 한국의 독립에 대한 기사를 신문사에 보냄.",
-                "Schofield 박사가 캐나다로 돌아감."
+                "1. 탑골공원에서 독립을 외치는 소리를 들음",
+                "2. 한국의 독립에 대한 기사를 신문사에 보냄",
+                "3. 일제의 감시로 캐나다로 돌아감"
             ],
             answer: [
-                "Schofield 박사가 탑골공원에서 독립을 외치는 소리를 들음.",
-                "Schofield 박사가 한국의 독립에 대한 기사를 신문사에 보냄.",
-                "Schofield 박사가 캐나다로 돌아감."
+                "1. 탑골공원에서 독립을 외치는 소리를 들음",
+                "2. 한국의 독립에 대한 기사를 신문사에 보냄",
+                "3. 일제의 감시로 캐나다로 돌아감"
             ]
         },
         {
