@@ -1,6 +1,6 @@
-// 6과 문제 데이터
+// 6과 문제 데이터 (오류 수정 완료)
 const UNIT6_DATA = {
-    WORD_QUESTIONS: [
+    WORD: [
         { id: 'w6_1', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nkind", answer: ["종류"] },
         { id: 'w6_2', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nusually", answer: ["보통", "대개", "주로"] },
         { id: 'w6_3', type: 'text', title: "다음 단어의 뜻을 쓰시오.\nsci-fi", answer: ["공상 과학의", "과학 소설적인"] },
@@ -92,7 +92,7 @@ const UNIT6_DATA = {
                 "What kinds of movies do you like?\nMe, too. Can you recommend a good sci-fi movie for me?\nI like sci-fi movies.\nTry Travel to the Future. It's really good.",
                 "Try Travel to the Future. It's really good.\nWhat kinds of movies do you like?\nI like sci-fi movies.\nMe, too. Can you recommend a good sci-fi movie for me?"
             ],
-            answer: "What kinds of movies do you like?\nI like sci-fi movies.\nMe, too. Can you recommend a good sci-fi movie for me?\nTry Travel to the Future. It's really good."
+            answer: 0
         },
         {
             id: 'd6_2',
@@ -110,7 +110,7 @@ const UNIT6_DATA = {
                 "How about chocolate cookies?",
                 "I love a cherry soda."
             ],
-            answer: "How about chocolate cookies?"
+            answer: 2
         },
         {
             id: 'd6_4',
@@ -122,7 +122,7 @@ const UNIT6_DATA = {
                 "I love the restaurant for you.",
                 "What do you recommend?"
             ],
-            answer: "What kind of food do they have?"
+            answer: 0
         }
     ],
     GRAMMAR: [
@@ -131,21 +131,21 @@ const UNIT6_DATA = {
             type: 'choice',
             title: "빈칸에 알맞은 말은?\nLast night, they felt the ground (    ).",
             options: ["shake", "shaken", "to shake", "shakes"],
-            answer: "shake"
+            answer: 0
         },
         {
             id: 'g6_2',
             type: 'choice',
             title: "빈칸에 알맞은 말은?\nI saw Angela (    ) the pizza.",
             options: ["ate", "eating", "to eat", "eaten"],
-            answer: "eating"
+            answer: 1
         },
         {
             id: 'g6_3',
             type: 'choice',
             title: "빈칸에 알맞은 말은?\nI saw the girl (    ) a song.",
             options: ["sing", "to sing", "sings", "sang"],
-            answer: "sing"
+            answer: 0
         },
         {
             id: 'g6_4',
@@ -158,7 +158,7 @@ const UNIT6_DATA = {
             type: 'choice',
             title: "빈칸에 알맞은 말은?\nWe (    ) the storm coming.",
             options: ["noticed", "kept", "washed", "made"],
-            answer: "noticed"
+            answer: 0
         },
         {
             id: 'g6_6',
@@ -171,18 +171,18 @@ const UNIT6_DATA = {
             type: 'choice',
             title: "빈칸에 알맞은 말은?\nA boy watched people (    ) in tents.",
             options: ["to live", "live", "lived", "lives"],
-            answer: "live"
+            answer: 1
         },
         {
             id: 'g6_8',
             type: 'choice',
             title: "빈칸에 알맞은 말은?\nA boy watches me (    ) football every weekend.",
             options: ["playing", "plays", "played", "to play"],
-            answer: "playing"
+            answer: 0
         },
         {
             id: 'g6_9',
-            type: 'checkbox',
+            type: 'choice',
             title: "어법상 옳은 것을 모두 고르시오.",
             options: [
                 "Did you see anyone came into this room?",
@@ -190,11 +190,11 @@ const UNIT6_DATA = {
                 "I felt my house shaken.",
                 "She heard John speaking English."
             ],
-            answer: ["She heard John speaking English."]
+            answer: [3]
         },
         {
             id: 'g6_10',
-            type: 'checkbox',
+            type: 'choice',
             title: "어법상 옳은 것을 모두 고르시오.",
             options: [
                 "I saw a dog ran after a cat.",
@@ -202,7 +202,7 @@ const UNIT6_DATA = {
                 "This is so expensive that I can't buy.",
                 "I slept too late to get up early."
             ],
-            answer: ["I'm too tired to move my legs.", "I slept too late to get up early."]
+            answer: [1, 3]
         },
         {
             id: 'g6_11',
@@ -233,7 +233,7 @@ const UNIT6_DATA = {
             type: 'choice',
             title: "빈칸에 알맞은 말은?\nThe rain was so heavy (    ) it made our picnic impossible.",
             options: ["which", "that", "what", "whom", "who"],
-            answer: "that"
+            answer: 1
         },
         {
             id: 'g6_16',
@@ -251,7 +251,7 @@ const UNIT6_DATA = {
                 "We can study hard to pass the exam.",
                 "We studied hard enough to pass the exam."
             ],
-            answer: "We studied hard enough to pass the exam."
+            answer: 3
         },
         {
             id: 'g6_18',
@@ -299,7 +299,7 @@ const UNIT6_DATA = {
                 "I am so tired enough to walk any more.",
                 "I am not very tired in order to walk any more."
             ],
-            answer: "I am too tired to walk any more."
+            answer: 1
         },
         {
             id: 'g6_25',
@@ -341,7 +341,7 @@ const UNIT6_DATA = {
                 "He cooked soup well enough to taste great.",
                 "He cooked soup well enough for it to taste great."
             ],
-            answer: "He cooked soup well enough for it to taste great."
+            answer: 3
         },
         {
             id: 'g6_31',
@@ -353,7 +353,7 @@ const UNIT6_DATA = {
                 "정장 가격을 기준으로 볼 때, 구매할 수 있는 경제적 여유가 가장 큰 사람은 Jerry이다.",
                 "정장 가격을 기준으로 볼 때, 구매할 수 있는 경제적 여유가 가장 큰 사람은 Spike이다."
             ],
-            answer: "정장 가격을 기준으로 볼 때, 구매할 수 있는 경제적 여유가 가장 큰 사람은 Spike이다."
+            answer: 3
         },
         {
             id: 'g6_32',
@@ -365,7 +365,7 @@ const UNIT6_DATA = {
                 "too light for the man",
                 "heavy enough for the man"
             ],
-            answer: "light enough for the man"
+            answer: 0
         }
     ],
     READING: [
@@ -374,7 +374,7 @@ const UNIT6_DATA = {
             type: 'choice',
             title: "6과 본문에서 한 남자가 Schofield 박사의 집에 찾아와 한국의 독립 운동 현장을 촬영해 달라고 부탁한 날의 일자는?",
             options: ["1919년 2월 28일", "1919년 3월 1일", "1921년 2월 28일", "1921년 3월 1일"],
-            answer: "1919년 2월 28일"
+            answer: 0
         },
         {
             id: 'r6_2',
@@ -386,7 +386,7 @@ const UNIT6_DATA = {
                 "Schofield 박사는 1970년에 세상을 떠났다.",
                 "Schofield 박사는 한국의 독립 운동을 도모하였다."
             ],
-            answer: "Schofield 박사는 1970년에 세상을 떠났다."
+            answer: 2
         },
         {
             id: 'r6_3',
@@ -414,7 +414,7 @@ const UNIT6_DATA = {
         },
         {
             id: 'r6_7',
-            type: 'checkbox',
+            type: 'choice',
             title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
             options: [
                 "Schofield 박사의 한국어 이름은 석호필이다.",
@@ -422,15 +422,11 @@ const UNIT6_DATA = {
                 "Schofield 박사가 캐나다로 돌아간 것은 일본 경찰의 감시 때문이다.",
                 "Schofield 박사는 1960년에 세상을 떠났다."
             ],
-            answer: [
-                "Schofield 박사의 한국어 이름은 석호필이다.",
-                "Schofield 박사는 직접 외국 신문사에 보낼 기사를 썼다.",
-                "Schofield 박사가 캐나다로 돌아간 것은 일본 경찰의 감시 때문이다."
-            ]
+            answer: [0, 1, 2]
         },
         {
             id: 'r6_8',
-            type: 'checkbox',
+            type: 'choice',
             title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
             options: [
                 "Schofield 박사는 의학을 가르치러 한국에 처음 왔다.",
@@ -438,14 +434,11 @@ const UNIT6_DATA = {
                 "Schofield 박사는 캐나다에서 사진 작가로 일했다.",
                 "Schofield 박사가 한국에 처음 온 것은 1916년이다."
             ],
-            answer: [
-                "Schofield 박사는 의학을 가르치러 한국에 처음 왔다.",
-                "Schofield 박사가 한국에 처음 온 것은 1916년이다."
-            ]
+            answer: [0, 3]
         },
         {
             id: 'r6_9',
-            type: 'checkbox',
+            type: 'choice',
             title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
             options: [
                 "Schofield 박사는 1920년에 캐나다로 돌아갔다.",
@@ -453,15 +446,11 @@ const UNIT6_DATA = {
                 "Schofield 박사는 1958년에 독립운동가의 초대로 한국에 돌아왔다.",
                 "Schofield 박사는 외국 신문에 전달할 기사를 직접 작성하였다."
             ],
-            answer: [
-                "Schofield 박사는 1920년에 캐나다로 돌아갔다.",
-                "Schofield 박사는 탑골공원의 독립 현장을 촬영하였다.",
-                "Schofield 박사는 외국 신문에 전달할 기사를 직접 작성하였다."
-            ]
+            answer: [0, 1, 3]
         },
         {
             id: 'r6_10',
-            type: 'checkbox',
+            type: 'choice',
             title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
             options: [
                 "Schofield 박사는 한국 정부의 초청으로 돌아온 후 캐나다에서 세상을 떠났다.",
@@ -469,11 +458,7 @@ const UNIT6_DATA = {
                 "Schofield 박사는 3월 1일 오후 2시에 건물 안에 숨어 있었다.",
                 "Schofield 박사는 한국어로 의학을 가르칠 수 있는 정도가 되었다."
             ],
-            answer: [
-                "Schofield 박사는 1919년에 한국의 독립 현장을 직접 촬영하였다.",
-                "Schofield 박사는 3월 1일 오후 2시에 건물 안에 숨어 있었다.",
-                "Schofield 박사는 한국어로 의학을 가르칠 수 있는 정도가 되었다."
-            ]
+            answer: [1, 2, 3]
         },
         {
             id: 'r6_11',
@@ -504,7 +489,7 @@ const UNIT6_DATA = {
         },
         {
             id: 'r6_15',
-            type: 'checkbox',
+            type: 'choice',
             title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
             options: [
                 "Schofield 박사는 가난한 한국 학생들을 도왔다.",
@@ -512,15 +497,11 @@ const UNIT6_DATA = {
                 "Schofield 박사는 자신의 한국 이름을 가지고 있다.",
                 "Schofield 박사는 의학을 가르치려고 1918년에 한국에 처음 왔다."
             ],
-            answer: [
-                "Schofield 박사는 가난한 한국 학생들을 도왔다.",
-                "Schofield 박사는 한국어를 직접 공부하였다.",
-                "Schofield 박사는 자신의 한국 이름을 가지고 있다."
-            ]
+            answer: [0, 1, 2]
         },
         {
             id: 'r6_16',
-            type: 'checkbox',
+            type: 'choice',
             title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
             options: [
                 "Schofield 박사는 1920년에 캐나다로 돌아갔다.",
@@ -528,15 +509,11 @@ const UNIT6_DATA = {
                 "Schofield 박사는 국립서울현충원에 안장되었다.",
                 "Schofield 박사는 한국의 독립 소식을 신문사에서 전달받았다."
             ],
-            answer: [
-                "Schofield 박사는 1920년에 캐나다로 돌아갔다.",
-                "Schofield 박사는 1958년에 정부의 초청으로 한국에 돌아왔다.",
-                "Schofield 박사는 국립서울현충원에 안장되었다."
-            ]
+            answer: [0, 1, 2]
         },
         {
             id: 'r6_17',
-            type: 'checkbox',
+            type: 'choice',
             title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
             options: [
                 "Schofield 박사는 정부의 초대로 1916년에 한국에 처음 왔다.",
@@ -544,7 +521,7 @@ const UNIT6_DATA = {
                 "Schofield 박사는 2월 28일에 한 남자에게 특별한 부탁을 받았다.",
                 "Schofield 박사는 일본 경찰의 감시로 1919년에 캐나다로 돌아갔다."
             ],
-            answer: ["Schofield 박사는 2월 28일에 한 남자에게 특별한 부탁을 받았다."]
+            answer: [2]
         },
         {
             id: 'r6_18',
@@ -555,7 +532,7 @@ const UNIT6_DATA = {
         {
             id: 'r6_19',
             type: 'text',
-            title: "6과 본문의 내용으로 보아, 빈칸에 들어갈 전치사를 쓰시오.\nIt sounded similar (   ) his real name, and it also had a good meaning.",
+            title: "6과 본문의 내용으로 보아, 빈칸에 들어갈 전치사를 쓰시오.\nIt sounded similar (    ) his real name, and it also had a good meaning.",
             answer: ["to"]
         },
         {
@@ -584,7 +561,7 @@ const UNIT6_DATA = {
         },
         {
             id: 'r6_24',
-            type: 'checkbox',
+            type: 'choice',
             title: "연도별로 Schofield 박사에게 일어난 일로 옳은 것을 모두 고르시오.",
             options: [
                 "1916 - 의학을 가르치러 한국에 처음 왔다.",
@@ -593,15 +570,11 @@ const UNIT6_DATA = {
                 "1958 - 일본 경찰의 감시를 받았다.",
                 "1970 - 국립서울현충원에 안장되었다."
             ],
-            answer: [
-                "1916 - 의학을 가르치러 한국에 처음 왔다.",
-                "1919 - 3.1 운동의 장면을 촬영하였다.",
-                "1970 - 국립서울현충원에 안장되었다."
-            ]
+            answer: [0, 1, 4]
         },
         {
             id: 'r6_25',
-            type: 'checkbox',
+            type: 'choice',
             title: "6과 본문의 내용과 일치하는 것을 모두 고르시오.",
             options: [
                 "1919년 2월 28일에 한 남자가 Schofield 박사를 찾아왔다.",
@@ -609,10 +582,7 @@ const UNIT6_DATA = {
                 "Schofield 박사는 정부 초대로 한국에 온 후 캐나다로 돌아갔다.",
                 "Schofield 박사는 한국의 독립을 위한 행사의 사진을 찍어 달라는 부탁을 받았다."
             ],
-            answer: [
-                "1919년 2월 28일에 한 남자가 Schofield 박사를 찾아왔다.",
-                "Schofield 박사는 한국의 독립을 위한 행사의 사진을 찍어 달라는 부탁을 받았다."
-            ]
+            answer: [0, 3]
         }
     ]
 };
